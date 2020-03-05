@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed268c40-cf16-4b85-9a43-6dbabeb62cf9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/token.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +52,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\jjgar\AppData\Local\Programs\Python\Python38\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\jjgar\AppData\Local\Programs\Python\Python38-32\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -96,23 +93,26 @@
     <option name="LAST_COMMIT_MESSAGE" value="config.json update" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="91" y="69" width="1086" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583441027013">
-      <screen x="0" y="0" width="1536" height="834" />
+    <state x="114" y="87" width="1086" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583447315162">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="91" y="69" width="1086" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.834@0.0.1536.834" timestamp="1583441027013" />
+    <state x="114" y="87" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583447315162" />
     <state x="458" y="203" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1583447132925">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="366" y="161" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.834@0.0.1536.834" timestamp="1583445370767" />
     <state x="458" y="203" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1583447132925" />
-    <state x="290" y="9" key="CommitChangelistDialog2" timestamp="1583438084990">
-      <screen x="0" y="0" width="1536" height="834" />
+    <state x="363" y="11" key="CommitChangelistDialog2" timestamp="1583447279220">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="290" y="9" key="CommitChangelistDialog2/0.0.1536.834@0.0.1536.834" timestamp="1583438084990" />
-    <state x="416" y="194" key="FileChooserDialogImpl" timestamp="1583440912979">
-      <screen x="0" y="0" width="1536" height="834" />
+    <state x="363" y="11" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1583447279220" />
+    <state x="520" y="244" key="FileChooserDialogImpl" timestamp="1583447310875">
+      <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="416" y="194" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1583440912979" />
+    <state x="520" y="244" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583447310875" />
     <state width="1182" height="181" key="GridCell.Tab.0.bottom" timestamp="1583446109525">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
