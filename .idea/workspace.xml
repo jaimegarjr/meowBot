@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ed268c40-cf16-4b85-9a43-6dbabeb62cf9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/token.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1Yis7gkGCojdePFLzO2fHSciTlo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/bot.py" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jjgar\Anaconda3\envs\meowBot\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/.." />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="meowBot" type="PythonConfigurationType" factoryName="Python">
+      <module name="meowBot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\jjgar\AppData\Local\Programs\Python\Python38\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bot.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ed268c40-cf16-4b85-9a43-6dbabeb62cf9" name="Default Changelist" comment="config.json update" />
+      <created>1583436584463</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583436584463</updated>
+    </task>
+    <task id="LOCAL-00001" summary="config.json update">
+      <created>1583438086063</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1583438086063</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="config.json update" />
+    <option name="LAST_COMMIT_MESSAGE" value="config.json update" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="91" y="69" width="1086" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1583441027013">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="91" y="69" width="1086" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.834@0.0.1536.834" timestamp="1583441027013" />
+    <state x="366" y="161" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1583445370767">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="366" y="161" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.834@0.0.1536.834" timestamp="1583445370767" />
+    <state x="290" y="9" key="CommitChangelistDialog2" timestamp="1583438084990">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="290" y="9" key="CommitChangelistDialog2/0.0.1536.834@0.0.1536.834" timestamp="1583438084990" />
+    <state x="416" y="194" key="FileChooserDialogImpl" timestamp="1583440912979">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="416" y="194" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1583440912979" />
+    <state width="1182" height="181" key="GridCell.Tab.0.bottom" timestamp="1583446109525">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1182" height="181" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1583446109525" />
+    <state width="1182" height="181" key="GridCell.Tab.0.center" timestamp="1583446109524">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1182" height="181" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1583446109524" />
+    <state width="1182" height="181" key="GridCell.Tab.0.left" timestamp="1583446109524">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1182" height="181" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1583446109524" />
+    <state width="1182" height="181" key="GridCell.Tab.0.right" timestamp="1583446109525">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1182" height="181" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1583446109525" />
+    <state x="332" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1583440897909">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="332" y="238" key="com.intellij.ide.util.TipDialog/0.0.1536.834@0.0.1536.834" timestamp="1583440897909" />
+  </component>
+</project>
