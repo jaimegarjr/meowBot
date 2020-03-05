@@ -1,4 +1,4 @@
-import json
+import json # to prevent token regeneration
 import discord  # imports discord library
 import time  # imports time library
 import asyncio  # imports asyncio for logging
