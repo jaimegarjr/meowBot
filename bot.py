@@ -7,7 +7,7 @@ from discord.ext import commands
 
 # client_id = 556560880897228803
 messages = joined = 0
-bot = commands.Bot(command_prefix="meow.")
+bot = commands.Bot(command_prefix="m.")
 
 with open('config.json', 'r') as fp:
     token = json.load(fp)['token']
@@ -17,7 +17,7 @@ client = discord.Client()  # stores the client into variable
 
 @client.event
 async def on_ready():
-    print("Bot Online")
+    print("Bot Online!")
 
 
 # Function to update stats on messages and members joined every 24 hours
@@ -65,29 +65,29 @@ async def on_message(message):  # Command function
             await message.channel.purge(limit=1)
             await message.channel.send("Meow! No bad words. -.-")
 
-    if message.content == "meow.help":
-        embed = discord.Embed(title="Help On meowBot >.<", description="Some useful commands to access meowBot:")
-        embed.add_field(name="meow.intro", value="Greets the user.")
-        embed.add_field(name="meow.users", value="Prints number of users.")
-        embed.add_field(name="meow.quote", value="Prints a random quote for you fellas feeling under the weather.")
-        embed.add_field(name="meow.purge", value="Purges 5 messages prior to sending command.")
+    if message.content == "m.help":
+        embed = discord.Embed(title="meowBot >.< Commands", description="Some useful commands to access meowBot:")
+        embed.add_field(name="m.intro", value="Greets the user.")
+        embed.add_field(name="m.users", value="Prints number of users.")
+        embed.add_field(name=".quote", value="Prints a random quote for you fellas feeling under the weather.")
+        embed.add_field(name="m.purge", value="Purges 5 messages prior to sending command.")
         await message.channel.send(content=None, embed=embed)
 
         # then it will look at possible commands
-    if message.content.find("meow.intro") != -1:  # if meow.intro, it'll introduce itself
+    if message.content.find("m.intro") != -1:  # if meow.intro, it'll introduce itself
         await message.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
 
-    elif message.content == "meow.users":  # if meow.users, will list amount of users
+    elif message.content == "m.users":  # if meow.users, will list amount of users
         await message.channel.send(f"""Number of Members: {id.member_count}""")
 
-    if message.content == "meow.quote":
+    if message.content == "m.quote":
         await message.channel.send(random.choice(list(open('quotes.txt'))))
 
-    elif message.content == "meow.purge":
+    elif message.content == "m.purge":
         await message.channel.purge(limit=5)
         await message.channel.send("Meow! Your dirty messages are gone :3.")
 
-    if message.content == "meow.dadprogjoke":
+    if message.content == "m.dadprogjoke":
         await message.channel.send(random.choice(list(open('jokes.txt'))))
 
 
