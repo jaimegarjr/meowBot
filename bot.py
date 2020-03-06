@@ -132,6 +132,7 @@ async def join(ctx):
 
     if voice and voice.is_connected():
         await voice.move_to(channel)
+
     else:
         voice = await channel.connect()
         print(f"Bot Connected To {channel}!")
@@ -153,5 +154,40 @@ async def leave(ctx):
         await ctx.send("Bot Made To Leave, But Couldn't")
 
 
+# @bot.command()
+# async def play(ctx, url:str):
+#     song = os.path.isfile("test.mp3")
+#     try:
+#         if song:
+#             os.remove("test.mp3")
+#             print("Removed File!")
+#     except PermissionError:
+#         print("Tried Deleting, Song Playing!")
+#         await ctx.send("ERROR: Music Playing!")
+#         return
+#
+#     await ctx.send("Getting Song Ready!")
+#
+#     voice = get(bot.voice_clients, guild=ctx.guild)
+#     ydl_opts = {
+#         'format': 'bestaudio/best',
+#         'postprocessors': [{
+#             'key': 'FFmpegExtractAudio',
+#             'preferredcodec': 'mp3',
+#             'preferredquality': '192',
+#         }]
+#     }
+#
+#     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+#         print("Downloading Audio Now!")
+#         ydl.download([url])
+#
+#     for file in os.listdir("./"):
+#         if file.endswith(".mp3"):
+#             name = file
+#             print(f"Renamed File: {file}")
+#             os.rename(file, "test.mp3")
+
+# https://www.youtube.com/watch?v=Bp9SZYqIWIM&t=1355s, TIME: 38.29
 bot.loop.create_task(update_stats())  # loop for logging into log.txt
 bot.run(token)  # where the bot will run (discord server)
