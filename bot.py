@@ -98,5 +98,23 @@ async def on_message_delete(message):
     await message.channel.send(content=None, embed=embed)
 
 
+# @client.command
+# async def join(message):
+#     global vc
+#     if message.content == "m.join":
+#         endpoint = ["Music Room"]
+#         vc = endpoint
+#         await vc.connect(timeout=60.0, reconnect=True)
+#
+#     print(vc.is_connected())
+#
+# @client.command
+# async def leave(message):
+#     if message.content == "m.leave":
+#         endpoint = ["Music Room"]
+#         voicec = endpoint
+#         await voicec.disconnect(force=False)
+
+
 client.loop.create_task(update_stats())  # loop for logging into log.txt
 client.run(token)  # where the bot will run (discord server)
