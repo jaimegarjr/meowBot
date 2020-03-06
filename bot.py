@@ -115,6 +115,10 @@ async def on_message_delete(message):
 #         voicec = endpoint
 #         await voicec.disconnect(force=False)
 
+# @bot.command()
+# async def foo(ctx, *arg):
+#     await ctx.send(arg)
+
 
 client.loop.create_task(update_stats())  # loop for logging into log.txt
 client.run(token)  # where the bot will run (discord server)
