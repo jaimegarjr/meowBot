@@ -7,24 +7,23 @@ from discord.ext import commands
 
 messages = joined = 0
 bot = commands.Bot(command_prefix="m.")
+bot.remove_command("help")
 
-client = discord.Client()  # stores the client into variable
-client_id = client.get_guild(556560880897228803)  # the server is found with the client id
+bot_id = bot.get_guild(556560880897228803)  # the server is found with the client id
 with open('config.json', 'r') as inFile:
     token = json.load(inFile)['token']
 
 
-@client.event
+@bot.event
 async def on_ready():
     print("Bot Up and Running!")
 
-
 # Function to update stats on messages and members joined every 24 hours
 async def update_stats():
-    await client.wait_until_ready()  # waits until the client starts
+    await bot.wait_until_ready()  # waits until the client starts
     global messages, joined  # creates variables for joined members and messages
 
-    while not client.is_closed():  # while the client is running
+    while not bot.is_closed():  # while the client is running
         try:
             with open("log.txt", "a") as file:  # opens log.txt file and writes
                 # writes info to file
@@ -38,60 +37,71 @@ async def update_stats():
             print(e)  # exception to be thrown
             await asyncio.sleep(86400)  # every 24 hours
 
-
 # New client event
-@client.event
+@bot.event
 async def on_member_join(member):  # Function to welcome new user
     for channel in member.guild.channels:  # loop into channel
         if str(channel) == "general":  # into channel general
-            await client_id.send(f"""Hai! Welcome to the server {member.mention}!""")  # sends welcome message
-
+            await bot_id.send(f"""Hai! Welcome to the server {member.mention}!""")  # sends welcome message
 
 # New client event
-@client.event
+@bot.event
 async def on_message(message):  # Command function
-    client_id = client.get_guild(556560880897228803)  # the server is found with the client id
-    channels = ["bots", "bot-testing", "mod-chat", "logs"]  # channels that bot commands are allowed in
-    bad_words = ["dumb", "stupid", "loser", "idiot"]
-
+    bad_words = ["dumb", "stupid", "loser", "idiot"]  # file of bad words?
     for word in bad_words:
         if message.content.count(word) > 0:
             await message.channel.purge(limit=1)
             await message.channel.send("Meow! No bad words. -.-")
 
-    if message.content == "m.help":
-        embed = discord.Embed(title="**meowBot >.< Commands**",
-                              description="**Some useful commands to access meowBot:**",
-                              color=discord.Colour.red())
-        embed.add_field(name="**m.intro**", value="Greets the user.", inline=False)
-        embed.add_field(name="**m.users**", value="Prints number of users.", inline=False)
-        embed.add_field(name="**m.quote**", value="Prints a random quote for you fellas feeling under the weather.",
-                        inline=False)
-        embed.add_field(name="**m.purge**", value="Purges 5 messages prior to sending command.", inline=False)
-        await message.channel.send(content=None, embed=embed)
+    await bot.process_commands(message)
 
-        # then it will look at possible commands
-    if message.content.find("m.intro") != -1:  # if meow.intro, it'll introduce itself
-        await message.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
+@bot.command()
+async def hello(ctx):
+    await ctx.channel.send("Hello.")
 
-    elif message.content == "m.users":  # if meow.users, will list amount of users
-        users_embed = discord.Embed(title="**User Count!**",
-                                    description=f"""Number of Members: {client_id.member_count}""",
-                                    colour=discord.Colour.green())
-        await message.channel.send(content=None, embed=users_embed)
+@bot.command()
+async def help(ctx):
+    embed = discord.Embed(title="**meowBot >.< Commands**",
+                          description="**Some useful commands to access meowBot:**",
+                          color=discord.Colour.red())
+    embed.add_field(name="```m.help```", value="Lists the commands currently available for the user.", inline=False)
+    embed.add_field(name="```m.intro```", value="Greets the user.", inline=False)
+    embed.add_field(name="```m.users```", value="Prints number of users.", inline=False)
+    embed.add_field(name="```m.purge```", value="Purges however many messages you provide it prior to sending command.",
+                    inline=False)
+    embed.add_field(name="```m.quote```", value="Prints a random quote for you fellas feeling under the weather.",
+                    inline=False)
+    embed.add_field(name="```m.dadprogjoke```",
+                    value="Provides the user with a funny dad programming joke, if you're into that stuff.",
+                    inline=False)
+    await ctx.channel.send(content=None, embed=embed)
 
-    if message.content == "m.quote":
-        await message.channel.send(random.choice(list(open('quotes.txt'))))
+@bot.command()
+async def intro(ctx):
+    await ctx.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
 
-    elif message.content == "m.purge":
-        await message.channel.purge(limit=5)
-        await message.channel.send("Meow! Your dirty messages are gone :3.")
+@bot.command()
+async def purge(ctx, arg):
+    await ctx.channel.purge(limit=int(arg))
+    await ctx.channel.send("Meow! Your dirty messages are gone :3.")
 
-    if message.content == "m.dadprogjoke":
-        await message.channel.send(random.choice(list(open('jokes.txt'))))
+@bot.command()
+async def users(ctx):
+    bot_id = bot.get_guild(556560880897228803)  # the server is found with the client id
+    users_embed = discord.Embed(title="**User Count!**",
+                                description=f"""Number of Members: {bot_id.member_count}""",
+                                colour=discord.Colour.green())
+    await ctx.channel.send(content=None, embed=users_embed)
 
+@bot.command()
+async def quote(ctx):
+    await ctx.channel.send(random.choice(list(open('quotes.txt'))))
 
-@client.event
+@bot.command()
+async def dadprogjoke(ctx):
+    await ctx.channel.send(random.choice(list(open('jokes.txt'))))
+
+@bot.event
 async def on_message_delete(message):
     embed = discord.Embed(title="**Message Deleted**", description="You might wanna check this out!",
                           colour=discord.Colour.blue())
@@ -99,26 +109,19 @@ async def on_message_delete(message):
     await message.channel.send(content=None, embed=embed)
 
 
-# @client.command
-# async def join(message):
+# @bot.command
+# async def join(ctx):
 #     global vc
-#     if message.content == "m.join":
-#         endpoint = ["Music Room"]
-#         vc = endpoint
-#         await vc.connect(timeout=60.0, reconnect=True)
-#
+#     endpoint = ["Music Room"]
+#     vc = endpoint
+#     await vc.connect(timeout=60.0, reconnect=True)
 #     print(vc.is_connected())
 #
-# @client.command
-# async def leave(message):
-#     if message.content == "m.leave":
-#         endpoint = ["Music Room"]
-#         voicec = endpoint
-#         await voicec.disconnect(force=False)
+# @bot.command
+# async def leave(ctx):
+#     endpoint = ["Music Room"]
+#     voicec = endpoint
+#     await voicec.disconnect(force=False)
 
-@bot.command()
-async def hello(ctx):
-    await ctx.channel.send("Hello.")
-
-client.loop.create_task(update_stats())  # loop for logging into log.txt
-client.run(token)  # where the bot will run (discord server)
+bot.loop.create_task(update_stats())  # loop for logging into log.txt
+bot.run(token)  # where the bot will run (discord server)
