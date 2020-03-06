@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed268c40-cf16-4b85-9a43-6dbabeb62cf9" name="Default Changelist" comment="config.json update">
+      <change afterPath="$PROJECT_DIR$/JoJo's Bizarre AdventureGolden Wind OST Giorno's Theme Il vento d'oro (Main Theme).mp3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,12 +16,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1Yis7gkGCojdePFLzO2fHSciTlo" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/bot.py" />
   </component>
@@ -89,6 +95,7 @@
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="config.json update" />
     <option name="LAST_COMMIT_MESSAGE" value="config.json update" />
   </component>
@@ -113,25 +120,25 @@
     </state>
     <state x="416" y="194" key="FileChooserDialogImpl/0.0.1536.834@0.0.1536.834" timestamp="1583501563611" />
     <state x="520" y="244" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1583447310875" />
-    <state width="745" height="181" key="GridCell.Tab.0.bottom" timestamp="1583527516595">
+    <state width="1358" height="128" key="GridCell.Tab.0.bottom" timestamp="1583529952007">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="745" height="181" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1583527516595" />
+    <state width="1358" height="128" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1583529952007" />
     <state width="1702" height="266" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1583468366608" />
-    <state width="745" height="181" key="GridCell.Tab.0.center" timestamp="1583527516594">
+    <state width="1358" height="128" key="GridCell.Tab.0.center" timestamp="1583529952006">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="745" height="181" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1583527516594" />
+    <state width="1358" height="128" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1583529952006" />
     <state width="1702" height="266" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1583468366608" />
-    <state width="745" height="181" key="GridCell.Tab.0.left" timestamp="1583527516594">
+    <state width="1358" height="128" key="GridCell.Tab.0.left" timestamp="1583529952006">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="745" height="181" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1583527516594" />
+    <state width="1358" height="128" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1583529952006" />
     <state width="1702" height="266" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1583468366608" />
-    <state width="745" height="181" key="GridCell.Tab.0.right" timestamp="1583527516595">
+    <state width="1358" height="128" key="GridCell.Tab.0.right" timestamp="1583529952006">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state width="745" height="181" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1583527516595" />
+    <state width="1358" height="128" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1583529952006" />
     <state width="1702" height="266" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1583468366608" />
     <state x="415" y="300" key="com.intellij.ide.util.TipDialog" timestamp="1583467539607">
       <screen x="0" y="0" width="1920" height="1050" />

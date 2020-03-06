@@ -1,9 +1,13 @@
-import json  # to prevent token regeneration
-import discord  # imports discord library
-import time  # imports time library
 import asyncio  # imports asyncio for logging
+import json  # to prevent token regeneration
 import random
+import time  # imports time library
+
+import discord  # imports discord library
 from discord.ext import commands
+from discord.utils import get
+import os
+import youtube_dl
 
 messages = joined = 0
 bot = commands.Bot(command_prefix="m.")
@@ -17,6 +21,7 @@ with open('config.json', 'r') as inFile:
 @bot.event
 async def on_ready():
     print("Bot Up and Running!")
+
 
 # Function to update stats on messages and members joined every 24 hours
 async def update_stats():
@@ -37,12 +42,14 @@ async def update_stats():
             print(e)  # exception to be thrown
             await asyncio.sleep(86400)  # every 24 hours
 
+
 # New client event
 @bot.event
 async def on_member_join(member):  # Function to welcome new user
     for channel in member.guild.channels:  # loop into channel
         if str(channel) == "general":  # into channel general
             await bot_id.send(f"""Hai! Welcome to the server {member.mention}!""")  # sends welcome message
+
 
 # New client event
 @bot.event
@@ -55,9 +62,11 @@ async def on_message(message):  # Command function
 
     await bot.process_commands(message)
 
+
 @bot.command()
 async def hello(ctx):
     await ctx.channel.send("Hello.")
+
 
 @bot.command()
 async def help(ctx):
@@ -76,14 +85,17 @@ async def help(ctx):
                     inline=False)
     await ctx.channel.send(content=None, embed=embed)
 
+
 @bot.command()
 async def intro(ctx):
     await ctx.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
+
 
 @bot.command()
 async def purge(ctx, arg):
     await ctx.channel.purge(limit=int(arg))
     await ctx.channel.send("Meow! Your dirty messages are gone :3.")
+
 
 @bot.command()
 async def users(ctx):
@@ -93,13 +105,16 @@ async def users(ctx):
                                 colour=discord.Colour.green())
     await ctx.channel.send(content=None, embed=users_embed)
 
+
 @bot.command()
 async def quote(ctx):
     await ctx.channel.send(random.choice(list(open('quotes.txt'))))
 
+
 @bot.command()
 async def dadprogjoke(ctx):
     await ctx.channel.send(random.choice(list(open('jokes.txt'))))
+
 
 @bot.event
 async def on_message_delete(message):
@@ -109,19 +124,34 @@ async def on_message_delete(message):
     await message.channel.send(content=None, embed=embed)
 
 
-# @bot.command
-# async def join(ctx):
-#     global vc
-#     endpoint = ["Music Room"]
-#     vc = endpoint
-#     await vc.connect(timeout=60.0, reconnect=True)
-#     print(vc.is_connected())
-#
-# @bot.command
-# async def leave(ctx):
-#     endpoint = ["Music Room"]
-#     voicec = endpoint
-#     await voicec.disconnect(force=False)
+@bot.command()
+async def join(ctx):
+    global voice
+    channel = ctx.message.author.voice.channel
+    voice = get(bot.voice_clients, guild=ctx.guild)
+
+    if voice and voice.is_connected():
+        await voice.move_to(channel)
+    else:
+        voice = await channel.connect()
+        print(f"Bot Connected To {channel}!")
+
+    await ctx.send(f"Joined {channel}! ")
+
+
+@bot.command()
+async def leave(ctx):
+    channel = ctx.message.author.voice.channel
+    voice = get(bot.voice_clients, guild=ctx.guild)
+
+    if voice and voice.is_connected():
+        await voice.disconnect()
+        print(f"Bot Left {channel}!")
+        await ctx.send(f"Bot Left {channel}!")
+    else:
+        print("Bot Made To Leave, But Couldn't")
+        await ctx.send("Bot Made To Leave, But Couldn't")
+
 
 bot.loop.create_task(update_stats())  # loop for logging into log.txt
 bot.run(token)  # where the bot will run (discord server)
