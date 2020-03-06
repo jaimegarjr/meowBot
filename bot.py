@@ -65,7 +65,8 @@ async def on_message(message):  # Command function
                               color=discord.Colour.red())
         embed.add_field(name="**m.intro**", value="Greets the user.", inline=False)
         embed.add_field(name="**m.users**", value="Prints number of users.", inline=False)
-        embed.add_field(name="**m.quote**", value="Prints a random quote for you fellas feeling under the weather.", inline=False)
+        embed.add_field(name="**m.quote**", value="Prints a random quote for you fellas feeling under the weather.",
+                        inline=False)
         embed.add_field(name="**m.purge**", value="Purges 5 messages prior to sending command.", inline=False)
         await message.channel.send(content=None, embed=embed)
 
@@ -115,10 +116,9 @@ async def on_message_delete(message):
 #         voicec = endpoint
 #         await voicec.disconnect(force=False)
 
-# @bot.command()
-# async def foo(ctx, *arg):
-#     await ctx.send(arg)
-
+@bot.command()
+async def hello(ctx):
+    await ctx.channel.send("Hello.")
 
 client.loop.create_task(update_stats())  # loop for logging into log.txt
 client.run(token)  # where the bot will run (discord server)
