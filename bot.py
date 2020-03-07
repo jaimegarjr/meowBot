@@ -2,11 +2,11 @@ import asyncio  # imports asyncio for logging
 import json  # to prevent token regeneration
 import random
 import time  # imports time library
+import os
 
 import discord  # imports discord library
 from discord.ext import commands
 from discord.utils import get
-import os
 import youtube_dl
 
 messages = joined = 0
@@ -49,18 +49,6 @@ async def on_member_join(member):  # Function to welcome new user
     for channel in member.guild.channels:  # loop into channel
         if str(channel) == "general":  # into channel general
             await bot_id.send(f"""Hai! Welcome to the server {member.mention}!""")  # sends welcome message
-
-
-# New client event
-@bot.event
-async def on_message(message):  # Command function
-    bad_words = ["dumb", "stupid", "loser", "idiot"]  # file of bad words?
-    for word in bad_words:
-        if message.content.count(word) > 0:
-            await message.channel.purge(limit=1)
-            await message.channel.send("Meow! No bad words. -.-")
-
-    await bot.process_commands(message)
 
 
 @bot.command()
