@@ -64,20 +64,51 @@ async def on_message(message):  # Command function
 
 
 @bot.command()
-async def hello(ctx):
-    await ctx.channel.send("Hello.")
-
-
-@bot.command()
 async def help(ctx):
-    embed = discord.Embed(title="**meowBot >.< Commands**",
+    embed = discord.Embed(title="**meowBot >.< General Commands**",
                           description="**Some useful commands to access meowBot:**",
                           color=discord.Colour.red())
     embed.add_field(name="```m.help```", value="Lists the commands currently available for the user.", inline=False)
+    embed.add_field(name="```m.musichelp```", value="Lists the commands to access music functions.", inline=False)
+    embed.add_field(name="```m.misc```", value="Lists fun and miscellaneous functions.", inline=False)
     embed.add_field(name="```m.intro```", value="Greets the user.", inline=False)
     embed.add_field(name="```m.users```", value="Prints number of users.", inline=False)
-    embed.add_field(name="```m.purge```", value="Purges however many messages you provide it prior to sending command.",
+    embed.add_field(name="```m.purge (num)```", value="Purges however many messages you provide it prior to sending command.",
                     inline=False)
+    await ctx.channel.send(content=None, embed=embed)
+
+
+@bot.command()
+async def musichelp(ctx):
+    embed = discord.Embed(title="**meowBot >.< Music Commands**",
+                          description="**Some useful commands to access meowBot's music functionality:**",
+                          color=discord.Colour.red())
+    embed.add_field(name="```m.join```",
+                    value="Adds the bot to a voice channel if user is already in one. Otherwise, nothing will happen.",
+                    inline=False)
+    embed.add_field(name="```m.leave```",
+                    value="Takes meowBot out of whatever channel the user is in.",
+                    inline=False)
+    embed.add_field(name="```m.play (url)```",
+                    value="Plays youtube url given to the bot from the user.",
+                    inline=False)
+    embed.add_field(name="```m.pause```",
+                    value="Pauses the current song playing.",
+                    inline=False)
+    embed.add_field(name="```m.resume```",
+                    value="Resumes the current song on queue.",
+                    inline=False)
+    embed.add_field(name="```m.stop```",
+                    value="Completely stops song in order to pass a new url to the bot.",
+                    inline=False)
+    await ctx.channel.send(content=None, embed=embed)
+
+
+@bot.command()
+async def misc(ctx):
+    embed = discord.Embed(title="**meowBot >.< Misc Commands**",
+                          description="**Some fun and miscellaneous functions that meowBot offers:**",
+                          color=discord.Colour.red())
     embed.add_field(name="```m.quote```", value="Prints a random quote for you fellas feeling under the weather.",
                     inline=False)
     embed.add_field(name="```m.dadprogjoke```",
@@ -193,9 +224,36 @@ async def play(ctx, url: str):
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.07
 
-    nname = name.rsplit("-", 2)
+    nname = name.rsplit("-", 5)
     await ctx.send(f"Playing: {nname[0]}!")
     print("Playing!")
+
+
+@bot.command()
+async def pause(ctx):
+    voice = get(bot.voice_clients, guild=ctx.guild)
+    if voice.is_playing():
+        voice.pause()
+        print("Song has paused!")
+        ctx.send("Song has paused!")
+
+
+@bot.command()
+async def resume(ctx):
+    voice = get(bot.voice_clients, guild=ctx.guild)
+    if voice.is_paused():
+        voice.resume()
+        print("Song has resumed playing!")
+        ctx.send("Song has resumed playing!")
+
+
+@bot.command()
+async def stop(ctx):
+    voice = get(bot.voice_clients, guild=ctx.guild)
+    if voice.is_paused() or voice.is_playing():
+        voice.stop()
+        print("Song has stopped playing!")
+        ctx.send("Song has stopped playing!")
 
 
 bot.loop.create_task(update_stats())  # loop for logging into log.txt
