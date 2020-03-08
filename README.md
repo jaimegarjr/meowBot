@@ -46,3 +46,5 @@ Some fun and miscellaneous functions that meowBot offers:
 ```m.quote``` - Prints a random quote for you fellas feeling under the weather.
 
 ```m.dadprogjoke``` - Provides the user with a funny dad programming joke, if you're into that stuff.
+
+```m.jojo``` - Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.

@@ -102,6 +102,9 @@ async def misc(ctx):
     embed.add_field(name="```m.dadprogjoke```",
                     value="Provides the user with a funny dad programming joke, if you're into that stuff.",
                     inline=False)
+    embed.add_field(name="```m.jojo```",
+                    value="Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.",
+                    inline=False)
     await ctx.channel.send(content=None, embed=embed)
 
 
@@ -247,12 +250,15 @@ async def stop(ctx):
 @bot.command()
 async def jojo(ctx):  # FIXME: check if user is in voice chat or not
     voice = get(bot.voice_clients, guild=ctx.guild)
-    voice.play(discord.FFmpegPCMAudio("giorno.mp3"))
-    voice.source = discord.PCMVolumeTransformer(voice.source)
-    voice.source.volume = 0.07
 
-    await ctx.send("JOJO REFERENCE!")
-    print("JOJO Playing!")
+    if voice:
+        voice.play(discord.FFmpegPCMAudio("giorno.mp3"))
+        voice.source = discord.PCMVolumeTransformer(voice.source)
+        voice.source.volume = 0.07
+        await ctx.send("JOJO REFERENCE!")
+        print("JOJO Playing!")
+    else:
+        await ctx.send("Join a voice channel first! -.-")
 
 
 bot.loop.create_task(update_stats())  # loop for logging into log.txt
