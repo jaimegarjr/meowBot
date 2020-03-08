@@ -11,16 +11,12 @@ import youtube_dl
 from dotenv import load_dotenv
 
 load_dotenv()
-
-messages = joined = 0
 bot = commands.Bot(command_prefix="m.")
 bot.remove_command("help")
 
-bot_id = bot.get_guild(556560880897228803)  # the server is found with the client id
-# with open('config.json', 'r') as inFile:
-#     token = json.load(inFile)['token']
-
+bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
 token = os.environ.get("BOT_TOKEN")
+messages = joined = 0
 
 
 @bot.event
