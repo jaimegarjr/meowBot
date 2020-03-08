@@ -247,11 +247,11 @@ async def stop(ctx):
 @bot.command()
 async def jojo(ctx):  # FIXME: check if user is in voice chat or not
     voice = get(bot.voice_clients, guild=ctx.guild)
-    voice.play(discord.FFmpegPCMAudio("giorno.mp3"), after=lambda e: print(f"{name} has finished playing!"))
+    voice.play(discord.FFmpegPCMAudio("giorno.mp3"))
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.07
 
-    await ctx.send(f"JOJO REFERENCE!")
+    await ctx.send("JOJO REFERENCE!")
     print("JOJO Playing!")
 
 
