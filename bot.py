@@ -16,7 +16,8 @@ bot.remove_command("help")
 bot_id = bot.get_guild(556560880897228803)  # the server is found with the client id
 with open('config.json', 'r') as inFile:
     token = json.load(inFile)['token']
-    os.environ['token'] = token
+
+os.environ['token'] = token
 
 
 @bot.event
