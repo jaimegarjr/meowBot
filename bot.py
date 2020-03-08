@@ -9,6 +9,7 @@ from discord.ext import commands
 from discord.utils import get
 import youtube_dl
 from dotenv import load_dotenv
+
 load_dotenv()
 
 messages = joined = 0
@@ -65,7 +66,8 @@ async def help(ctx):
     embed.add_field(name="```m.misc```", value="Lists fun and miscellaneous functions.", inline=False)
     embed.add_field(name="```m.intro```", value="Greets the user.", inline=False)
     embed.add_field(name="```m.users```", value="Prints number of users.", inline=False)
-    embed.add_field(name="```m.purge (num)```", value="Purges however many messages you provide it prior to sending command.",
+    embed.add_field(name="```m.purge (num)```",
+                    value="Purges however many messages you provide it prior to sending command.",
                     inline=False)
     await ctx.channel.send(content=None, embed=embed)
 
