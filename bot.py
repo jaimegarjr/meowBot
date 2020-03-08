@@ -20,7 +20,7 @@ bot_id = bot.get_guild(556560880897228803)  # the server is found with the clien
 # with open('config.json', 'r') as inFile:
 #     token = json.load(inFile)['token']
 
-token = os.environ.get("token")
+token = os.environ.get("BOT_TOKEN")
 
 
 @bot.event
