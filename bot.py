@@ -203,7 +203,7 @@ async def play(ctx, url: str):
         ydl.download([url])
 
     for file in os.listdir("./"):
-        if file.endswith(".mp3"):
+        if file.endswith(".mp3") and file != "giorno.mp3":
             name = file
             print(f"Renamed File: {file}")
             os.rename(file, "song.mp3")
@@ -212,7 +212,7 @@ async def play(ctx, url: str):
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.07
 
-    nname = name.rsplit("-", 5)
+    nname = name.rsplit("-", 2)
     await ctx.send(f"Playing: {nname[0]}!")
     print("Playing!")
 
@@ -223,7 +223,7 @@ async def pause(ctx):
     if voice.is_playing():
         voice.pause()
         print("Song has paused!")
-        ctx.send("Song has paused!")
+        await ctx.send("Song has paused!")
 
 
 @bot.command()
@@ -232,7 +232,7 @@ async def resume(ctx):
     if voice.is_paused():
         voice.resume()
         print("Song has resumed playing!")
-        ctx.send("Song has resumed playing!")
+        await ctx.send("Song has resumed playing!")
 
 
 @bot.command()
@@ -241,7 +241,18 @@ async def stop(ctx):
     if voice.is_paused() or voice.is_playing():
         voice.stop()
         print("Song has stopped playing!")
-        ctx.send("Song has stopped playing!")
+        await ctx.send("Song has stopped playing!")
+
+
+@bot.command()
+async def jojo(ctx):  # FIXME: check if user is in voice chat or not
+    voice = get(bot.voice_clients, guild=ctx.guild)
+    voice.play(discord.FFmpegPCMAudio("giorno.mp3"), after=lambda e: print(f"{name} has finished playing!"))
+    voice.source = discord.PCMVolumeTransformer(voice.source)
+    voice.source.volume = 0.07
+
+    await ctx.send(f"JOJO REFERENCE!")
+    print("JOJO Playing!")
 
 
 bot.loop.create_task(update_stats())  # loop for logging into log.txt
