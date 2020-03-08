@@ -21,6 +21,8 @@ messages = joined = 0
 
 @bot.event
 async def on_ready():
+    status = discord.Game("meow :3 | m.help")
+    await bot.change_presence(status=discord.Status.online, activity=status)
     print("Bot Up and Running!")
 
 
