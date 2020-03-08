@@ -16,6 +16,7 @@ bot.remove_command("help")
 bot_id = bot.get_guild(556560880897228803)  # the server is found with the client id
 with open('config.json', 'r') as inFile:
     token = json.load(inFile)['token']
+    os.environ['token'] = token
 
 
 @bot.event
@@ -262,4 +263,4 @@ async def jojo(ctx):  # FIXME: check if user is in voice chat or not
 
 
 bot.loop.create_task(update_stats())  # loop for logging into log.txt
-bot.run(token)  # where the bot will run (discord server)
+bot.run(os.environ['token'])  # where the bot will run (discord server)
