@@ -263,4 +263,4 @@ async def jojo(ctx):  # FIXME: check if user is in voice chat or not
 
 
 bot.loop.create_task(update_stats())  # loop for logging into log.txt
-bot.run(os.environ['token'])  # where the bot will run (discord server)
+bot.run(os.environ.get('token'))  # where the bot will run (discord server)
