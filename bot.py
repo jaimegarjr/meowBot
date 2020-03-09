@@ -222,12 +222,11 @@ async def play(ctx, url: str):
 
     voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print(f"{name} has finished playing!"))
     voice.source = discord.PCMVolumeTransformer(voice.source)
-    voice.source.volume = 0.07
+    voice.source.volume = 0.10
 
-    nname = name.rsplit("-", 5)
-    # await ctx.send(f"Playing: {nname}")
+    nname = name.rsplit("-", 2)
 
-    embed = discord.Embed(title="**Current Song Playing!",
+    embed = discord.Embed(title="**Current Song Playing!**",
                           description=f"Playing: {nname}",
                           color=discord.Colour.purple())
     await ctx.channel.send(content=None, embed=embed)
