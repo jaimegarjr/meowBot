@@ -81,7 +81,7 @@ async def musichelp(ctx):
     embed.add_field(name="```m.leave```",
                     value="Takes meowBot out of whatever channel the user is in.",
                     inline=False)
-    embed.add_field(name="```m.play (url)```",
+    embed.add_field(name="```m.play (url) | m.play 'search term'```",
                     value="Plays youtube url given to the bot from the user.",
                     inline=False)
     embed.add_field(name="```m.pause```",
@@ -198,6 +198,7 @@ async def play(ctx, url: str):
     voice = get(bot.voice_clients, guild=ctx.guild)
     ydl_opts = {
         'format': 'bestaudio/best',
+        'default_search': "ytsearch",
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
