@@ -183,6 +183,10 @@ async def leave(ctx):
 @bot.command()
 async def play(ctx, url: str):
     global name
+    
+    if not discord.opus.is_loaded():
+        discord.opus.load_opus('libopus.so')
+
     song = os.path.isfile("song.mp3")
     try:
         if song:
