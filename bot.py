@@ -125,7 +125,7 @@ async def purge(ctx, arg):
 
 @bot.command()
 async def users(ctx):
-    bot_id = bot.get_guild(556560880897228803)  # the server is found with the client id
+    bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
     users_embed = discord.Embed(title="**User Count!**",
                                 description=f"""Number of Members: {bot_id.member_count}""",
                                 colour=discord.Colour.green())
@@ -224,8 +224,7 @@ async def play(ctx, url: str):
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.07
 
-    nname = name.rsplit("-", 2)
-    await ctx.send(f"Playing: {nname[0]}!")
+    await ctx.send(f"Playing: {name}")
     print("Playing!")
 
 
@@ -257,7 +256,7 @@ async def stop(ctx):
 
 
 @bot.command()
-async def jojo(ctx):  # FIXME: check if user is in voice chat or not
+async def jojo(ctx):
     voice = get(bot.voice_clients, guild=ctx.guild)
 
     if voice:
