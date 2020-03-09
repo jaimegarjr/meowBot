@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 bot = commands.Bot(command_prefix="m.")
 bot.remove_command("help")
+print(discord.opus.is_loaded())
 
 bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
 token = os.environ.get("BOT_TOKEN")
@@ -229,6 +230,9 @@ async def play(ctx, url: str):
     embed = discord.Embed(title="**Current Song Playing!**",
                           description=f"Playing: {nname}",
                           color=discord.Colour.purple())
+    embed.add_field(name="```**Youtube Link**```",
+                    value=f"Url / Input: {url}",
+                    inline=False)
     await ctx.channel.send(content=None, embed=embed)
 
     print("Playing!")
