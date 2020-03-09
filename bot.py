@@ -224,7 +224,14 @@ async def play(ctx, url: str):
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.07
 
-    await ctx.send(f"Playing: {name}")
+    nname = name.rsplit("-", 5)
+    # await ctx.send(f"Playing: {nname}")
+
+    embed = discord.Embed(title="**Current Song Playing!",
+                          description=f"Playing: {nname}",
+                          color=discord.Colour.purple())
+    await ctx.channel.send(content=None, embed=embed)
+
     print("Playing!")
 
 
