@@ -153,7 +153,6 @@ async def on_message_delete(message):
 
 @bot.command()
 async def join(ctx):
-    global voice
     channel = ctx.message.author.voice.channel
     voice = get(bot.voice_clients, guild=ctx.guild)
 
@@ -183,8 +182,6 @@ async def leave(ctx):
 
 @bot.command()
 async def play(ctx, url: str):
-    global name
-    
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
 
