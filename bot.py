@@ -1,5 +1,4 @@
 import asyncio  # imports asyncio for logging
-import json  # to prevent token regeneration
 import random
 import time  # imports time library
 import os
