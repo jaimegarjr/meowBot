@@ -50,3 +50,10 @@ Some fun and miscellaneous functions that meowBot offers:
 ```m.dadprogjoke``` - Provides the user with a funny dad programming joke, if you're into that stuff.
 
 ```m.jojo``` - Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.
+
+# **Behind The Scenes**
+Things that meowBot could possibly perform in the background include:
+
+```on_message_delete``` - Sends a warning message in a logs channel notifying moderators who deleted a message.
+
+```on_member_join``` - Greets the user upon joining the server, and assigns the member with an introductory role.
