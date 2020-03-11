@@ -12,7 +12,6 @@ from dotenv import load_dotenv
 load_dotenv()
 bot = commands.Bot(command_prefix="m.")
 bot.remove_command("help")
-print(discord.opus.is_loaded())
 
 bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
 token = os.environ.get("BOT_TOKEN")
@@ -25,8 +24,6 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=status)
     print("Bot Up and Running!")
 
-
-# Function to update stats on messages and members joined every 24 hours
 async def update_stats():
     await bot.wait_until_ready()  # waits until the client starts
     global messages, joined  # creates variables for joined members and messages
@@ -45,14 +42,23 @@ async def update_stats():
             print(e)  # exception to be thrown
             await asyncio.sleep(86400)  # every 24 hours
 
-
-# New client event
 @bot.event
-async def on_member_join(member):  # Function to welcome new user
-    for channel in member.guild.channels:  # loop into channel
-        if str(channel) == "general":  # into channel general
-            await bot_id.send(f"""Hai! Welcome to the server {member.mention}!""")  # sends welcome message
+async def on_member_join(member): 
+    gen_channel = bot.get_channel(int(os.environ.get("GENERAL_ID")))
+    log_channel = bot.get_channel(int(os.environ.get("LOGS_ID")))
+    role = discord.utils.get(member.guild.roles, name="White Keys")
+    await gen_channel.send(f"""Hai! Welcome to the server {member.mention}!""")
+    await log_channel.send(f"""MEOW! Member joined: {member.mention}!""") # FIXME: EMBED THIS
+    await member.add_roles(role)
+    await log_channel.send(f"""Member {member.mention} was given the {role} role!""") # FIXME: EMBED THIS
 
+@bot.event
+async def on_message_delete(message):
+    channel = bot.get_channel(int(os.environ.get("LOGS_ID")))
+    embed = discord.Embed(title="**Message Deleted**", description="You might wanna check this out!",
+                          colour=discord.Colour.blue())
+    embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""")
+    await channel.send(content=None, embed=embed)
 
 @bot.command()
 async def help(ctx):
@@ -125,7 +131,7 @@ async def purge(ctx, arg):
 
 @bot.command()
 async def users(ctx):
-    bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
+    bot_id = bot.get_guild(int(os.environ.get("CLIENT_ID")))  # the server is found with the client id
     users_embed = discord.Embed(title="**User Count!**",
                                 description=f"""Number of Members: {bot_id.member_count}""",
                                 colour=discord.Colour.green())
@@ -140,15 +146,6 @@ async def quote(ctx):
 @bot.command()
 async def dadprogjoke(ctx):
     await ctx.channel.send(random.choice(list(open('jokes.txt'))))
-
-
-@bot.event
-async def on_message_delete(message):
-    embed = discord.Embed(title="**Message Deleted**", description="You might wanna check this out!",
-                          colour=discord.Colour.blue())
-    embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""")
-    await message.channel.send(content=None, embed=embed)
-
 
 @bot.command()
 async def join(ctx):
@@ -226,8 +223,8 @@ async def play(ctx, url: str):
     embed = discord.Embed(title="**Current Song Playing!**",
                           description=f"Playing: {nname}",
                           color=discord.Colour.purple())
-    embed.add_field(name="```**Youtube Link**```",
-                    value=f"Url / Input: {url}",
+    embed.add_field(name="```Youtube Link```",
+                    value=f"URL / Input: {url}",
                     inline=False)
     await ctx.channel.send(content=None, embed=embed)
 
@@ -268,7 +265,7 @@ async def jojo(ctx):
     if voice:
         voice.play(discord.FFmpegPCMAudio("giorno.mp3"))
         voice.source = discord.PCMVolumeTransformer(voice.source)
-        voice.source.volume = 0.07
+        voice.source.volume = 0.10
         await ctx.send("JOJO REFERENCE!")
         print("JOJO Playing!")
     else:
