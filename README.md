@@ -8,8 +8,6 @@ This simple framework is known as ***discord.py***, and with it comes many funct
 Hence, my inspiration to create my own discord bot came with consistently using Discord as a platform to communicate
 with friends and family. 
 
-[![Run on Repl.it](https://repl.it/badge/github/JJgar2725/meowBot)](https://repl.it/github/JJgar2725/meowBot)
-
 Below can be seen a general outline of the things that meowBot can accomplish!
 
 # ***General Commands***

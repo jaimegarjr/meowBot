@@ -32,7 +32,7 @@ async def update_stats():
 
     while not bot.is_closed():  # while the client is running
         try:
-            with open("log.txt", "a") as file:  # opens log.txt file and writes
+            with open("Files/log.txt", "a") as file:  # opens log.txt file and writes
                 # writes info to file
                 file.write(f"Time: {int(time.time())}, Messages: {messages}, Members Joined: {joined}\n")
 
@@ -142,12 +142,12 @@ async def users(ctx):
 
 @bot.command()
 async def quote(ctx):
-    await ctx.channel.send(random.choice(list(open('quotes.txt'))))
+    await ctx.channel.send(random.choice(list(open('Files/quotes.txt'))))
 
 
 @bot.command()
 async def dadprogjoke(ctx):
-    quote = random.choice(list(open('jokes.txt')))
+    quote = random.choice(list(open('Files/jokes.txt')))
     quoteQ = quote[1:quote.find("A")]
     quoteA = quote[quote.find("A") - 1:-2]
 
@@ -200,10 +200,10 @@ async def play(ctx, *, url: str):
         await ctx.send("Bot already playing! Use m.stop to stop the current song and play a new song. -.-")
         return
     
-    song = os.path.isfile("song.mp3")
+    song = os.path.isfile("Songs/song.mp3")
     try:
         if song:
-            os.remove("song.mp3")
+            os.remove("Songs/song.mp3")
             print("Removed File!")
             
     except PermissionError:
@@ -237,9 +237,9 @@ async def play(ctx, *, url: str):
         if file.endswith(".mp3") and file != "giorno.mp3":
             name = file
             print(f"Renamed File: {file}")
-            os.rename(file, "song.mp3")
+            os.rename(file, "Songs/song.mp3")
 
-    voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print(f"{name} has finished playing!"))
+    voice.play(discord.FFmpegPCMAudio("Songs/song.mp3"), after=lambda e: print(f"{name} has finished playing!"))
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.10
 
@@ -288,7 +288,7 @@ async def jojo(ctx):
     voice = get(bot.voice_clients, guild=ctx.guild)
 
     if voice:
-        voice.play(discord.FFmpegPCMAudio("giorno.mp3"))
+        voice.play(discord.FFmpegPCMAudio("Songs/giorno.mp3"))
         voice.source = discord.PCMVolumeTransformer(voice.source)
         voice.source.volume = 0.10
         await ctx.send("JOJO REFERENCE!")
