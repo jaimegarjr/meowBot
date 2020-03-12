@@ -194,9 +194,10 @@ async def play(ctx, url: str):
     voice = get(bot.voice_clients, guild=ctx.guild)
     channel = ctx.message.author.voice.channel
 
-    if not discord.opus.is_loaded():
-        discord.opus.load_opus('libopus.so')
-
+    # Comment this out if running on local machine
+    # if not discord.opus.is_loaded():
+    #     discord.opus.load_opus('libopus.so')
+    # Downloading playlist RDOMQYhCtaK-s - add --no-playlist to just download video OMQYhCtaK-s
     song = os.path.isfile("song.mp3")
     try:
         if song:
@@ -217,6 +218,7 @@ async def play(ctx, url: str):
     ydl_opts = {
         'format': 'bestaudio/best',
         'default_search': "ytsearch",
+        'noplaylist': True,
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
