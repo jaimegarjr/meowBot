@@ -27,6 +27,7 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=status)
     print("Bot Up and Running!")
 
+
 async def update_stats():
     await bot.wait_until_ready()  # waits until the client starts
     global messages, joined  # creates variables for joined members and messages
@@ -243,7 +244,7 @@ async def play(ctx, url: str):
     nname = name.rsplit("-", 2)
 
     embed = discord.Embed(title="**Current Song Playing!**",
-                          description=f"Playing: {nname}",
+                          description=f"Playing: {nname[0]} - {nname[1]}",
                           color=discord.Colour.purple())
     embed.add_field(name="```Youtube Link```",
                     value=f"URL / Input: {url}",
