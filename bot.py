@@ -8,10 +8,13 @@ from discord.ext import commands
 from discord.utils import get
 import youtube_dl
 from dotenv import load_dotenv
+import discord.opus
 
 load_dotenv()
 bot = commands.Bot(command_prefix="m.")
 bot.remove_command("help")
+
+print(discord.opus.is_loaded())
 
 bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
 token = os.environ.get("BOT_TOKEN")
@@ -145,7 +148,16 @@ async def quote(ctx):
 
 @bot.command()
 async def dadprogjoke(ctx):
-    await ctx.channel.send(random.choice(list(open('jokes.txt'))))
+    quote = random.choice(list(open('jokes.txt')))
+    quoteQ = quote[1:quote.find("A")]
+    quoteA = quote[quote.find("A") - 1:-2]
+
+    embed = discord.Embed(title="**Dad-Styled Programming Joke**",
+                          description="**Chosen at random!**",
+                          color=discord.Colour.light_grey())
+    embed.add_field(name="```Question```", value=quoteQ, inline=False)
+    embed.add_field(name="```Answer```", value=quoteA, inline=False)
+    await ctx.channel.send(content=None, embed=embed)
 
 @bot.command()
 async def join(ctx):
@@ -171,6 +183,7 @@ async def leave(ctx):
         await voice.disconnect()
         print(f"Bot Left {channel}!")
         await ctx.send(f"Bot Left {channel}!")
+    
     else:
         print("Bot Made To Leave, But Couldn't")
         await ctx.send("Bot Made To Leave, But Couldn't")
@@ -178,6 +191,9 @@ async def leave(ctx):
 
 @bot.command()
 async def play(ctx, url: str):
+    voice = get(bot.voice_clients, guild=ctx.guild)
+    channel = ctx.message.author.voice.channel
+
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
 
@@ -191,9 +207,13 @@ async def play(ctx, url: str):
         await ctx.send("ERROR: Music Playing!")
         return
 
+    # if not users.voice and voice.is_connected():
+    #     await discord.utils.sleep_until(second=10, result=voice.disconnect())
+    #     print(f"Bot Left {channel}!")
+    #     await ctx.send(f"Bot Left {channel}!")
+
     await ctx.send("Getting Song Ready!")
 
-    voice = get(bot.voice_clients, guild=ctx.guild)
     ydl_opts = {
         'format': 'bestaudio/best',
         'default_search': "ytsearch",
