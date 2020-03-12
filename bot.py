@@ -14,8 +14,6 @@ load_dotenv()
 bot = commands.Bot(command_prefix="m.")
 bot.remove_command("help")
 
-print(discord.opus.is_loaded())
-
 bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
 token = os.environ.get("BOT_TOKEN")
 messages = joined = 0
@@ -91,7 +89,7 @@ async def musichelp(ctx):
     embed.add_field(name="```m.leave```",
                     value="Takes meowBot out of whatever channel the user is in.",
                     inline=False)
-    embed.add_field(name="```m.play (url) | m.play 'search term'```",
+    embed.add_field(name="```m.play (url) | m.play search term```",
                     value="Plays youtube url given to the bot from the user.",
                     inline=False)
     embed.add_field(name="```m.pause```",
@@ -191,19 +189,23 @@ async def leave(ctx):
 
 
 @bot.command()
-async def play(ctx, url: str):
+async def play(ctx, *, url: str):
     voice = get(bot.voice_clients, guild=ctx.guild)
     channel = ctx.message.author.voice.channel
 
-    # Comment this out if running on local machine
+    # Delete this ?
     # if not discord.opus.is_loaded():
     #     discord.opus.load_opus('libopus.so')
-    # Downloading playlist RDOMQYhCtaK-s - add --no-playlist to just download video OMQYhCtaK-s
+    if voice.is_playing():
+        await ctx.send("Bot already playing! Use m.stop to stop the current song and play a new song. -.-")
+        return
+    
     song = os.path.isfile("song.mp3")
     try:
         if song:
             os.remove("song.mp3")
             print("Removed File!")
+            
     except PermissionError:
         print("Tried Deleting, Song Playing!")
         await ctx.send("ERROR: Music Playing!")
