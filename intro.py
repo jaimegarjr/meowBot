@@ -29,7 +29,7 @@ class Intro(commands.Cog):
         await member.add_roles(role)
         await log_channel.send(f"""Member {member.mention} was given the {role} role!""") # FIXME: EMBED THIS
 
-    #@bot.event
+    # @bot.event
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         channel = self.bot.get_channel(int(os.environ.get("LOGS_ID")))
