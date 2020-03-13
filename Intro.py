@@ -14,12 +14,12 @@ import discord.opus
 
 load_dotenv()
 
-class Intro (commands.Cog):
+class Intro(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    # FIXME: NOT WORKING
     # @bot.event
+    @commands.Cog.listener()
     async def on_member_join(self, member): 
         gen_channel = self.bot.get_channel(int(os.environ.get("GENERAL_ID")))
         log_channel = self.bot.get_channel(int(os.environ.get("LOGS_ID")))
@@ -29,7 +29,11 @@ class Intro (commands.Cog):
         await member.add_roles(role)
         await log_channel.send(f"""Member {member.mention} was given the {role} role!""") # FIXME: EMBED THIS
 
-    
-    @commands.command()
-    async def intro(self, ctx):
-        await ctx.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
+    #@bot.event
+    @commands.Cog.listener()
+    async def on_message_delete(self, message):
+        channel = self.bot.get_channel(int(os.environ.get("LOGS_ID")))
+        embed = discord.Embed(title="**Message Deleted**", description="You might wanna check this out!",
+                            colour=discord.Colour.blue())
+        embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""")
+        await channel.send(content=None, embed=embed)
