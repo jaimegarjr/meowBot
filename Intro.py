@@ -21,8 +21,8 @@ class Intro (commands.Cog):
     # FIXME: NOT WORKING
     # @bot.event
     async def on_member_join(self, member): 
-        gen_channel = bot.get_channel(int(os.environ.get("GENERAL_ID")))
-        log_channel = bot.get_channel(int(os.environ.get("LOGS_ID")))
+        gen_channel = self.bot.get_channel(int(os.environ.get("GENERAL_ID")))
+        log_channel = self.bot.get_channel(int(os.environ.get("LOGS_ID")))
         role = discord.utils.get(member.guild.roles, name="White Keys")
         await gen_channel.send(f"""Hai! Welcome to the server {member.mention}!""")
         await log_channel.send(f"""MEOW! Member joined: {member.mention}!""") # FIXME: EMBED THIS
