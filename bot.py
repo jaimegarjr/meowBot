@@ -1,38 +1,35 @@
-import asyncio  # imports asyncio for logging
+# general pip modules
+import asyncio
 import random
-import time  # imports time library
+import time
 import os
 
-import discord  # imports discord library
+# external modules for discord bot
+import discord
 from discord.ext import commands
 from discord.utils import get
 import youtube_dl
 from dotenv import load_dotenv
 import discord.opus
+from Intro import Intro
 
+# initial commands before running bot
 load_dotenv()
 bot = commands.Bot(command_prefix="m.")
 bot.remove_command("help")
 
+# loading environment variables
 bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
 token = os.environ.get("BOT_TOKEN")
+
+# loaded cogs
+bot.add_cog(Intro(bot))
 
 @bot.event
 async def on_ready():
     status = discord.Game("meow :3 | m.help")
     await bot.change_presence(status=discord.Status.online, activity=status)
     print("Bot Up and Running!")
-
-
-@bot.event
-async def on_member_join(member): 
-    gen_channel = bot.get_channel(int(os.environ.get("GENERAL_ID")))
-    log_channel = bot.get_channel(int(os.environ.get("LOGS_ID")))
-    role = discord.utils.get(member.guild.roles, name="White Keys")
-    await gen_channel.send(f"""Hai! Welcome to the server {member.mention}!""")
-    await log_channel.send(f"""MEOW! Member joined: {member.mention}!""") # FIXME: EMBED THIS
-    await member.add_roles(role)
-    await log_channel.send(f"""Member {member.mention} was given the {role} role!""") # FIXME: EMBED THIS
 
 
 @bot.event
@@ -100,11 +97,6 @@ async def misc(ctx):
                     value="Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.",
                     inline=False)
     await ctx.channel.send(content=None, embed=embed)
-
-
-@bot.command()
-async def intro(ctx):
-    await ctx.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
 
 
 @bot.command()
