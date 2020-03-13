@@ -16,8 +16,6 @@ bot.remove_command("help")
 
 bot_id = bot.get_guild(os.environ.get("CLIENT_ID"))  # the server is found with the client id
 token = os.environ.get("BOT_TOKEN")
-messages = joined = 0
-
 
 @bot.event
 async def on_ready():
@@ -25,24 +23,6 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=status)
     print("Bot Up and Running!")
 
-
-async def update_stats():
-    await bot.wait_until_ready()  # waits until the client starts
-    global messages, joined  # creates variables for joined members and messages
-
-    while not bot.is_closed():  # while the client is running
-        try:
-            with open("Files/log.txt", "a") as file:  # opens log.txt file and writes
-                # writes info to file
-                file.write(f"Time: {int(time.time())}, Messages: {messages}, Members Joined: {joined}\n")
-
-            messages = 0  # sets messages to 0
-            joined = 0  # sets joined members to 0
-
-            await asyncio.sleep(86400)  # the amount of time to wait until re logging
-        except Exception as e:
-            print(e)  # exception to be thrown
-            await asyncio.sleep(86400)  # every 24 hours
 
 @bot.event
 async def on_member_join(member): 
@@ -54,6 +34,7 @@ async def on_member_join(member):
     await member.add_roles(role)
     await log_channel.send(f"""Member {member.mention} was given the {role} role!""") # FIXME: EMBED THIS
 
+
 @bot.event
 async def on_message_delete(message):
     channel = bot.get_channel(int(os.environ.get("LOGS_ID")))
@@ -61,6 +42,7 @@ async def on_message_delete(message):
                           colour=discord.Colour.blue())
     embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""")
     await channel.send(content=None, embed=embed)
+
 
 @bot.command()
 async def help(ctx):
@@ -293,9 +275,14 @@ async def jojo(ctx):
         voice.source.volume = 0.10
         await ctx.send("JOJO REFERENCE!")
         print("JOJO Playing!")
+
+    elif voice.is_playing():
+        await ctx.send("Bot already playing! Use m.stop to stop the current song and play a new song. -.-")
+        return
+
     else:
         await ctx.send("Join a voice channel first! -.-")
+        return
 
 
-bot.loop.create_task(update_stats())  # loop for logging into log.txt
 bot.run(token)  # where the bot will run (discord server)
