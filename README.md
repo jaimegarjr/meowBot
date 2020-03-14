@@ -49,6 +49,15 @@ Some fun and miscellaneous functions that meowBot offers:
 
 ```m.jojo``` - Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.
 
+# ***Developer Commands***
+Listed below are some commands created in order to ease workflow as I developed meowBot:
+
+```m.load (cog file name)``` - Loads a specified cog back into the bot after edits are finished.
+
+```m.reload (cog file name)``` - Reloads a specified cog into the bot during runtime.
+
+```m.unload (cog file name)``` - Unloads a specified cog off the bot in order to allow for edits.
+
 # **Behind The Scenes**
 Things that meowBot could possibly perform in the background include:
 
