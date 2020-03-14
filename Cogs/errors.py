@@ -16,7 +16,7 @@ commands_tally = {
 
 }
 
-class Commands(commands.Cog):
+class Errors(commands.Cog):
     def __init__ (self, bot):
         self.bot = bot
 
@@ -39,4 +39,4 @@ class Commands(commands.Cog):
         print(ctx.command.name + " was used correctly!")
 
 def setup(bot):
-    bot.add_cog(Commands(bot))
+    bot.add_cog(Errors(bot))

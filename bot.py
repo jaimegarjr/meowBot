@@ -26,7 +26,7 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=status)
     print("Bot Up and Running!")
 
-extensions = ['Cogs.intro', 'Cogs.general', 'Cogs.music', 'Cogs.misc', 'Cogs.commands']
+extensions = ['Cogs.events', 'Cogs.general', 'Cogs.music', 'Cogs.misc', 'Cogs.errors']
 
 if __name__ == '__main__':
     for ext in extensions:
