@@ -15,15 +15,20 @@ class Music(commands.Cog):
 
     @commands.command()
     async def join(self, ctx):
-        channel = ctx.message.author.voice.channel
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
+        try:
+            channel = ctx.message.author.voice.channel
+            voice = get(self.bot.voice_clients, guild=ctx.guild)
 
-        if voice and voice.is_connected():
-            await voice.move_to(channel)
+            if voice and voice.is_connected():
+                await voice.move_to(channel)
 
-        else:
-            voice = await channel.connect()
-            print(f"Bot Connected To {channel}!")
+            else:
+                voice = await channel.connect()
+                print(f"Bot Connected To {channel}!")
+
+        except AttributeError:
+            await ctx.send("Join a voice channel first! -.-")
+            return
 
         await ctx.send(f"Joined {channel}! ")
 
