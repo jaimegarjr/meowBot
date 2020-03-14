@@ -29,21 +29,5 @@ class Events(commands.Cog):
         embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""")
         await channel.send(content=None, embed=embed)
 
-    @commands.command()
-    async def load(self, ctx, extension):
-        self.bot.load_extension(f'Cogs.{extension}')
-        await ctx.send(f"Cog {extension} was loaded!")
-    
-    @commands.command()
-    async def reload(self, ctx, extension):
-        self.bot.unload_extension(f'Cogs.{extension}')
-        self.bot.load_extension(f'Cogs.{extension}')
-        await ctx.send(f"Cog {extension} was reloaded!")
-    
-    @commands.command()
-    async def unload(self, ctx, extension):
-        self.bot.unload_extension(f'Cogs.{extension}')
-        await ctx.send(f"Cog {extension} was unloaded!")
-
 def setup(bot):
     bot.add_cog(Events(bot))

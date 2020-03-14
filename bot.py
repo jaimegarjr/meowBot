@@ -26,6 +26,25 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=status)
     print("Bot Up and Running!")
 
+@bot.command()
+@commands.has_role('Supreme Piano Ruler')
+async def load(ctx, extension):
+    bot.load_extension(f'Cogs.{extension}')
+    await ctx.send(f"Cog {extension}.py was loaded!")
+    
+@bot.command()
+@commands.has_role('Supreme Piano Ruler')
+async def reload(ctx, extension):
+    bot.unload_extension(f'Cogs.{extension}')
+    bot.load_extension(f'Cogs.{extension}')
+    await ctx.send(f"Cog {extension}.py was reloaded!")
+    
+@bot.command()
+@commands.has_role('Supreme Piano Ruler')
+async def unload(ctx, extension):
+    bot.unload_extension(f'Cogs.{extension}')
+    await ctx.send(f"Cog {extension}.py was unloaded!")
+
 extensions = ['Cogs.events', 'Cogs.general', 'Cogs.music', 'Cogs.misc', 'Cogs.errors']
 
 if __name__ == '__main__':
