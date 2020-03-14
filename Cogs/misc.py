@@ -17,7 +17,6 @@ class Misc(commands.Cog):
     async def quote(self, ctx):
         await ctx.channel.send(random.choice(list(open('Files/quotes.txt'))))
 
-
     @commands.command()
     async def dadprogjoke(self, ctx):
         quote = random.choice(list(open('Files/jokes.txt')))
@@ -36,20 +35,19 @@ class Misc(commands.Cog):
     async def jojo(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
-        if voice:
+        if not voice:
+            await ctx.send("Join a voice channel first! -.-")
+
+        elif voice.is_playing():
+            await ctx.send("Bot already playing! Use m.stop to stop the current song and play a new song. -.-")
+
+        else:
             voice.play(discord.FFmpegPCMAudio("Songs/giorno.mp3"))
             voice.source = discord.PCMVolumeTransformer(voice.source)
             voice.source.volume = 0.10
             await ctx.send("JOJO REFERENCE!")
             print("JOJO Playing!")
-
-        elif voice.is_playing():
-            await ctx.send("Bot already playing! Use m.stop to stop the current song and play a new song. -.-")
-            return
-
-        else:
-            await ctx.send("Join a voice channel first! -.-")
-            return
+            
 
 def setup(bot):
     bot.add_cog(Misc(bot))
