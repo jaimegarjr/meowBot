@@ -1,17 +1,22 @@
 # general imported pip modules
 import os
+import asyncio
 
 # imported discord modules
 import discord
-from discord.ext import commands
+from discord.ext import tasks, commands
 from discord.utils import get
 import youtube_dl
 from dotenv import load_dotenv
 load_dotenv()
 
+queue = asyncio.Queue()
+play_next_song = asyncio.Event()
+
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        # self.leave_check.start()
 
     @commands.command()
     async def join(self, ctx):
@@ -46,26 +51,38 @@ class Music(commands.Cog):
             print("Bot Made To Leave, But Couldn't")
             await ctx.send("Bot Made To Leave, But Couldn't")
 
+    # async def leav(self, ctx):
+    #     channel = ctx.message.author.voice.channel
+    #     voice = get(self.bot.voice_clients, guild=ctx.guild)
+    #     if not channel.members and voice.is_connected():
+    #         return True
+    #         # print(f"Bot Left {channel}!")
+    #         # await ctx.send(f"Bot Left {channel}!")
+
+    # @tasks.loop(seconds=1.0)
+    # async def leave_check(self):
+    #     while not client.is_closed():
+    #         print("HI")
+    #         if leav(ctx):
+    #             await voice.disconnect()
 
     @commands.command()
     async def play(self, ctx, *, url: str):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         channel = ctx.message.author.voice.channel
 
-        if not voice:
+        if not voice or not channel:
             await ctx.send("Join a voice channel first! -.-")
-
-        elif voice.is_playing():
-            await ctx.send("Bot already playing! Use m.stop to stop the current song and play a new song. -.-")
-            return
-
-        # elif not users.voice and voice.is_connected():
-            #     await discord.utils.sleep_until(second=10, result=voice.disconnect())
-            #     print(f"Bot Left {channel}!")
-            #     await ctx.send(f"Bot Left {channel}!")
         
         else:
+            await queue.put(url)
+            if voice.is_playing():
+                await ctx.send("Bot already playing! Song added to queue. Use m.skip to cycle through the queue. :3")
+                print("Song has been added to queue! Length of queue: " + str(queue.qsize())) 
+                await play_next_song.wait()
+        
             song = os.path.isfile("Songs/song.mp3")
+
             try:
                 if song:
                     os.remove("Songs/song.mp3")
@@ -91,7 +108,8 @@ class Music(commands.Cog):
 
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 print("Downloading Audio Now!")
-                ydl.download([url])
+                ydl.download([await queue.get()])
+                queue.task_done()
 
             for file in os.listdir("./"):
                 if file.endswith(".mp3") and file != "giorno.mp3":
@@ -99,7 +117,7 @@ class Music(commands.Cog):
                     print(f"Renamed File: {file}")
                     os.rename(file, "Songs/song.mp3")
 
-            voice.play(discord.FFmpegPCMAudio("Songs/song.mp3"), after=lambda e: print(f"{name} has finished playing!"))
+            voice.play(discord.FFmpegPCMAudio("Songs/song.mp3"), after=my_after) # lambda e: print(f"{name} has finished playing!")
             voice.source = discord.PCMVolumeTransformer(voice.source)
             voice.source.volume = 0.10
 
@@ -114,7 +132,6 @@ class Music(commands.Cog):
             await ctx.channel.send(content=None, embed=embed)
 
             print("Playing!")
-
 
     @commands.command()
     async def pause(self, ctx):
@@ -142,5 +159,8 @@ class Music(commands.Cog):
             print("Song has stopped playing!")
             await ctx.send("Song has stopped playing!")
 
+def my_after(error):
+    play_next_song.set()
+    
 def setup(bot):
     bot.add_cog(Music(bot))
