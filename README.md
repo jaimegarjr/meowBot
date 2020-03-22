@@ -32,13 +32,13 @@ Some useful commands to access meowBot's music functionality:
 
 ```m.leave``` - Takes meowBot out of whatever channel the user is in.
 
-```m.play (url) | m.play search term``` - Plays youtube url given to the bot from the user.
+```m.play (url) | m.play search term``` - Plays a song from youtube given by the user.
 
 ```m.pause``` - Pauses the current song playing.
 
 ```m.resume``` - Resumes the current song on queue.
 
-```m.stop``` - Completely stops song in order to pass a new url to the bot.
+```m.stop``` - Completely stops any audio from playing on meowBot.
 
 # ***Miscellaneous Commands***
 Some fun and miscellaneous functions that meowBot offers:

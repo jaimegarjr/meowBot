@@ -33,18 +33,17 @@ class Misc(commands.Cog):
 
     @commands.command()
     async def jojo(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
 
-        if not voice:
+        if not ctx.voice_client:
             await ctx.send("Join a voice channel first! -.-")
 
-        elif voice.is_playing():
+        elif ctx.voice_client.is_playing():
             await ctx.send("Bot already playing! Use m.stop to stop the current song and play a new song. -.-")
 
         else:
-            voice.play(discord.FFmpegPCMAudio("Songs/giorno.mp3"))
-            voice.source = discord.PCMVolumeTransformer(voice.source)
-            voice.source.volume = 0.10
+            ctx.voice_client.play(discord.FFmpegPCMAudio("Songs/giorno.mp3"))
+            ctx.voice_client.source = discord.PCMVolumeTransformer(ctx.voice_client.source)
+            ctx.voice_client.source.volume = 0.10
             await ctx.send("JOJO REFERENCE!")
             print("JOJO Playing!")
             
