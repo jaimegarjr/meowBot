@@ -10,6 +10,9 @@ import youtube_dl
 from dotenv import load_dotenv
 load_dotenv()
 
+queue = asyncio.Queue()
+play_next_song = asyncio.Event()
+
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 ydl_opts = {
@@ -55,6 +58,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        # self.leave_check.start()
 
     @commands.command()
     async def join(self, ctx):
@@ -76,6 +80,17 @@ class Music(commands.Cog):
     @commands.command()
     async def leave(self, ctx):
         await ctx.voice_client.disconnect()
+
+    # @tasks.loop(seconds=3.0, count=None, reconnect=True, loop=None)
+    # async def leave_check(self):
+    #     # print(self.bot.voice_clients[0].channel.members)
+    #     print("working")
+    #     if not self.bot.voice_clients[0].channel.members and self.bot.voice_clients[0].is_connected():
+    #         print(True)
+    #         await self.bot.voice_clients[0].disconnect()
+            
+    #     else:
+    #         print(False)
 
     @commands.command()
     async def play(self, ctx, *, url):

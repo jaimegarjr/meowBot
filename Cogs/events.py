@@ -29,9 +29,5 @@ class Events(commands.Cog):
         embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""")
         await channel.send(content=None, embed=embed)
 
-    @commands.Cog.listener()
-    async def on_voice_state_update(self, member, before, after):
-        print(member.display_name, before.channel, after.channel)
-
 def setup(bot):
     bot.add_cog(Events(bot))
