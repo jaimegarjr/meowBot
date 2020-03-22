@@ -34,8 +34,6 @@ Some useful commands to access meowBot's music functionality:
 
 ```m.play (url) | m.play search term``` - Plays youtube url given to the bot from the user.
 
-```m.volume (num)``` - Sets meowBot's music source to whatever volume specified.
-
 ```m.pause``` - Pauses the current song playing.
 
 ```m.resume``` - Resumes the current song on queue.

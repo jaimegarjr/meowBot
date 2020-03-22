@@ -110,14 +110,6 @@ class Music(commands.Cog):
             print("Playing!")
 
     @commands.command()
-    async def volume(self, ctx, volume : int):
-        if ctx.voice_client is None:
-            return await ctx.send("Join a voice channel first. -.-")
-
-        ctx.voice_client.source.volume = volume / 100
-        await ctx.send(f"Volume is now {volume}%!")
-
-    @commands.command()
     async def pause(self, ctx):
         if ctx.voice_client.is_playing():
             ctx.voice_client.pause()
