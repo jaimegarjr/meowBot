@@ -10,28 +10,64 @@ import youtube_dl
 from dotenv import load_dotenv
 load_dotenv()
 
-queue = asyncio.Queue()
-play_next_song = asyncio.Event()
+youtube_dl.utils.bug_reports_message = lambda: ''
+
+ydl_opts = {
+    'format': 'bestaudio/best',
+    'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0'
+}
+
+ffmpeg_options = {
+    'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+    'options': '-vn'
+}
+
+ytdl = youtube_dl.YoutubeDL(ydl_opts)
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+        self.data = data
+        self.title = data.get('title')
+        self.url = data.get('url')
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+
+        filename = data['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+
 
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        # self.leave_check.start()
 
     @commands.command()
     async def join(self, ctx):
         try:
             channel = ctx.message.author.voice.channel
-            voice = get(self.bot.voice_clients, guild=ctx.guild)
-
-            if voice and voice.is_connected():
-                await voice.move_to(channel)
+            if ctx.voice_client is not None:
+                return await ctx.voice_client.move_to(channel)
 
             else:
-                voice = await channel.connect()
+                await channel.connect()
                 print(f"Bot Connected To {channel}!")
 
-        except AttributeError:
+        except:
             await ctx.send("Join a voice channel first! -.-")
             return
 
@@ -39,128 +75,67 @@ class Music(commands.Cog):
 
     @commands.command()
     async def leave(self, ctx):
-        channel = ctx.message.author.voice.channel
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
-
-        if voice and voice.is_connected():
-            await voice.disconnect()
-            print(f"Bot Left {channel}!")
-            await ctx.send(f"Bot Left {channel}!")
-        
-        else:
-            print("Bot Made To Leave, But Couldn't")
-            await ctx.send("Bot Made To Leave, But Couldn't")
-
-    # async def leav(self, ctx):
-    #     channel = ctx.message.author.voice.channel
-    #     voice = get(self.bot.voice_clients, guild=ctx.guild)
-    #     if not channel.members and voice.is_connected():
-    #         return True
-    #         # print(f"Bot Left {channel}!")
-    #         # await ctx.send(f"Bot Left {channel}!")
-
-    # @tasks.loop(seconds=1.0)
-    # async def leave_check(self):
-    #     while not client.is_closed():
-    #         print("HI")
-    #         if leav(ctx):
-    #             await voice.disconnect()
+        await ctx.voice_client.disconnect()
 
     @commands.command()
-    async def play(self, ctx, *, url: str):
+    async def play(self, ctx, *, url):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         channel = ctx.message.author.voice.channel
 
         if not voice or not channel:
             await ctx.send("Join a voice channel first! -.-")
+
+        elif voice.is_playing():
+            await ctx.send("Bot already playing! -.-")
+            return
         
         else:
-            await queue.put(url)
-            if voice.is_playing():
-                await ctx.send("Bot already playing! Song added to queue. Use m.skip to cycle through the queue. :3")
-                print("Song has been added to queue! Length of queue: " + str(queue.qsize())) 
-                await play_next_song.wait()
-        
-            song = os.path.isfile("Songs/song.mp3")
-
-            try:
-                if song:
-                    os.remove("Songs/song.mp3")
-                    print("Removed File!")
-                    
-            except PermissionError:
-                print("Tried Deleting, Song Playing!")
-                await ctx.send("ERROR: Music Playing!")
-                return
-
-            await ctx.send("Getting Song Ready!")
-
-            ydl_opts = {
-                'format': 'bestaudio/best',
-                'default_search': "ytsearch",
-                'noplaylist': True,
-                'postprocessors': [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': '192',
-                }]
-            }
-
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                print("Downloading Audio Now!")
-                ydl.download([await queue.get()])
-                queue.task_done()
-
-            for file in os.listdir("./"):
-                if file.endswith(".mp3") and file != "giorno.mp3":
-                    name = file
-                    print(f"Renamed File: {file}")
-                    os.rename(file, "Songs/song.mp3")
-
-            voice.play(discord.FFmpegPCMAudio("Songs/song.mp3"), after=my_after) # lambda e: print(f"{name} has finished playing!")
-            voice.source = discord.PCMVolumeTransformer(voice.source)
-            voice.source.volume = 0.10
-
-            nname = name.rsplit("-", 2)
+            async with ctx.typing():
+                await ctx.send("Getting Song Ready!")
+                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+                ctx.voice_client.play(player, after=lambda e: print(f"{player.title} has finished playing!"))
+                ctx.voice_client.source.volume = 0.10
 
             embed = discord.Embed(title="**Current Song Playing!**",
-                                description=f"Playing: {nname[0]} - {nname[1]}",
-                                color=discord.Colour.purple())
+                                description=f"Playing: {player.title}",
+                                color=discord.Colour.teal())
             embed.add_field(name="```Youtube Link```",
-                            value=f"URL / Input: {url}",
+                            value=f"URL: FIX ME",
+                            inline=False)
+            embed.add_field(name="```User Input```",
+                            value=f"Input: {url}",
                             inline=False)
             await ctx.channel.send(content=None, embed=embed)
 
             print("Playing!")
 
     @commands.command()
+    async def volume(self, ctx, volume : int):
+        if ctx.voice_client is None:
+            return await ctx.send("Join a voice channel first. -.-")
+
+        ctx.voice_client.source.volume = volume / 100
+        await ctx.send(f"Volume is now {volume}%!")
+
+    @commands.command()
     async def pause(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
-        if voice.is_playing():
-            voice.pause()
+        if ctx.voice_client.is_playing():
+            ctx.voice_client.pause()
             print("Song has paused!")
             await ctx.send("Song has paused!")
 
-
     @commands.command()
     async def resume(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
-        if voice.is_paused():
-            voice.resume()
+        if ctx.voice_client.is_paused():
+            ctx.voice_client.resume()
             print("Song has resumed playing!")
             await ctx.send("Song has resumed playing!")
 
-
     @commands.command()
     async def stop(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
-        if voice.is_paused() or voice.is_playing():
-            voice.stop()
-            print("Song has stopped playing!")
-            await ctx.send("Song has stopped playing!")
+        ctx.voice_client.stop()
+        print("Song has stopped playing!")
+        await ctx.send("Song has stopped playing!")
 
-def my_after(error):
-    play_next_song.set()
-    
 def setup(bot):
     bot.add_cog(Music(bot))
