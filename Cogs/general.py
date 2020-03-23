@@ -63,6 +63,8 @@ class General(commands.Cog):
         embed.set_thumbnail(url="https://mlcwpg.dm.files.1drv.com/y4mstMPZZ0BF8a2KPxrd-3pFxsmTLzWHMHKhjB8D9vR88fQ8WHwQ6hpa2UcoXEoD7t2UGD5l4UDYKbkxSmnENKBs_p1BCT8Va_ugYBFClE2dlT7yDwKBZ70Cijmdfn_fXqg3xtLWRBfAK_Wz005h7bGq6BLRmhnBNevS0pp2AZ7A6Gm_DsV02U0ToSnzPnDGpXVcTgdG0nAlQ5lREViqrHAbQ?width=500&height=500&cropmode=none")
         embed.add_field(name="```m.quote```", value="Prints a random quote for you fellas feeling under the weather.",
                         inline=False)
+        embed.add_field(name="```m.github```", value="Gives the caller a link to the github repo that meowBot runs off of.",
+                        inline=False)
         embed.add_field(name="```m.dadprogjoke```",
                         value="Provides the user with a funny dad programming joke, if you're into that stuff.",
                         inline=False)

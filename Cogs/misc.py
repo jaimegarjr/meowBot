@@ -18,6 +18,10 @@ class Misc(commands.Cog):
         await ctx.channel.send(random.choice(list(open('Files/quotes.txt'))))
 
     @commands.command()
+    async def github(self, ctx):
+        await ctx.channel.send("Here's what I'm built off of. If you'd like to contribute, fork and create a pull request! Github: https://github.com/JJgar2725/meowBot")
+
+    @commands.command()
     async def dadprogjoke(self, ctx):
         quote = random.choice(list(open('Files/jokes.txt')))
         quoteQ = quote[1:quote.find("A")]
