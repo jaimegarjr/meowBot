@@ -26,8 +26,7 @@ ydl_opts = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0',
-    '--force-ipv4' : True
+    'source_address': '0.0.0.0'
 }
 
 ffmpeg_options = {
