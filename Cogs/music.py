@@ -92,6 +92,10 @@ class Music(commands.Cog):
     #     else:
     #         print(False)
 
+    # @leave_check.after_loop
+    # async def on_leave_cancel(self):
+    #     print("Done.")
+
     @commands.command()
     async def play(self, ctx, *, url):
         channel = ctx.message.author.voice.channel
