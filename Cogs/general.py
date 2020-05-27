@@ -5,18 +5,25 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+
+# load in environment variables
 load_dotenv()
 
+
+# class for storing general commands
 class General(commands.Cog):
+    # constructor
     def __init__(self, bot):
         self.bot = bot
 
+    # command to display commands to user
     @commands.command()
     async def help(self, ctx):
         embed = discord.Embed(title="**meowBot >.< General Commands**",
-                            description="**Some useful commands to access meowBot:**",
-                            color=discord.Colour.red())
-        embed.set_thumbnail(url="https://mlcwpg.dm.files.1drv.com/y4mstMPZZ0BF8a2KPxrd-3pFxsmTLzWHMHKhjB8D9vR88fQ8WHwQ6hpa2UcoXEoD7t2UGD5l4UDYKbkxSmnENKBs_p1BCT8Va_ugYBFClE2dlT7yDwKBZ70Cijmdfn_fXqg3xtLWRBfAK_Wz005h7bGq6BLRmhnBNevS0pp2AZ7A6Gm_DsV02U0ToSnzPnDGpXVcTgdG0nAlQ5lREViqrHAbQ?width=500&height=500&cropmode=none")
+                              description="**Some useful commands to access meowBot:**",
+                              color=discord.Colour.red())
+        embed.set_thumbnail(
+            url="https://mlcwpg.dm.files.1drv.com/y4mstMPZZ0BF8a2KPxrd-3pFxsmTLzWHMHKhjB8D9vR88fQ8WHwQ6hpa2UcoXEoD7t2UGD5l4UDYKbkxSmnENKBs_p1BCT8Va_ugYBFClE2dlT7yDwKBZ70Cijmdfn_fXqg3xtLWRBfAK_Wz005h7bGq6BLRmhnBNevS0pp2AZ7A6Gm_DsV02U0ToSnzPnDGpXVcTgdG0nAlQ5lREViqrHAbQ?width=500&height=500&cropmode=none")
         embed.add_field(name="```m.help```", value="Lists the commands currently available for the user.", inline=False)
         embed.add_field(name="```m.musichelp```", value="Lists the commands to access music functions.", inline=False)
         embed.add_field(name="```m.misc```", value="Lists fun and miscellaneous functions.", inline=False)
@@ -27,13 +34,14 @@ class General(commands.Cog):
                         inline=False)
         await ctx.channel.send(content=None, embed=embed)
 
-
+    # command to display commands for playing music
     @commands.command()
     async def musichelp(self, ctx):
         embed = discord.Embed(title="**meowBot >.< Music Commands**",
-                            description="**Some useful commands to access meowBot's music functionality:**",
-                            color=discord.Colour.red())
-        embed.set_thumbnail(url="https://mlcwpg.dm.files.1drv.com/y4mstMPZZ0BF8a2KPxrd-3pFxsmTLzWHMHKhjB8D9vR88fQ8WHwQ6hpa2UcoXEoD7t2UGD5l4UDYKbkxSmnENKBs_p1BCT8Va_ugYBFClE2dlT7yDwKBZ70Cijmdfn_fXqg3xtLWRBfAK_Wz005h7bGq6BLRmhnBNevS0pp2AZ7A6Gm_DsV02U0ToSnzPnDGpXVcTgdG0nAlQ5lREViqrHAbQ?width=500&height=500&cropmode=none")
+                              description="**Some useful commands to access meowBot's music functionality:**",
+                              color=discord.Colour.red())
+        embed.set_thumbnail(
+            url="https://mlcwpg.dm.files.1drv.com/y4mstMPZZ0BF8a2KPxrd-3pFxsmTLzWHMHKhjB8D9vR88fQ8WHwQ6hpa2UcoXEoD7t2UGD5l4UDYKbkxSmnENKBs_p1BCT8Va_ugYBFClE2dlT7yDwKBZ70Cijmdfn_fXqg3xtLWRBfAK_Wz005h7bGq6BLRmhnBNevS0pp2AZ7A6Gm_DsV02U0ToSnzPnDGpXVcTgdG0nAlQ5lREViqrHAbQ?width=500&height=500&cropmode=none")
         embed.add_field(name="```m.join```",
                         value="Adds the bot to a voice channel if user is already in one. Otherwise, nothing will happen.",
                         inline=False)
@@ -54,16 +62,18 @@ class General(commands.Cog):
                         inline=False)
         await ctx.channel.send(content=None, embed=embed)
 
-
+    # command to display misc commands
     @commands.command()
     async def misc(self, ctx):
         embed = discord.Embed(title="**meowBot >.< Misc Commands**",
-                            description="**Some fun and miscellaneous functions that meowBot offers:**",
-                            color=discord.Colour.red())
-        embed.set_thumbnail(url="https://mlcwpg.dm.files.1drv.com/y4mstMPZZ0BF8a2KPxrd-3pFxsmTLzWHMHKhjB8D9vR88fQ8WHwQ6hpa2UcoXEoD7t2UGD5l4UDYKbkxSmnENKBs_p1BCT8Va_ugYBFClE2dlT7yDwKBZ70Cijmdfn_fXqg3xtLWRBfAK_Wz005h7bGq6BLRmhnBNevS0pp2AZ7A6Gm_DsV02U0ToSnzPnDGpXVcTgdG0nAlQ5lREViqrHAbQ?width=500&height=500&cropmode=none")
+                              description="**Some fun and miscellaneous functions that meowBot offers:**",
+                              color=discord.Colour.red())
+        embed.set_thumbnail(
+            url="https://mlcwpg.dm.files.1drv.com/y4mstMPZZ0BF8a2KPxrd-3pFxsmTLzWHMHKhjB8D9vR88fQ8WHwQ6hpa2UcoXEoD7t2UGD5l4UDYKbkxSmnENKBs_p1BCT8Va_ugYBFClE2dlT7yDwKBZ70Cijmdfn_fXqg3xtLWRBfAK_Wz005h7bGq6BLRmhnBNevS0pp2AZ7A6Gm_DsV02U0ToSnzPnDGpXVcTgdG0nAlQ5lREViqrHAbQ?width=500&height=500&cropmode=none")
         embed.add_field(name="```m.quote```", value="Prints a random quote for you fellas feeling under the weather.",
                         inline=False)
-        embed.add_field(name="```m.github```", value="Gives the caller a link to the github repo that meowBot runs off of.",
+        embed.add_field(name="```m.github```",
+                        value="Gives the caller a link to the github repo that meowBot runs off of.",
                         inline=False)
         embed.add_field(name="```m.dadprogjoke```",
                         value="Provides the user with a funny dad programming joke, if you're into that stuff.",
@@ -73,10 +83,12 @@ class General(commands.Cog):
                         inline=False)
         await ctx.channel.send(content=None, embed=embed)
 
+    # command to display an intro message
     @commands.command()
     async def intro(self, ctx):
         await ctx.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
 
+    # command to display amount of users on server
     @commands.command()
     async def users(self, ctx):
         bot_id = self.bot.get_guild(int(os.environ.get("CLIENT_ID")))  # the server is found with the client id
@@ -85,10 +97,13 @@ class General(commands.Cog):
                                     colour=discord.Colour.green())
         await ctx.channel.send(content=None, embed=users_embed)
 
+    # command to purge a specific amount of messages
     @commands.command()
     async def purge(self, ctx, arg):
         await ctx.channel.purge(limit=int(arg))
         await ctx.channel.send("Meow! Your dirty messages are gone :3.")
 
+
+# setup method to add bot
 def setup(bot):
     bot.add_cog(General(bot))

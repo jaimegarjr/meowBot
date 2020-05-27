@@ -1,20 +1,19 @@
 # general imported pip modules
-import os
 import asyncio
 
 # imported discord modules
 import discord
-from discord.ext import tasks, commands
-from discord.utils import get
+from discord.ext import commands
 import youtube_dl
-from dotenv import load_dotenv
-load_dotenv()
 
+# queue for playing music
 queue = asyncio.Queue()
 play_next_song = asyncio.Event()
 
+# setting for bug reports
 youtube_dl.utils.bug_reports_message = lambda: ''
 
+# youtube-dl options
 ydl_opts = {
     'format': 'bestaudio/best',
     'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
@@ -29,20 +28,26 @@ ydl_opts = {
     'source_address': '0.0.0.0'
 }
 
+# ffmpeg options
 ffmpeg_options = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
     'options': '-vn'
 }
 
+# creates a youtube-dl player from options
 ytdl = youtube_dl.YoutubeDL(ydl_opts)
 
+
+# class for playing music
 class YTDLSource(discord.PCMVolumeTransformer):
+    # constructor
     def __init__(self, source, *, data, volume=0.5):
         super().__init__(source, volume)
         self.data = data
         self.title = data.get('title')
         self.url = data.get('url')
 
+    # class method to play music
     @classmethod
     async def from_url(cls, url, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
@@ -55,11 +60,13 @@ class YTDLSource(discord.PCMVolumeTransformer):
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
 
 
+# cog for playing music
 class Music(commands.Cog):
+    # constructor
     def __init__(self, bot):
         self.bot = bot
-        # self.leave_check.start()
 
+    # command for joining bot into voice channel
     @commands.command()
     async def join(self, ctx):
         try:
@@ -71,31 +78,18 @@ class Music(commands.Cog):
                 await channel.connect()
                 print(f"Bot Connected To {channel}!")
 
-        except:
+        except AttributeError:
             await ctx.send("Join a voice channel first! -.-")
             return
 
         await ctx.send(f"Joined {channel}! ")
 
+    # command to make bot leave the voice channel
     @commands.command()
     async def leave(self, ctx):
         await ctx.voice_client.disconnect()
 
-    # @tasks.loop(seconds=3.0, count=None, reconnect=True, loop=None)
-    # async def leave_check(self):
-    #     # print(self.bot.voice_clients[0].channel.members)
-    #     print("working")
-    #     if not self.bot.voice_clients[0].channel.members and self.bot.voice_clients[0].is_connected():
-    #         print(True)
-    #         await self.bot.voice_clients[0].disconnect()
-            
-    #     else:
-    #         print(False)
-
-    # @leave_check.after_loop
-    # async def on_leave_cancel(self):
-    #     print("Done.")
-
+    # command to play music
     @commands.command()
     async def play(self, ctx, *, url):
         channel = ctx.message.author.voice.channel
@@ -133,9 +127,6 @@ class Music(commands.Cog):
             embed = discord.Embed(title="**Current Song Playing!**",
                                 description=f"Playing: {player.title}",
                                 color=discord.Colour.teal())
-            embed.add_field(name="```Youtube Link```",
-                            value=f"URL: FIX ME",
-                            inline=False)
             embed.add_field(name="```User Input```",
                             value=f"Input: {url}",
                             inline=False)
@@ -143,6 +134,7 @@ class Music(commands.Cog):
 
             print("Playing!")
 
+    # command to pause music
     @commands.command()
     async def pause(self, ctx):
         if ctx.voice_client.is_playing():
@@ -150,6 +142,7 @@ class Music(commands.Cog):
             print("Song has paused!")
             await ctx.send("Song has paused!")
 
+    # command to resume music
     @commands.command()
     async def resume(self, ctx):
         if ctx.voice_client.is_paused():
@@ -157,11 +150,14 @@ class Music(commands.Cog):
             print("Song has resumed playing!")
             await ctx.send("Song has resumed playing!")
 
+    # command to stop music
     @commands.command()
     async def stop(self, ctx):
         ctx.voice_client.stop()
         print("Song has stopped playing!")
         await ctx.send("Song has stopped playing!")
 
+
+# setup method to add cog
 def setup(bot):
     bot.add_cog(Music(bot))

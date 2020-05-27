@@ -1,30 +1,23 @@
-# general pip modules
-import asyncio
-import random
-import time
-import os
-
 # external modules for discord bot
-import discord
 from discord.ext import commands
-from discord.utils import get
-import youtube_dl
-from dotenv import load_dotenv
-load_dotenv()
 
-commands_tally = {
+# creates a new list
+commands_tally = {}
 
-}
 
+# errors cog for displaying to console
 class Errors(commands.Cog):
-    def __init__ (self, bot):
+    # constructor
+    def __init__(self, bot):
         self.bot = bot
 
+    # upon error, display to console
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         print(ctx.command.name + " was used incorrectly.")
         print(error)
 
+    # upon command, add to list
     @commands.Cog.listener()
     async def on_command(self, ctx):
         if ctx.command is not None:
@@ -34,9 +27,12 @@ class Errors(commands.Cog):
                 commands_tally[ctx.command.name] = 1
             print(commands_tally)
 
+    # on command completion, display to console
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         print(ctx.command.name + " was used correctly!")
 
+
+# method to add the cog
 def setup(bot):
     bot.add_cog(Errors(bot))
