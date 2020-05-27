@@ -21,7 +21,8 @@ class Misc(commands.Cog):
     @commands.command()
     async def github(self, ctx):
         await ctx.channel.send(
-            "Here's what I'm built off of. If you'd like to contribute, fork and create a pull request! Github: https://github.com/JJgar2725/meowBot")
+            "Here's what I'm built off of. If you'd like to contribute, fork and create a pull request! Github: "
+            "https://github.com/JJgar2725/meowBot")
 
     # command to display a random joke from jokes.txt
     @commands.command()

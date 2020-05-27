@@ -3,7 +3,7 @@ import asyncio
 
 # imported discord modules
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import youtube_dl
 
 # queue for playing music
@@ -87,7 +87,10 @@ class Music(commands.Cog):
     # command to make bot leave the voice channel
     @commands.command()
     async def leave(self, ctx):
-        await ctx.voice_client.disconnect()
+        try:
+            await ctx.voice_client.disconnect()
+        except AttributeError:
+            await ctx.send("I'm not in a voice channel! -.-")
 
     # command to play music
     @commands.command()
@@ -106,8 +109,8 @@ class Music(commands.Cog):
                 ctx.voice_client.source.volume = 0.10
 
             embed = discord.Embed(title="**Current Song Playing!**",
-                                description=f"Playing: {player.title}",
-                                color=discord.Colour.teal())
+                                  description=f"Playing: {player.title}",
+                                  color=discord.Colour.teal())
             embed.add_field(name="```Youtube Link```",
                             value=f"URL: FIX ME",
                             inline=False)
@@ -117,7 +120,7 @@ class Music(commands.Cog):
             await ctx.channel.send(content=None, embed=embed)
 
             print("Playing!")
-        
+
         else:
             async with ctx.typing():
                 player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
@@ -125,8 +128,8 @@ class Music(commands.Cog):
                 ctx.voice_client.source.volume = 0.10
 
             embed = discord.Embed(title="**Current Song Playing!**",
-                                description=f"Playing: {player.title}",
-                                color=discord.Colour.teal())
+                                  description=f"Playing: {player.title}",
+                                  color=discord.Colour.teal())
             embed.add_field(name="```User Input```",
                             value=f"Input: {url}",
                             inline=False)
