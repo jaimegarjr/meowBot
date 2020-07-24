@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 # load in environment variables
 load_dotenv()
-
+logo_url = "https://github.com/JJgar2725/meowBot/blob/master/Files/logo.jpg?raw=true"
 
 # class for storing general commands
 class General(commands.Cog):
@@ -22,7 +22,7 @@ class General(commands.Cog):
         embed = discord.Embed(title="**meowBot >.< General Commands**",
                               description="**Some useful commands to access meowBot:**",
                               color=discord.Colour.red())
-        # FIXME: embed.set_thumbnail(url="LINKTOGITHUBLOGOHERE")
+        embed.set_thumbnail(url=logo_url)
         embed.add_field(
             name="```m.help```", value="Lists the commands currently available for the user.", inline=False)
         embed.add_field(name="```m.musichelp```",
@@ -44,7 +44,7 @@ class General(commands.Cog):
         embed = discord.Embed(title="**meowBot >.< Music Commands**",
                               description="**Some useful commands to access meowBot's music functionality:**",
                               color=discord.Colour.red())
-        # FIXME: embed.set_thumbnail(url="LINKTOGITHUBLOGOHERE")
+        embed.set_thumbnail(url=logo_url)
         embed.add_field(name="```m.join```",
                         value="Adds the bot to a voice channel if user is already in one. Otherwise, nothing will "
                               "happen.",
@@ -72,7 +72,7 @@ class General(commands.Cog):
         embed = discord.Embed(title="**meowBot >.< Misc Commands**",
                               description="**Some fun and miscellaneous functions that meowBot offers:**",
                               color=discord.Colour.red())
-        # FIXME: embed.set_thumbnail(url="LINKTOGITHUBLOGOHERE")
+        embed.set_thumbnail(url=logo_url)
         embed.add_field(name="```m.quote```", value="Prints a random quote for you fellas feeling under the weather.",
                         inline=False)
         embed.add_field(name="```m.github```",
