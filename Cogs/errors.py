@@ -1,7 +1,7 @@
 # external modules for discord bot
 from discord.ext import commands
 
-# creates a new list
+# creates a new dict
 commands_tally = {}
 
 

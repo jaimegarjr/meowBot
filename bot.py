@@ -12,11 +12,12 @@ bot = commands.Bot(command_prefix="m.")
 bot.remove_command("help")
 
 # loading environment variables
-bot_id = bot.get_guild(int(os.environ.get("CLIENT_ID")))  # the server is found with the client id
+# the server is found with the client id
+bot_id = bot.get_guild(int(os.environ.get("CLIENT_ID")))
 token = os.environ.get("BOT_TOKEN")
 
 
-# bot even to display once up and running
+# bot event to display once up and running
 @bot.event
 async def on_ready():
     status = discord.Game("meow :3 | m.help")
@@ -51,9 +52,10 @@ async def unload(ctx, extension):
 
 
 # makes a list of the cogs
-extensions = ['Cogs.events', 'Cogs.general', 'Cogs.music', 'Cogs.misc', 'Cogs.errors']
+extensions = ['Cogs.events', 'Cogs.general',
+              'Cogs.music', 'Cogs.misc', 'Cogs.errors']
 
-# a loop to lead each cog in
+# a loop to load each cog in
 if __name__ == '__main__':
     for ext in extensions:
         bot.load_extension(ext)

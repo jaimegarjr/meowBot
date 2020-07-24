@@ -92,51 +92,6 @@ class Music(commands.Cog):
         except AttributeError:
             await ctx.send("I'm not in a voice channel! -.-")
 
-    # command to play music
-    @commands.command()
-    async def play(self, ctx, *, url):
-        channel = ctx.message.author.voice.channel
-
-        if not ctx.voice_client or not channel:
-            await ctx.send("Join a voice channel first! -.-")
-
-        elif ctx.voice_client.is_playing():
-            await ctx.send("Bot already playing! -.- New song commencing now.")
-            ctx.voice_client.stop()
-            async with ctx.typing():
-                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
-                ctx.voice_client.play(player, after=lambda e: print(f"{player.title} has finished playing!"))
-                ctx.voice_client.source.volume = 0.10
-
-            embed = discord.Embed(title="**Current Song Playing!**",
-                                  description=f"Playing: {player.title}",
-                                  color=discord.Colour.teal())
-            embed.add_field(name="```Youtube Link```",
-                            value=f"URL: FIX ME",
-                            inline=False)
-            embed.add_field(name="```User Input```",
-                            value=f"Input: {url}",
-                            inline=False)
-            await ctx.channel.send(content=None, embed=embed)
-
-            print("Playing!")
-
-        else:
-            async with ctx.typing():
-                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
-                ctx.voice_client.play(player, after=lambda e: print(f"{player.title} has finished playing!"))
-                ctx.voice_client.source.volume = 0.10
-
-            embed = discord.Embed(title="**Current Song Playing!**",
-                                  description=f"Playing: {player.title}",
-                                  color=discord.Colour.teal())
-            embed.add_field(name="```User Input```",
-                            value=f"Input: {url}",
-                            inline=False)
-            await ctx.channel.send(content=None, embed=embed)
-
-            print("Playing!")
-
     # command to pause music
     @commands.command()
     async def pause(self, ctx):
@@ -159,6 +114,38 @@ class Music(commands.Cog):
         ctx.voice_client.stop()
         print("Song has stopped playing!")
         await ctx.send("Song has stopped playing!")
+
+    # command to play music
+    @commands.command()
+    async def play(self, ctx, *, url):
+        channel = ctx.message.author.voice.channel
+
+        if not ctx.voice_client or not channel:
+            await ctx.send("Join a voice channel first! -.-")
+
+        elif ctx.voice_client.is_playing():
+            await ctx.send("Bot already playing! -.- New song commencing now.")
+            ctx.voice_client.stop()
+
+        else:
+            async with ctx.typing():
+                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+                ctx.voice_client.play(player, after=lambda e: print(
+                    f"{player.title} has finished playing!"))
+                ctx.voice_client.source.volume = 0.10
+
+            embed = discord.Embed(title="**Current Song Playing!**",
+                                  description=f"Playing: {player.title}",
+                                  color=discord.Colour.teal())
+            # embed.add_field(name="```Youtube Link```",
+            #                 value=f"URL: FIX ME",
+            #                 inline=False)
+            embed.add_field(name="```User Input```",
+                            value=f"Input: {url}",
+                            inline=False)
+            await ctx.channel.send(content=None, embed=embed)
+
+            print("Playing!")
 
 
 # setup method to add cog
