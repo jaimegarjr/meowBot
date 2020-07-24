@@ -127,25 +127,24 @@ class Music(commands.Cog):
             await ctx.send("Bot already playing! -.- New song commencing now.")
             ctx.voice_client.stop()
 
-        else:
-            async with ctx.typing():
-                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
-                ctx.voice_client.play(player, after=lambda e: print(
-                    f"{player.title} has finished playing!"))
-                ctx.voice_client.source.volume = 0.10
+        async with ctx.typing():
+            player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+            ctx.voice_client.play(player, after=lambda e: print(
+                f"{player.title} has finished playing!"))
+            ctx.voice_client.source.volume = 0.10
 
-            embed = discord.Embed(title="**Current Song Playing!**",
-                                  description=f"Playing: {player.title}",
-                                  color=discord.Colour.teal())
-            # embed.add_field(name="```Youtube Link```",
-            #                 value=f"URL: FIX ME",
-            #                 inline=False)
-            embed.add_field(name="```User Input```",
-                            value=f"Input: {url}",
-                            inline=False)
-            await ctx.channel.send(content=None, embed=embed)
+        embed = discord.Embed(title="**Current Song Playing!**",
+                              description=f"Playing: {player.title}",
+                              color=discord.Colour.teal())
+        # embed.add_field(name="```Youtube Link```",
+        #                 value=f"URL: FIX ME",
+        #                 inline=False)
+        embed.add_field(name="```User Input```",
+                        value=f"Input: {url}",
+                        inline=False)
+        await ctx.channel.send(content=None, embed=embed)
 
-            print("Playing!")
+        print("Playing!")
 
 
 # setup method to add cog
