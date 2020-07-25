@@ -121,7 +121,7 @@ class Music(commands.Cog):
         channel = ctx.message.author.voice.channel
 
         if not ctx.voice_client or not channel:
-            await ctx.send("Join a voice channel first! -.-")
+            await channel.connect()
 
         elif ctx.voice_client.is_playing():
             await ctx.send("Bot already playing! -.- New song commencing now.")
