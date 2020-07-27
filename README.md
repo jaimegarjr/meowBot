@@ -10,7 +10,22 @@ with friends and family.
 
 Below can be seen a general outline of the things that meowBot can accomplish!
 
-# ***General Commands***
+## **Installation**
+
+To install and actually run meowBot on your local machine, perform the following steps.
+1. Clone the repo to your local machine - store it in a Projects folder preferably.
+2. Create a virtual environment by running ```python3 -m venv meowBot-env``` in the directory of the project. 
+You can activate the virtual environment by running ```meowBot-env\Scripts\activate.bat``` on Windows, and ```source meowBot-env/bin/activate``` on Mac or Linux. From here, run ```pip install -U discord.py```.
+3. Install the dependencies from the requirements.txt file by running ```pip install -U -r requirements.txt```. 
+4. From here, create a ```.env``` file that contains the following fields. 
+```
+BOT_TOKEN = "your_bot_token"
+CLIENT_ID =  "your_client_ID"
+LOGS_ID = "your_logs_channel_id"
+GENERAL_ID = "your_general_channel_id"
+```
+
+## ***General Commands***
 Some useful commands to access meowBot:
 
 ```m.help``` - Lists the commands currently available for the user.
@@ -25,7 +40,7 @@ Some useful commands to access meowBot:
 
 ```m.purge (num)``` - Purges however many messages you provide it prior to sending command.
 
-# ***Music Commands***
+## ***Music Commands***
 Some useful commands to access meowBot's music functionality:
 
 ```m.join``` - Adds the bot to a voice channel if user is already in one. Otherwise, nothing will happen.
@@ -40,7 +55,7 @@ Some useful commands to access meowBot's music functionality:
 
 ```m.stop``` - Completely stops any audio from playing on meowBot.
 
-# ***Miscellaneous Commands***
+## ***Miscellaneous Commands***
 Some fun and miscellaneous functions that meowBot offers:
 
 ```m.quote``` - Prints a random quote for you fellas feeling under the weather.
@@ -49,7 +64,7 @@ Some fun and miscellaneous functions that meowBot offers:
 
 ```m.jojo``` - Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.
 
-# ***Developer Commands***
+## ***Developer Commands***
 Listed below are some commands created in order to ease workflow as I developed meowBot:
 
 ```m.load (cog file name)``` - Loads a specified cog back into the bot after edits are finished.
@@ -58,7 +73,7 @@ Listed below are some commands created in order to ease workflow as I developed 
 
 ```m.unload (cog file name)``` - Unloads a specified cog off the bot in order to allow for edits.
 
-# **Behind The Scenes**
+## **Behind The Scenes**
 Things that meowBot could possibly perform in the background include:
 
 ```on_message_delete``` - Sends a warning message in a logs channel notifying moderators who deleted a message.
