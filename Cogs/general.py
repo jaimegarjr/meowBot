@@ -17,7 +17,7 @@ class General(commands.Cog):
         self.bot = bot
 
     # command to display commands to user
-    @commands.command()
+    @commands.group(invoke_without_command=True)
     async def help(self, ctx):
         user = ctx.message.author
         embed = discord.Embed(title="**meowBot >.< General Commands**",
@@ -25,11 +25,7 @@ class General(commands.Cog):
                               color=discord.Colour.red())
         embed.set_thumbnail(url=logo_url)
         embed.add_field(
-            name="```m.help```", value="Lists the commands currently available for the user.", inline=False)
-        embed.add_field(name="```m.musichelp```",
-                        value="Lists the commands to access music functions.", inline=False)
-        embed.add_field(
-            name="```m.misc```", value="Lists fun and miscellaneous functions.", inline=False)
+            name="```m.help (none, music, misc)```", value="Lists commands pertaining to a particular topic.", inline=False)
         embed.add_field(name="```m.intro```",
                         value="Greets the user.", inline=False)
         embed.add_field(name="```m.users```",
@@ -40,8 +36,8 @@ class General(commands.Cog):
         await user.send(content=None, embed=embed)
 
     # command to display commands for playing music
-    @commands.command()
-    async def musichelp(self, ctx):
+    @help.command()
+    async def music(self, ctx):
         user = ctx.message.author
         embed = discord.Embed(title="**meowBot >.< Music Commands**",
                               description="**Some useful commands to access meowBot's music functionality:**",
@@ -54,7 +50,7 @@ class General(commands.Cog):
         embed.add_field(name="```m.leave```",
                         value="Takes meowBot out of whatever channel the user is in.",
                         inline=False)
-        embed.add_field(name="```m.play (url) | m.play search term```",
+        embed.add_field(name="```m.play (url) | m.play (search term)```",
                         value="Plays a song from youtube given by the user.",
                         inline=False)
         embed.add_field(name="```m.pause```",
@@ -69,7 +65,7 @@ class General(commands.Cog):
         await user.send(content=None, embed=embed)
 
     # command to display misc commands
-    @commands.command()
+    @help.command()
     async def misc(self, ctx):
         user = ctx.message.author
         embed = discord.Embed(title="**meowBot >.< Misc Commands**",
@@ -99,7 +95,7 @@ class General(commands.Cog):
     async def users(self, ctx):
         # the server is found with the client id
         bot_id = self.bot.get_guild(int(os.environ.get("CLIENT_ID")))
-        users_embed = discord.Embed(title="**User Count!**",
+        users_embed = discord.Embed(title="**Current User Count on Guild!**",
                                     description=f"""Number of Members: {bot_id.member_count}""",
                                     colour=discord.Colour.green())
         await ctx.channel.send(content=None, embed=users_embed)
@@ -108,7 +104,6 @@ class General(commands.Cog):
     @commands.command()
     async def purge(self, ctx, arg):
         await ctx.channel.purge(limit=int(arg))
-        await ctx.channel.send("Meow! Your dirty messages are gone :3.")
 
 
 # setup method to add bot
