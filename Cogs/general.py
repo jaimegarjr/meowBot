@@ -19,6 +19,7 @@ class General(commands.Cog):
     # command to display commands to user
     @commands.command()
     async def help(self, ctx):
+        user = ctx.message.author
         embed = discord.Embed(title="**meowBot >.< General Commands**",
                               description="**Some useful commands to access meowBot:**",
                               color=discord.Colour.red())
@@ -36,11 +37,12 @@ class General(commands.Cog):
         embed.add_field(name="```m.purge (num)```",
                         value="Purges however many messages you provide it prior to sending command.",
                         inline=False)
-        await ctx.channel.send(content=None, embed=embed)
+        await user.send(content=None, embed=embed)
 
     # command to display commands for playing music
     @commands.command()
     async def musichelp(self, ctx):
+        user = ctx.message.author
         embed = discord.Embed(title="**meowBot >.< Music Commands**",
                               description="**Some useful commands to access meowBot's music functionality:**",
                               color=discord.Colour.red())
@@ -64,11 +66,12 @@ class General(commands.Cog):
         embed.add_field(name="```m.stop```",
                         value="Completely stops any audio from playing on meowBot.",
                         inline=False)
-        await ctx.channel.send(content=None, embed=embed)
+        await user.send(content=None, embed=embed)
 
     # command to display misc commands
     @commands.command()
     async def misc(self, ctx):
+        user = ctx.message.author
         embed = discord.Embed(title="**meowBot >.< Misc Commands**",
                               description="**Some fun and miscellaneous functions that meowBot offers:**",
                               color=discord.Colour.red())
@@ -84,7 +87,7 @@ class General(commands.Cog):
         embed.add_field(name="```m.jojo```",
                         value="Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.",
                         inline=False)
-        await ctx.channel.send(content=None, embed=embed)
+        await user.send(content=None, embed=embed)
 
     # command to display an intro message
     @commands.command()
