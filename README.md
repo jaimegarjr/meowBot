@@ -20,7 +20,6 @@ You can activate the virtual environment by running ```meowBot-env\Scripts\activ
 4. From here, create a ```.env``` file that contains the following fields. 
 ```
 BOT_TOKEN = "your_bot_token"
-CLIENT_ID =  "your_client_ID"
 LOGS_ID = "your_logs_channel_id"
 GENERAL_ID = "your_general_channel_id"
 ```

@@ -13,7 +13,6 @@ bot.remove_command("help")
 
 # loading environment variables
 # the server is found with the client id
-bot_id = bot.get_guild(int(os.environ.get("CLIENT_ID")))
 token = os.environ.get("BOT_TOKEN")
 
 
@@ -52,7 +51,7 @@ async def unload(ctx, extension):
 
 
 # makes a list of the cogs
-extensions = ['Cogs.events', 'Cogs.general',
+extensions = ['Cogs.creation', 'Cogs.events', 'Cogs.general',
               'Cogs.music', 'Cogs.misc', 'Cogs.errors']
 
 # a loop to load each cog in
