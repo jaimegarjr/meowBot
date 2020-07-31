@@ -2,3 +2,4 @@
 .vscode
 .idea
 meowBot-env/
+*.pyc

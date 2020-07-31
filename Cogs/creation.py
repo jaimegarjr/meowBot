@@ -80,6 +80,21 @@ class Creation(commands.Cog):
         channel = await guild.create_voice_channel(new_channel, overwrites=overwrites, category=guild.categories[2], reason=None)
         await ctx.send(f"Private voice channel {new_channel} was created!")
 
+    @commands.command()
+    async def channel_delete(self, ctx, channel_name):
+        member = ctx.message.author
+        guild = ctx.guild
+
+        if member.guild_permissions.manage_channels == False:
+            await ctx.send("You don't have the permissions to make a private voice channel!")
+            return 
+
+        for channel in self.bot.get_all_channels():
+            if (channel_name == channel.name):
+                await channel.delete()
+        
+        await ctx.send(f"Channel {channel_name} was deleted!")
+
 # setup method to add bot
 def setup(bot):
     bot.add_cog(Creation(bot))
