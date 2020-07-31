@@ -25,7 +25,7 @@ class General(commands.Cog):
                               color=discord.Colour.red())
         embed.set_thumbnail(url=logo_url)
         embed.add_field(
-            name="```m.help (none, music, misc)```", value="Lists commands pertaining to a particular topic.", inline=False)
+            name="```m.help (none, music, misc, channels)```", value="Lists commands pertaining to a particular topic.", inline=False)
         embed.add_field(name="```m.intro```",
                         value="Greets the user.", inline=False)
         embed.add_field(name="```m.users```",
@@ -61,6 +61,32 @@ class General(commands.Cog):
                         inline=False)
         embed.add_field(name="```m.stop```",
                         value="Completely stops any audio from playing on meowBot.",
+                        inline=False)
+        await user.send(content=None, embed=embed)
+
+    # command to display channel creation commands
+    @help.command()
+    async def channels(self, ctx):
+        user = ctx.message.author
+        embed = discord.Embed(title="**meowBot >.< Channel Commands**",
+                              description="**NOTE**: You need the *Manage Channels* permission to use these commands.\n"
+                              "**Some useful commands to create and delete channels with meowBot:**",
+                              color=discord.Colour.red())
+        embed.set_thumbnail(url=logo_url)
+        embed.add_field(name="```m.create_text (name)```",
+                        value="Creates a basic text channel with the given name.",
+                        inline=False)
+        embed.add_field(name="```m.create_voice (name)```",
+                        value="Creates a basic voice channel with the given name.",
+                        inline=False)
+        embed.add_field(name="```m.priv_text_channel (name)```",
+                        value="Creates a private text channel with the given name.",
+                        inline=False)
+        embed.add_field(name="```m.priv_voice_channel (name)```",
+                        value="Creates a private voice channel with the given name.",
+                        inline=False)
+        embed.add_field(name="```m.channel_delete (name)```",
+                        value="Deletes a voice / text channel with the given name.",
                         inline=False)
         await user.send(content=None, embed=embed)
 
@@ -102,7 +128,7 @@ class General(commands.Cog):
 
     #     roles_embed = discord.Embed(title="**Your Roles!**",
     #                                 description=f"""Roles: {l_format}""",
-    #                                 colour=discord.Colour.green())
+    #                                 colour=discord.Colour.teal())
     #     await ctx.channel.send(content=None, embed=roles_embed)
 
     # command to display amount of users on server
@@ -117,7 +143,7 @@ class General(commands.Cog):
     # command to purge a specific amount of messages
     @commands.command()
     async def purge(self, ctx, arg):
-        await ctx.channel.purge(limit=int(arg))
+        await ctx.channel.purge(limit=(int(arg) + 1))
 
 
 # setup method to add bot
