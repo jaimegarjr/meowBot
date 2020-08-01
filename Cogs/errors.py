@@ -14,8 +14,8 @@ class Errors(commands.Cog):
     # upon error, display to console
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        print(ctx.command.name + " was used incorrectly.")
-        print(error)
+        print("Command was used incorrectly. Error:", error)
+        await ctx.send("Invalid command. Try another!")
 
     # upon command, add to list
     @commands.Cog.listener()

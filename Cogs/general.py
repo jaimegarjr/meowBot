@@ -73,19 +73,19 @@ class General(commands.Cog):
                               "**Some useful commands to create and delete channels with meowBot:**",
                               color=discord.Colour.red())
         embed.set_thumbnail(url=logo_url)
-        embed.add_field(name="```m.create_text (name)```",
+        embed.add_field(name="```m.create (name)```",
                         value="Creates a basic text channel with the given name.",
                         inline=False)
-        embed.add_field(name="```m.create_voice (name)```",
+        embed.add_field(name="```m.create voice (name)```",
                         value="Creates a basic voice channel with the given name.",
                         inline=False)
-        embed.add_field(name="```m.priv_text_channel (name)```",
+        embed.add_field(name="```m.create priv (name)```",
                         value="Creates a private text channel with the given name.",
                         inline=False)
-        embed.add_field(name="```m.priv_voice_channel (name)```",
+        embed.add_field(name="```m.create priv_voice (name)```",
                         value="Creates a private voice channel with the given name.",
                         inline=False)
-        embed.add_field(name="```m.channel_delete (name)```",
+        embed.add_field(name="```m.delete (name)```",
                         value="Deletes a voice / text channel with the given name.",
                         inline=False)
         await user.send(content=None, embed=embed)
