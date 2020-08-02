@@ -1,5 +1,6 @@
 # general pip modules
 import os
+import json
 
 # external modules for discord bot
 import discord
@@ -8,7 +9,15 @@ from dotenv import load_dotenv
 
 # initial commands before running bot
 load_dotenv()
-bot = commands.Bot(command_prefix="m.")
+
+def get_prefix(client, message):
+    with open('prefixes.json', 'r') as f:
+        prefixes = json.load(f)
+
+    return prefixes[str(message.guild.id)]
+
+description = """Hi! I'm meowBot. I was created by JJgar2725 (otherwise known as PROFLIT). Enjoy my services!"""
+bot = commands.Bot(command_prefix=get_prefix, description=description)
 bot.remove_command("help")
 
 # loading environment variables

@@ -1,5 +1,6 @@
 # general imported pip modules
 import os
+import json
 
 # imported discord modules
 import discord
@@ -48,6 +49,28 @@ class Events(commands.Cog):
         embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""", inline=False)
         embed.add_field(name="Info", value=f"""Message ID: {message.id} | Date: {time}""", inline=False)
         await channel.send(content=None, embed=embed)
+
+    # once a bot joins a new server
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        with open('prefixes.json', 'r') as f:
+            prefixes = json.load(f)
+
+        prefixes[str(guild.id)] = 'm.'
+
+        with open('prefixes.json', 'w') as f:
+            json.dump(prefixes, f, indent=4)
+
+    # once a bot leaves a server
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        with open('prefixes.json', 'r') as f:
+            prefixes = json.load(f)
+
+        prefixes.pop(str(guild.id))
+
+        with open('prefixes.json', 'w') as f:
+            json.dump(prefixes, f, indent=4)
 
 
 # setup method to add cog
