@@ -20,18 +20,12 @@ You can activate the virtual environment by running ```meowBot-env\Scripts\activ
 4. From here, create a ```.env``` file that contains the following fields. 
 ```
 BOT_TOKEN = "your_bot_token"
-LOGS_ID = "your_logs_channel_id"
-GENERAL_ID = "your_general_channel_id"
 ```
 
 ## ***General Commands***
 Some useful commands to access meowBot:
 
-```m.help``` - Lists the commands currently available for the user.
-
-```m.musichelp``` - Lists the commands to access music functions.
-
-```m.misc``` - Lists fun and miscellaneous functions.
+```m.help (none, music, misc, channels)``` - Lists commands pertaining to a particular topic.
 
 ```m.intro``` - Greets the user.
 
@@ -54,6 +48,19 @@ Some useful commands to access meowBot's music functionality:
 
 ```m.stop``` - Completely stops any audio from playing on meowBot.
 
+## ***Channel Commands***
+Some useful commands to create and delete channels with meowBot:
+
+```m.create (name)``` - Creates a basic text channel with the given name.
+
+```m.create voice (name)``` - Creates a basic voice channel with the given name.
+
+```m.create priv (name)``` - Creates a private text channel with the given name.
+
+```m.create priv_voice (name)``` - Creates a private voice channel with the given name.
+
+```m.delete (name)``` - Deletes a voice / text channel with the given name.
+
 ## ***Miscellaneous Commands***
 Some fun and miscellaneous functions that meowBot offers:
 
@@ -71,10 +78,3 @@ Listed below are some commands created in order to ease workflow as I developed 
 ```m.reload (cog file name)``` - Reloads a specified cog into the bot during runtime.
 
 ```m.unload (cog file name)``` - Unloads a specified cog off the bot in order to allow for edits.
-
-## **Behind The Scenes**
-Things that meowBot could possibly perform in the background include:
-
-```on_message_delete``` - Sends a warning message in a logs channel notifying moderators who deleted a message.
-
-```on_member_join``` - Greets the user upon joining the server, and assigns the member with an introductory role.

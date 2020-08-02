@@ -25,7 +25,6 @@ class Errors(commands.Cog):
                 commands_tally[ctx.command.name] += 1
             else:
                 commands_tally[ctx.command.name] = 1
-            print(commands_tally)
 
     # on command completion, display to console
     @commands.Cog.listener()

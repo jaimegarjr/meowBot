@@ -20,7 +20,7 @@ class Creation(commands.Cog):
     # command to create a basic text channel
     @commands.group(invoke_without_command=True)
     @can_create()
-    async def create(self, ctx, *, new_channel: str):
+    async def create(self, ctx, *, new_channel):
         member = ctx.message.author # stores member in a variable
         guild = ctx.guild # stores the guild into a variable
 
@@ -29,7 +29,7 @@ class Creation(commands.Cog):
 
     # command to create a basic voice channel
     @create.command()
-    async def voice(self, ctx, *, new_channel: str):
+    async def voice(self, ctx, *, new_channel):
         member = ctx.message.author
         guild = ctx.guild
 
@@ -40,7 +40,7 @@ class Creation(commands.Cog):
 
     # command to create a private text channel
     @create.command()
-    async def priv(self, ctx, *, new_channel: str):
+    async def priv(self, ctx, *, new_channel):
         member = ctx.message.author
         guild = ctx.guild
         
@@ -64,7 +64,7 @@ class Creation(commands.Cog):
 
     # command to create a private voice channel
     @create.command()
-    async def priv_voice(self, ctx, *, new_channel: str):
+    async def priv_voice(self, ctx, *, new_channel):
         member = ctx.message.author
         guild = ctx.guild
         
@@ -84,7 +84,7 @@ class Creation(commands.Cog):
     # command to delete a given channel
     @commands.command()
     @can_create()
-    async def delete(self, ctx, *, channel_name: str):
+    async def delete(self, ctx, *, channel_name):
         member = ctx.message.author
         guild = ctx.guild
 

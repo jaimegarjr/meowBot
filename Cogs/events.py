@@ -6,6 +6,7 @@ import json
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from discord.utils import get
 
 # loads in environment variables
 load_dotenv()
@@ -20,9 +21,9 @@ class Events(commands.Cog):
     # once a member joins, assign role and welcome
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        gen_channel = self.bot.get_channel(int(os.environ.get("GENERAL_ID")))
-        log_channel = self.bot.get_channel(int(os.environ.get("LOGS_ID")))
-        role = discord.utils.get(member.guild.roles, name="White Keys")
+        gen_channel = get(member.guild.channels, name="general")
+        log_channel = get(member.guild.channels, name="logs")
+        role = get(member.guild.roles, name="White Keys")
         await gen_channel.send(f"""Hai! Welcome to the server {member.mention}!""")
 
         embed = discord.Embed(title="**Member Joined**", description="Someone joined the server!",
@@ -41,14 +42,14 @@ class Events(commands.Cog):
     # once a message is deleted, display a message in logs
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        channel = self.bot.get_channel(int(os.environ.get("LOGS_ID")))
+        log_channel = get(message.guild.channels, name="logs")
         time = str(message.created_at)
         time = time[:-16]
         embed = discord.Embed(title="**Message Deleted**", description="You might wanna check this out!",
                               colour=discord.Colour.red())
         embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""", inline=False)
         embed.add_field(name="Info", value=f"""Message ID: {message.id} | Date: {time}""", inline=False)
-        await channel.send(content=None, embed=embed)
+        await log_channel.send(content=None, embed=embed)
 
     # once a bot joins a new server
     @commands.Cog.listener()

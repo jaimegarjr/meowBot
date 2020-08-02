@@ -117,21 +117,6 @@ class General(commands.Cog):
     async def intro(self, ctx):
         await ctx.channel.send("Well, hai! :3 I'm JJ's cat-based discord bot!")
 
-    # @commands.command()
-    # async def roles(self, ctx):
-    #     member = ctx.message.author
-    #     l = member.roles
-    #     l_format = []
-    #     # l.pop(0) # removes @everyone
-    #     for role in range(0, len(l)):
-    #         l_format.append(l[role])
-    #         print(l[role])
-
-    #     roles_embed = discord.Embed(title="**Your Roles!**",
-    #                                 description=f"""Roles: {l_format}""",
-    #                                 colour=discord.Colour.teal())
-    #     await ctx.channel.send(content=None, embed=roles_embed)
-
     # command to display amount of users on server
     @commands.command()
     async def users(self, ctx):
