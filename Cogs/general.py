@@ -107,9 +107,6 @@ class General(commands.Cog):
         embed.add_field(name="```m.dadprogjoke```",
                         value="Provides the user with a funny dad programming joke, if you're into that stuff.",
                         inline=False)
-        embed.add_field(name="```m.jojo```",
-                        value="Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.",
-                        inline=False)
         await user.send(content=None, embed=embed)
 
     # command to display an intro message

@@ -68,8 +68,6 @@ Some fun and miscellaneous functions that meowBot offers:
 
 ```m.dadprogjoke``` - Provides the user with a funny dad programming joke, if you're into that stuff.
 
-```m.jojo``` - Plays the infamous Giorno's Theme from Jojo's Bizarre Adventure. Pretty cool, I know.
-
 ## ***Developer Commands***
 Listed below are some commands created in order to ease workflow as I developed meowBot:
 

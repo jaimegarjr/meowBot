@@ -50,8 +50,14 @@ if __name__ == '__main__':
     load_dotenv()
 
     # makes a list of the cogs
-    extensions = ['creation', 'events', 'general',
-                'music', 'misc', 'errors']
+    extensions = [
+        'creation', 
+        'events', 
+        'general',
+        'music', 
+        'misc', 
+        'errors'
+    ]
 
     # a loop to load each cog in
     for ext in extensions:
