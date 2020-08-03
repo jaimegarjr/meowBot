@@ -38,6 +38,21 @@ class Misc(commands.Cog):
         embed.add_field(name="```Answer```", value=quoteA, inline=False)
         await ctx.channel.send(content=None, embed=embed)
 
+    @commands.command()
+    async def profile(self, ctx, *, user: discord.Member = None):
+        user = user or ctx.author
+        date = str(user.created_at)[:10]
+        avatar = user.avatar_url_as(static_format='png')
+        embed = discord.Embed(title=f"**User Profile**",
+                              description=f"**Detailed profile for {user}!**",
+                              color=discord.Colour.light_grey())
+        embed.add_field(name=f"Username ", value=f"{user.name}",inline=True)
+        embed.add_field(name=f"User ID ", value=f"{user.id}", inline=True)
+        embed.add_field(name=f"Nickname ", value=f"{user.display_name}", inline=True)
+        embed.add_field(name=f"Date Joined ", value=f"{date}", inline=True)
+        embed.add_field(name=f"Mention With ", value=f"{user.mention}", inline=True)
+        embed.set_thumbnail(url=avatar)
+        await ctx.send(embed=embed)
 
 # setup method to add cog
 def setup(bot):

@@ -15,7 +15,7 @@ class Errors(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         print("Command was used incorrectly. Error:", error)
-        await ctx.send("Invalid command. Try another!")
+        await ctx.send("Invalid command. Try another!", delete_after=3)
 
     # upon command, add to list
     @commands.Cog.listener()

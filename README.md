@@ -66,7 +66,11 @@ Some fun and miscellaneous functions that meowBot offers:
 
 ```m.quote``` - Prints a random quote for you fellas feeling under the weather.
 
+```m.github``` - Gives the caller a link to the GitHub repo that meowBot runs off of.
+
 ```m.dadprogjoke``` - Provides the user with a funny dad programming joke, if you're into that stuff.
+
+```m.profile {other users)``` - Sends the user a detailed tag of their profile on Discord.
 
 ## ***Developer Commands***
 Listed below are some commands created in order to ease workflow as I developed meowBot:

@@ -107,6 +107,9 @@ class General(commands.Cog):
         embed.add_field(name="```m.dadprogjoke```",
                         value="Provides the user with a funny dad programming joke, if you're into that stuff.",
                         inline=False)
+        embed.add_field(name="```m.profile (other users)```",
+                        value="Sends the user a detailed tag of their profile on Discord.",
+                        inline=False)
         await user.send(content=None, embed=embed)
 
     # command to display an intro message

@@ -45,7 +45,7 @@ class Events(commands.Cog):
         log_channel = get(message.guild.channels, name="logs")
         time = str(message.created_at)
         time = time[:-16]
-        embed = discord.Embed(title="**Message Deleted**", description="You might wanna check this out!",
+        embed = discord.Embed(title="**Message Deleted**", description=None,
                               colour=discord.Colour.red())
         embed.add_field(name="Attention!", value=f"""Someone deleted a message! Wanna ask why? :(""", inline=False)
         embed.add_field(name="Info", value=f"""Message ID: {message.id} | Date: {time}""", inline=False)

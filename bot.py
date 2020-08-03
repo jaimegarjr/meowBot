@@ -28,7 +28,7 @@ async def on_ready():
 @commands.is_owner()
 async def load(ctx, extension):
     bot.load_extension(f'Cogs.{extension}')
-    await ctx.send(f"Cog {extension}.py was loaded!")
+    await ctx.send(f"Cog {extension}.py was loaded!", delete_after=3)
 
 # command to reload the cog
 @bot.command()
@@ -36,14 +36,14 @@ async def load(ctx, extension):
 async def reload(ctx, extension):
     bot.unload_extension(f'Cogs.{extension}')
     bot.load_extension(f'Cogs.{extension}')
-    await ctx.send(f"Cog {extension}.py was reloaded!")
+    await ctx.send(f"Cog {extension}.py was reloaded!", delete_after=3)
 
 # command to unload the cog
 @bot.command()
 @commands.is_owner()
 async def unload(ctx, extension):
     bot.unload_extension(f'Cogs.{extension}')
-    await ctx.send(f"Cog {extension}.py was unloaded!")
+    await ctx.send(f"Cog {extension}.py was unloaded!", delete_after=3)
 
 if __name__ == '__main__':
     # initial commands before running bot
