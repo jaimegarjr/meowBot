@@ -34,6 +34,9 @@ class General(commands.Cog):
         embed.add_field(name="```m.purge (num)```",
                         value="Purges however many messages you provide it prior to sending command.",
                         inline=False)
+        embed.add_field(name="```m.invite```",
+                        value="Provides the user with a link to invite meowBot to different servers!",
+                        inline=False)
         await user.send(content=None, embed=embed)
 
     # command to display commands for playing music
@@ -130,6 +133,27 @@ class General(commands.Cog):
     @commands.command()
     async def purge(self, ctx, arg):
         await ctx.channel.purge(limit=(int(arg) + 1))
+
+    @commands.command()
+    async def invite(self, ctx):
+        client_id = os.environ.get("CLIENT_ID")
+        permissions = discord.Permissions.none()
+        permissions.manage_roles = True
+        permissions.manage_channels = True
+        permissions.view_channel = True
+        permissions.send_messages = True
+        permissions.manage_messages = True
+        permissions.embed_links = True
+        permissions.attach_files = True
+        permissions.read_message_history = True
+        permissions.use_external_emojis = True
+        permissions.add_reactions = True
+        permissions.connect = True
+        permissions.speak = True
+        permissions.ban_members = True
+        permissions.kick_members = True
+        link = discord.utils.oauth_url(client_id, permissions=permissions, redirect_uri=None)
+        await ctx.send(f'<{link}>')
 
     @commands.command()
     @commands.is_owner()

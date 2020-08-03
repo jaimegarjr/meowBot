@@ -20,6 +20,7 @@ You can activate the virtual environment by running ```meowBot-env\Scripts\activ
 4. From here, create a ```.env``` file that contains the following fields. 
 ```
 BOT_TOKEN = "your_bot_token"
+CLIENT_ID = "your_client_id"
 ```
 
 ## ***General Commands***
@@ -32,6 +33,8 @@ Some useful commands to access meowBot:
 ```m.users``` - Prints number of users.
 
 ```m.purge (num)``` - Purges however many messages you provide it prior to sending command.
+
+```m.invite``` - Provides the user with a link to invite meowBot to different servers!
 
 ## ***Music Commands***
 Some useful commands to access meowBot's music functionality:
