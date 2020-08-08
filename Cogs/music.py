@@ -4,6 +4,7 @@ import asyncio
 # imported discord modules
 import discord
 from discord.ext import commands, tasks
+from discord.utils import get
 import youtube_dl
 
 # queue for playing music
@@ -65,6 +66,7 @@ class Music(commands.Cog):
     # constructor
     def __init__(self, bot):
         self.bot = bot
+        self.check_leave.start()
 
     # command for joining bot into voice channel
     @commands.command()
@@ -91,6 +93,14 @@ class Music(commands.Cog):
             await ctx.voice_client.disconnect()
         except AttributeError:
             await ctx.send("I'm not in a voice channel! -.-")
+
+    @tasks.loop(minutes=3)
+    async def check_leave(self):
+        voice_lists = self.bot.voice_clients
+        for x in voice_lists:
+            if x.is_connected() and not x.is_playing():
+                await x.disconnect()
+                print(f"meowBot Left {x.channel}!")
 
     # command to pause music
     @commands.command()
