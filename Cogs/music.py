@@ -77,6 +77,7 @@ class Music(commands.Cog):
                 return await ctx.voice_client.move_to(channel)
 
             else:
+                self.check_leave.restart()
                 await channel.connect()
                 print(f"Bot Connected To {channel}!")
 
@@ -146,9 +147,6 @@ class Music(commands.Cog):
         embed = discord.Embed(title="**Current Song Playing!**",
                               description=f"Playing: {player.title}",
                               color=discord.Colour.teal())
-        # embed.add_field(name="```Youtube Link```",
-        #                 value=f"URL: FIX ME",
-        #                 inline=False)
         embed.add_field(name="```User Input```",
                         value=f"Input: {url}",
                         inline=False)
