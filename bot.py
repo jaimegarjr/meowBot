@@ -22,7 +22,6 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("meow :3 | m.help"))
     print("Bot Up and Running!")
 
-# cog debugging commands
 # command to load the cog
 @bot.command()
 @commands.is_owner()
@@ -46,7 +45,7 @@ async def unload(ctx, extension):
     await ctx.send(f"Cog {extension}.py was unloaded!", delete_after=3)
 
 if __name__ == '__main__':
-    # initial commands before running bot
+    # loads in environment variables
     load_dotenv()
 
     # makes a list of the cogs
@@ -63,7 +62,5 @@ if __name__ == '__main__':
     for ext in extensions:
         bot.load_extension('Cogs.' + ext)
 
-    # loading environment variables
-    # the server is found with the client id
     # runs the bot
-    bot.run(os.environ.get("BOT_TOKEN"))  # where the bot will run (discord server)
+    bot.run(os.environ.get("BOT_TOKEN"))  
