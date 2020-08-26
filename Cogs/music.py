@@ -95,7 +95,7 @@ class Music(commands.Cog):
         except AttributeError:
             await ctx.send("I'm not in a voice channel! -.-")
 
-    @tasks.loop(minutes=3)
+    @tasks.loop(minutes=8)
     async def check_leave(self):
         voice_lists = self.bot.voice_clients
         for x in voice_lists:
