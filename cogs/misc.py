@@ -15,7 +15,7 @@ class Misc(commands.Cog):
     # command to display a random quote from a file
     @commands.command()
     async def quote(self, ctx):
-        await ctx.channel.send(random.choice(list(open('Files/quotes.txt'))))
+        await ctx.channel.send(random.choice(list(open('files/quotes.txt'))))
 
     # command to display the github page for this project
     @commands.command()
@@ -27,7 +27,7 @@ class Misc(commands.Cog):
     # command to display a random joke from jokes.txt
     @commands.command()
     async def dadprogjoke(self, ctx):
-        quote = random.choice(list(open('Files/jokes.txt')))
+        quote = random.choice(list(open('files/jokes.txt')))
         quoteQ = quote[1:quote.find("A")]
         quoteA = quote[quote.find("A") - 1:-2]
 
@@ -46,13 +46,14 @@ class Misc(commands.Cog):
         embed = discord.Embed(title=f"**User Profile**",
                               description=f"**Detailed profile for {user}!**",
                               color=discord.Colour.light_grey())
-        embed.add_field(name=f"Username ", value=f"{user.name}",inline=True)
+        embed.add_field(name=f"Username ", value=f"{user.name}", inline=True)
         embed.add_field(name=f"User ID ", value=f"{user.id}", inline=True)
         embed.add_field(name=f"Nickname ", value=f"{user.display_name}", inline=True)
         embed.add_field(name=f"Date Joined ", value=f"{date}", inline=True)
         embed.add_field(name=f"Mention With ", value=f"{user.mention}", inline=True)
         embed.set_thumbnail(url=avatar)
         await ctx.send(embed=embed)
+
 
 # setup method to add cog
 def setup(bot):

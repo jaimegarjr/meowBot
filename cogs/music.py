@@ -3,9 +3,8 @@ import asyncio
 
 # imported discord modules
 import discord
-from discord.ext import commands, tasks
-from discord.utils import get
 import youtube_dl
+from discord.ext import commands, tasks
 
 # queue for playing music
 queue = asyncio.Queue()

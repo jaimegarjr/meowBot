@@ -26,22 +26,22 @@ async def on_ready():
 @bot.command()
 @commands.is_owner()
 async def load(ctx, extension):
-    bot.load_extension(f'Cogs.{extension}')
+    bot.load_extension(f'cogs.{extension}')
     await ctx.send(f"Cog {extension}.py was loaded!", delete_after=3)
 
 # command to reload the cog
 @bot.command()
 @commands.is_owner()
 async def reload(ctx, extension):
-    bot.unload_extension(f'Cogs.{extension}')
-    bot.load_extension(f'Cogs.{extension}')
+    bot.unload_extension(f'cogs.{extension}')
+    bot.load_extension(f'cogs.{extension}')
     await ctx.send(f"Cog {extension}.py was reloaded!", delete_after=3)
 
 # command to unload the cog
 @bot.command()
 @commands.is_owner()
 async def unload(ctx, extension):
-    bot.unload_extension(f'Cogs.{extension}')
+    bot.unload_extension(f'cogs.{extension}')
     await ctx.send(f"Cog {extension}.py was unloaded!", delete_after=3)
 
 if __name__ == '__main__':
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     # a loop to load each cog in
     for ext in extensions:
-        bot.load_extension('Cogs.' + ext)
+        bot.load_extension('cogs.' + ext)
 
     # runs the bot
     bot.run(os.environ.get("BOT_TOKEN"))  
