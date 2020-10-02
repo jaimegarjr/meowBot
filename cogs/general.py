@@ -1,6 +1,6 @@
 # general imported pip modules
-import os
 import json
+import os
 
 # imported discord modules
 import discord
@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 # load in environment variables
 load_dotenv()
 logo_url = "https://github.com/JJgar2725/meowBot/blob/master/Files/logo.jpg?raw=true"
+
 
 # class for storing general commands
 class General(commands.Cog):
@@ -26,7 +27,8 @@ class General(commands.Cog):
                               color=discord.Colour.red())
         embed.set_thumbnail(url=logo_url)
         embed.add_field(
-            name="```m.help (none, music, misc, channels)```", value="Lists commands pertaining to a particular topic.", inline=False)
+            name="```m.help (none, music, misc, channels)```", value="Lists commands pertaining to a particular topic.",
+            inline=False)
         embed.add_field(name="```m.intro```",
                         value="Greets the user.", inline=False)
         embed.add_field(name="```m.users```",
@@ -74,7 +76,7 @@ class General(commands.Cog):
         user = ctx.message.author
         embed = discord.Embed(title="**meowBot >.< Channel Commands**",
                               description="**NOTE**: You need the *Manage Channels* permission to use these commands.\n"
-                              "**Some useful commands to create and delete channels with meowBot:**",
+                                          "**Some useful commands to create and delete channels with meowBot:**",
                               color=discord.Colour.red())
         embed.set_thumbnail(url=logo_url)
         embed.add_field(name="```m.create (name)```",

@@ -2,6 +2,7 @@
 import discord
 from discord.ext import commands
 
+
 # cog for storing creation commands
 class Creation(commands.Cog):
     # constructor
@@ -12,7 +13,6 @@ class Creation(commands.Cog):
     @commands.group(invoke_without_command=True)
     @commands.has_permissions(manage_channels=True)
     async def create(self, ctx, *, channel_name: str):
-
         channel = await ctx.guild.create_text_channel(channel_name)
         await channel.send("Text channel {} was created!".format(channel_name))
 
@@ -20,7 +20,6 @@ class Creation(commands.Cog):
     @create.command()
     @commands.has_permissions(manage_channels=True)
     async def voice(self, ctx, *, channel_name: str):
-
         channel = await ctx.guild.create_voice_channel(channel_name)
         await ctx.send("Voice channel {} was created!".format(channel_name))
 
@@ -28,7 +27,6 @@ class Creation(commands.Cog):
     @create.command()
     @commands.has_permissions(manage_channels=True)
     async def priv(self, ctx, *, channel_name: str):
-        
         # find needed roles and store them in variables for later use
         admin = discord.utils.get(ctx.guild.roles, name="Supreme Piano Ruler")
         mods = discord.utils.get(ctx.guild.roles, name="Black Keys")
@@ -48,7 +46,6 @@ class Creation(commands.Cog):
     @create.command()
     @commands.has_permissions(manage_channels=True)
     async def priv_voice(self, ctx, *, channel_name: str):
-
         admin = discord.utils.get(ctx.guild.roles, name="Supreme Piano Ruler")
         mods = discord.utils.get(ctx.guild.roles, name="Black Keys")
 
@@ -66,11 +63,11 @@ class Creation(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_channels=True)
     async def delete(self, ctx, *, channel_name: str):
-
         # search through channels on a guild for given channel name
         channel = discord.utils.get(ctx.guild.channels, name=channel_name)
         await channel.delete()
         await ctx.send("Channel {} was deleted!".format(channel_name))
+
 
 # setup method to add bot
 def setup(bot):

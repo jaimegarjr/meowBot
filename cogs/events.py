@@ -1,12 +1,11 @@
 # general imported pip modules
-import os
 import json
 
 # imported discord modules
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 from discord.utils import get
+from dotenv import load_dotenv
 
 # loads in environment variables
 load_dotenv()
