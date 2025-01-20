@@ -2,26 +2,28 @@
 
 Hello! Welcome to ***meowBot***! :3
 
-This project mainly originated from me seeking a new programming experience other than C++ - Python. 
-With this, I could step into the fundamentals of Python and learn a new library / framework used to create Discord bots.
-This simple framework is known as ***discord.py***, and with it comes many functions that Discord users use on a daily basis!
-Hence, my inspiration to create my own discord bot came with consistently using Discord as a platform to communicate
-with friends and family. 
-
 Below can be seen a general outline of the things that meowBot can accomplish!
+Some of this is also for my future reference in case I ever want to actively work on this project again.
 
 ## **Installation**
 
 To install and actually run meowBot on your local machine, perform the following steps.
 1. Clone the repo to your local machine - store it in a Projects folder preferably.
-2. Create a virtual environment by running ```python3 -m venv meowBot-env``` in the directory of the project. 
-You can activate the virtual environment by running ```meowBot-env\Scripts\activate.bat``` on Windows, and ```source meowBot-env/bin/activate``` on Mac or Linux. From here, run ```pip install -U discord.py```.
-3. Install the dependencies from the requirements.txt file by running ```pip install -U -r requirements.txt```. 
+2. meowBot uses Poetry for dependency management. To install Poetry, run ```pip install poetry``` in your terminal.
+3. Once Poetry is installed, navigate to the directory where the repo is stored and run ```poetry install``` to install all dependencies.
 4. From here, create a ```.env``` file that contains the following fields. 
 ```
 BOT_TOKEN = "your_bot_token"
 CLIENT_ID = "your_client_id"
 ```
+You may also need to write a `prefixes.json` file that contains a guild ID to prefix mapping. 
+```
+{
+    "guild_id": "prefix"
+}
+```
+5. To run the bot, execute ```poetry run python3 meowBot.py``` in your terminal.
+
 
 ## ***General Commands***
 Some useful commands to access meowBot:
