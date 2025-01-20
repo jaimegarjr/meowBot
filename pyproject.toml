@@ -10,7 +10,7 @@ python = ">=3.10"
 python-dotenv = "*"
 discord-py = { version = ">=2.4.0,<3.0.0", extras = ["voice"] }
 pynacl = "*"
-dnspython = "*"
+dnspython = "^2.7.0"
 async-timeout = "*"
 yt-dlp = { version = ">=2025.1.15,<2026.0.0" }
 aiohttp = { version = ">=3.11.11,<4.0.0" }
