@@ -1,6 +1,0 @@
-python-dotenv~=0.13.0
-youtube_dl
-git+https://github.com/Rapptz/discord.py
-PyNaCl==1.4.0
-dnspython==1.16.0
-async-timeout==3.0.1

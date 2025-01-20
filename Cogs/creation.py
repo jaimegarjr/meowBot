@@ -73,5 +73,5 @@ class Creation(commands.Cog):
         await ctx.send("Channel {} was deleted!".format(channel_name))
 
 # setup method to add bot
-def setup(bot):
-    bot.add_cog(Creation(bot))
+async def setup(bot):
+    await bot.add_cog(Creation(bot))

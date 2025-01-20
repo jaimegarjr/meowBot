@@ -1,0 +1,22 @@
+[project]
+name = "meowbot"
+version = "0.1.0"
+description = "A discord bot for personal music playing"
+authors = [
+    {name = "Jaime Garcia, Jr.",email = "40704782+JJgar2725@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv",
+    "discord-py[voice] (>=2.4.0,<3.0.0)",
+    "pynacl",
+    "dnspython",
+    "async-timeout",
+    "yt-dlp (>=2025.1.15,<2026.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

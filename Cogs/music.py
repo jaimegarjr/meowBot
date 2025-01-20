@@ -5,7 +5,7 @@ import asyncio
 import discord
 from discord.ext import commands, tasks
 from discord.utils import get
-import youtube_dl
+import yt_dlp as youtube_dl
 
 # queue for playing music
 queue = asyncio.Queue()
@@ -26,7 +26,8 @@ ydl_opts = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0'
+    'source_address': '0.0.0.0',
+    'extract_flat': 'in_playlist'
 }
 
 # ffmpeg options
@@ -156,5 +157,5 @@ class Music(commands.Cog):
 
 
 # setup method to add cog
-def setup(bot):
-    bot.add_cog(Music(bot))
+async def setup(bot):
+    await bot.add_cog(Music(bot))

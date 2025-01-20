@@ -75,5 +75,5 @@ class Events(commands.Cog):
 
 
 # setup method to add cog
-def setup(bot):
-    bot.add_cog(Events(bot))
+async def setup(bot):
+    await bot.add_cog(Events(bot))

@@ -15,7 +15,7 @@ class Misc(commands.Cog):
     # command to display a random quote from a file
     @commands.command()
     async def quote(self, ctx):
-        await ctx.channel.send(random.choice(list(open('Files/quotes.txt'))))
+        await ctx.channel.send(random.choice(list(open('files/quotes.txt'))))
 
     # command to display the github page for this project
     @commands.command()
@@ -27,7 +27,7 @@ class Misc(commands.Cog):
     # command to display a random joke from jokes.txt
     @commands.command()
     async def dadprogjoke(self, ctx):
-        quote = random.choice(list(open('Files/jokes.txt')))
+        quote = random.choice(list(open('files/jokes.txt')))
         quoteQ = quote[1:quote.find("A")]
         quoteA = quote[quote.find("A") - 1:-2]
 
@@ -55,5 +55,5 @@ class Misc(commands.Cog):
         await ctx.send(embed=embed)
 
 # setup method to add cog
-def setup(bot):
-    bot.add_cog(Misc(bot))
+async def setup(bot):
+    await bot.add_cog(Misc(bot))
