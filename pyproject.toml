@@ -13,7 +13,8 @@ dependencies = [
     "pynacl",
     "dnspython",
     "async-timeout",
-    "yt-dlp (>=2025.1.15,<2026.0.0)"
+    "yt-dlp (>=2025.1.15,<2026.0.0)",
+    "aiohttp (>=3.11.11,<4.0.0)"
 ]
 
 
