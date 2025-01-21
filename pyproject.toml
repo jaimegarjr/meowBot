@@ -19,6 +19,9 @@ aiohttp = { version = ">=3.11.11,<4.0.0" }
 black = "^24.10.0"
 flake8 = "^7.1.1"
 
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.8"
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"

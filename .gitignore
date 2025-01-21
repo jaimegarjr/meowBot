@@ -4,3 +4,4 @@
 meowBot-env/
 *.pyc
 *.json
+requirements.txt
