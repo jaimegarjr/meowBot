@@ -14,4 +14,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Command to start the bot
-CMD ["python", "meowbot/bot.py"]
+CMD ["python", "-m", "meowbot.bot.meowbot"]

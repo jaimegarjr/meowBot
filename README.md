@@ -22,7 +22,7 @@ You may also need to write a `prefixes.json` file that contains a guild ID to pr
     "guild_id": "prefix"
 }
 ```
-5. To run the bot, execute ```poetry run python3 meowBot.py``` in your terminal.
+5. To run the bot, execute ```poetry run python -m meowbot.bot.meowbot``` in your terminal.
 
 
 ## ***General Commands***

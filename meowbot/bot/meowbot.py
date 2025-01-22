@@ -1,15 +1,17 @@
-# general pip modules
+import logging
 import os
 import json
 import asyncio
 
-# external modules for discord bot
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from meowbot.utils import setup_logger
 
 intents = discord.Intents.default()
 intents.message_content = True
+
+logger = setup_logger(name="meowbot", level=logging.INFO)
 
 
 def get_prefix(client, message):
@@ -39,7 +41,7 @@ async def on_ready():
     await bot.change_presence(
         status=discord.Status.online, activity=discord.Game("meow :3 | m.help")
     )
-    print("Bot Up and Running!")
+    logger.info("meowBot is purring! :3")
 
 
 # command to load the cog
@@ -68,18 +70,19 @@ async def unload(ctx, extension):
 
 
 if __name__ == "__main__":
-    # loads in environment variables
+    logger.info("Starting meowBot...")
+
     load_dotenv()
 
-    # makes a list of the cogs
-    extensions = ["creation", "events", "general", "music", "misc", "errors"]
+    logger.info("Loading cogs...")
+    cogs = os.listdir("meowbot/bot/cogs")
+    extensions = [ext[:-3] for ext in cogs if ext.endswith(".py")]
+    extensions.remove("__init__")
 
     async def load_extensions():
-        # a loop to load each cog in
         for ext in extensions:
-            await bot.load_extension("cogs." + ext)
+            await bot.load_extension("meowbot.bot.cogs." + ext)
+        logger.info("Cogs loaded!")
 
     asyncio.run(load_extensions())
-
-    # runs the bot
     bot.run(os.environ.get("BOT_TOKEN"))

@@ -1,23 +1,18 @@
-# general imported pip modules
 import json
-
-# imported discord modules
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord.utils import get
+from meowbot.utils import logging, setup_logger
 
-# loads in environment variables
 load_dotenv()
 
 
-# events cog for event commands
 class Events(commands.Cog):
-    # constructor
     def __init__(self, bot):
         self.bot = bot
+        self.logger = setup_logger(name="cog.events", level=logging.INFO)
 
-    # once a member joins, assign role and welcome
     @commands.Cog.listener()
     async def on_member_join(self, member):
         gen_channel = get(member.guild.channels, name="general")
@@ -50,8 +45,8 @@ class Events(commands.Cog):
             inline=False,
         )
         await log_channel.send(content=None, embed=embed)
+        self.logger.info(f"{member} joined the server. Role {role} was assigned.")
 
-    # once a message is deleted, display a message in logs
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         log_channel = get(message.guild.channels, name="logs")
@@ -73,8 +68,8 @@ class Events(commands.Cog):
             inline=False,
         )
         await log_channel.send(content=None, embed=embed)
+        self.logger.info(f"Message {message.id} was deleted at {time}.")
 
-    # once a bot joins a new server
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
         with open("prefixes.json", "r") as f:
@@ -85,7 +80,8 @@ class Events(commands.Cog):
         with open("prefixes.json", "w") as f:
             json.dump(prefixes, f, indent=4)
 
-    # once a bot leaves a server
+        self.logger.info(f"Joined server {guild.name}. Prefix set to 'm.'.")
+
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         with open("prefixes.json", "r") as f:
@@ -96,7 +92,8 @@ class Events(commands.Cog):
         with open("prefixes.json", "w") as f:
             json.dump(prefixes, f, indent=4)
 
+        self.logger.info(f"Left server {guild.name}. Prefix removed.")
 
-# setup method to add cog
+
 async def setup(bot):
     await bot.add_cog(Events(bot))

@@ -1,23 +1,28 @@
-# general imported pip modules
 import random
-
-# imported discord modules
 import discord
 from discord.ext import commands
+from meowbot.application import HttpClient
+from meowbot.utils import logging, setup_logger
 
 
-# cog for misc commands
 class Misc(commands.Cog):
-    # constructor
     def __init__(self, bot):
         self.bot = bot
+        self.logger = setup_logger(name="cog.misc", level=logging.INFO)
+        self.http_client = HttpClient(
+            base_url="https://programming-quotes-api.azurewebsites.net/api", timeout=10
+        )
+        self.quotes_path = "meowbot/bot/files/quotes.txt"
+        self.jokes_path = "meowbot/bot/files/jokes.txt"
 
-    # command to display a random quote from a file
     @commands.command()
     async def quote(self, ctx):
-        await ctx.channel.send(random.choice(list(open("files/quotes.txt"))))
+        # https://programming-quotes-api.azurewebsites.net/api/quotes/random
+        # res = self.http_client.get("/quotes/random")
+        quote = random.choice(list(open(self.quotes_path)))
+        await ctx.channel.send(quote)
+        self.logger.info(f"Random quote was sent to {ctx.author} in {ctx.channel}.")
 
-    # command to display the github page for this project
     @commands.command()
     async def github(self, ctx):
         await ctx.channel.send(
@@ -25,11 +30,11 @@ class Misc(commands.Cog):
             "If you'd like to contribute, fork and create a pull request! Github: "
             "https://github.com/JJgar2725/meowBot"
         )
+        self.logger.info(f"Github link was sent to {ctx.author} in {ctx.channel}.")
 
-    # command to display a random joke from jokes.txt
     @commands.command()
     async def dadprogjoke(self, ctx):
-        quote = random.choice(list(open("files/jokes.txt")))
+        quote = random.choice(list(open(self.jokes_path)))
         quoteQ = quote[1 : quote.find("A")]
         quoteA = quote[quote.find("A") - 1 : -2]
 
@@ -41,12 +46,13 @@ class Misc(commands.Cog):
         embed.add_field(name="```Question```", value=quoteQ, inline=False)
         embed.add_field(name="```Answer```", value=quoteA, inline=False)
         await ctx.channel.send(content=None, embed=embed)
+        self.logger.info(f"Dad-styled programming joke was sent to {ctx.author} in {ctx.channel}.")
 
     @commands.command()
     async def profile(self, ctx, *, user: discord.Member = None):
         user = user or ctx.author
         date = str(user.created_at)[:10]
-        avatar = user.avatar_url_as(static_format="png")
+        avatar = user.avatar.replace(static_format="png")
         embed = discord.Embed(
             title="**User Profile**",
             description=f"**Detailed profile for {user}!**",
@@ -59,8 +65,8 @@ class Misc(commands.Cog):
         embed.add_field(name="Mention With ", value=f"{user.mention}", inline=True)
         embed.set_thumbnail(url=avatar)
         await ctx.send(embed=embed)
+        self.logger.info(f"User {user} requested their profile.")
 
 
-# setup method to add cog
 async def setup(bot):
     await bot.add_cog(Misc(bot))
