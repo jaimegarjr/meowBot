@@ -41,6 +41,11 @@ async def on_ready():
     await bot.change_presence(
         status=discord.Status.online, activity=discord.Game("meow :3 | m.help")
     )
+    try:
+        synced = await bot.tree.sync()
+        logger.info(f"Synced {len(synced)} commands.")
+    except Exception as e:
+        logger.error(f"Error syncing commands: {e}")
     logger.info("meowBot is purring! :3")
 
 
