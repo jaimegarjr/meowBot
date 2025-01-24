@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 from meowbot.application.models.ytdl_source import YTDLSource
 from meowbot.utils.logger import logging, setup_logger
 
+
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

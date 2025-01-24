@@ -8,86 +8,83 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from meowbot.utils import setup_logger
 
-intents = discord.Intents.default()
-intents.message_content = True
 
-logger = setup_logger(name="meowbot", level=logging.INFO)
+class MeowBot:
+    def __init__(self):
+        self.intents = discord.Intents.default()
+        self.intents.message_content = True
+        self.logger = setup_logger(name="meowbot", level=logging.INFO)
+        self.bot = commands.Bot(
+            intents=self.intents,
+            command_prefix=self.get_prefix,
+            help_command=None,
+            description=self.description,
+        )
 
+        self.setup_events()
+        self.setup_commands()
 
-def get_prefix(client, message):
-    with open("prefixes.json", "r") as f:
-        prefixes = json.load(f)
+    @property
+    def description(self):
+        return """
+            Hi! I'm meowBot.
+            I was created by JJgar2725 (otherwise known as PROFLIT).
+            Enjoy my services!
+        """
 
-    return prefixes[str(message.guild.id)]
+    def get_prefix(self, client, message):
+        with open("prefixes.json", "r") as f:
+            prefixes = json.load(f)
 
+        return prefixes.get(str(message.guild.id), "m.")
 
-description = """
-    Hi! I'm meowBot.
-    I was created by JJgar2725 (otherwise known as PROFLIT).
-    Enjoy my services!
-"""
+    def setup_events(self):
+        @self.bot.event
+        async def on_ready():
+            await self.bot.change_presence(
+                status=discord.Status.online, activity=discord.Game("meow :3 | m.help")
+            )
+            try:
+                synced = await self.bot.tree.sync()
+                self.logger.info(f"Synced {len(synced)} commands.")
+            except Exception as e:
+                self.logger.error(f"Error syncing commands: {e}")
+            self.logger.info("meowBot is purring! :3")
 
-bot = commands.Bot(
-    intents=intents,
-    command_prefix=get_prefix,
-    help_command=None,
-    description=description,
-)
+    def setup_commands(self):
+        @self.bot.command()
+        @commands.is_owner()
+        async def load(ctx, extension):
+            self.bot.load_extension(f"cogs.{extension}")
+            await ctx.send(f"Cog {extension}.py was loaded!", delete_after=3)
 
+        @self.bot.command()
+        @commands.is_owner()
+        async def reload(ctx, extension):
+            self.bot.unload_extension(f"cogs.{extension}")
+            self.bot.load_extension(f"cogs.{extension}")
+            await ctx.send(f"Cog {extension}.py was reloaded!", delete_after=3)
 
-# bot event to display once up and running
-@bot.event
-async def on_ready():
-    await bot.change_presence(
-        status=discord.Status.online, activity=discord.Game("meow :3 | m.help")
-    )
-    try:
-        synced = await bot.tree.sync()
-        logger.info(f"Synced {len(synced)} commands.")
-    except Exception as e:
-        logger.error(f"Error syncing commands: {e}")
-    logger.info("meowBot is purring! :3")
+        @self.bot.command()
+        @commands.is_owner()
+        async def unload(ctx, extension):
+            self.bot.unload_extension(f"cogs.{extension}")
+            await ctx.send(f"Cog {extension}.py was unloaded!", delete_after=3)
 
+    async def load_extensions(self):
+        cogs_path = "meowbot/bot/cogs"
+        cogs = [f[:-3] for f in os.listdir(cogs_path) if f.endswith(".py") and f != "__init__.py"]
+        for ext in cogs:
+            await self.bot.load_extension(f"meowbot.bot.cogs.{ext}")
+        self.logger.info("Cogs loaded!")
 
-# command to load the cog
-@bot.command()
-@commands.is_owner()
-async def load(ctx, extension):
-    bot.load_extension(f"cogs.{extension}")
-    await ctx.send(f"Cog {extension}.py was loaded!", delete_after=3)
-
-
-# command to reload the cog
-@bot.command()
-@commands.is_owner()
-async def reload(ctx, extension):
-    bot.unload_extension(f"cogs.{extension}")
-    bot.load_extension(f"cogs.{extension}")
-    await ctx.send(f"Cog {extension}.py was reloaded!", delete_after=3)
-
-
-# command to unload the cog
-@bot.command()
-@commands.is_owner()
-async def unload(ctx, extension):
-    bot.unload_extension(f"cogs.{extension}")
-    await ctx.send(f"Cog {extension}.py was unloaded!", delete_after=3)
+    def run(self):
+        self.logger.info("Starting meowBot...")
+        load_dotenv()
+        asyncio.run(self.load_extensions())
+        self.bot.run(os.environ.get("BOT_TOKEN"))
 
 
 if __name__ == "__main__":
-    logger.info("Starting meowBot...")
-
-    load_dotenv()
-
-    logger.info("Loading cogs...")
-    cogs = os.listdir("meowbot/bot/cogs")
-    extensions = [ext[:-3] for ext in cogs if ext.endswith(".py")]
-    extensions.remove("__init__")
-
-    async def load_extensions():
-        for ext in extensions:
-            await bot.load_extension("meowbot.bot.cogs." + ext)
-        logger.info("Cogs loaded!")
-
-    asyncio.run(load_extensions())
-    bot.run(os.environ.get("BOT_TOKEN"))
+    bot_instance = MeowBot()
+    bot_instance.run()
