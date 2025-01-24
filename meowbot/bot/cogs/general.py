@@ -14,7 +14,11 @@ class General(commands.Cog):
         self.bot = bot
         self.logger = setup_logger(name="cog.general", level=logging.INFO)
 
-    @commands.group(invoke_without_command=True)
+    @commands.hybrid_group(
+        name="help",
+        description="Lists commands pertaining to a particular topic",
+        invoke_without_command=True,
+    )
     async def help(self, ctx):
         user = ctx.message.author
         embed = discord.Embed(
@@ -157,12 +161,12 @@ class General(commands.Cog):
         await user.send(content=None, embed=embed)
         self.logger.info(f"User {user} requested misc help.")
 
-    @commands.command()
+    @commands.hybrid_command(name="intro", description="Greets the user")
     async def intro(self, ctx):
         await ctx.channel.send("Well, hai! :3 I'm jaimegarjr's cat-based discord bot!")
         self.logger.info("User requested intro message.")
 
-    @commands.command()
+    @commands.hybrid_command(name="users", description="Prints number of users")
     async def users(self, ctx):
         guild_members = ctx.guild.member_count
         users_embed = discord.Embed(
@@ -173,12 +177,16 @@ class General(commands.Cog):
         await ctx.channel.send(content=None, embed=users_embed)
         self.logger.info(f"User requested user count of guild {ctx.guild}.")
 
-    @commands.command()
+    @commands.hybrid_command(
+        name="purge", description="Purges however many messages you provide it"
+    )
     async def purge(self, ctx, arg):
         await ctx.channel.purge(limit=(int(arg) + 1))
         self.logger.info(f"User {ctx.author} purged {arg} messages in {ctx.channel}.")
 
-    @commands.command()
+    @commands.hybrid_command(
+        name="invite", description="Provides the user with a link to invite meowBot"
+    )
     async def invite(self, ctx):
         client_id = os.environ.get("CLIENT_ID")
         permissions = discord.Permissions.none()
@@ -200,8 +208,8 @@ class General(commands.Cog):
         await ctx.send(f"<{link}>")
         self.logger.info(f"User {ctx.author} requested invite link.")
 
-    @commands.command()
     @commands.is_owner()
+    @commands.hybrid_command(name="changeprefix", description="Changes the prefix for meowBot")
     async def changeprefix(self, ctx, prefix):
         with open("prefixes.json", "r") as f:
             prefixes = json.load(f)

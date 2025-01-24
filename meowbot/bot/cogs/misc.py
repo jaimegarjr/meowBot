@@ -15,7 +15,7 @@ class Misc(commands.Cog):
         self.quotes_path = "meowbot/bot/files/quotes.txt"
         self.jokes_path = "meowbot/bot/files/jokes.txt"
 
-    @commands.command()
+    @commands.hybrid_command(name="quote", description="Sends a random programming quote")
     async def quote(self, ctx):
         # https://programming-quotes-api.azurewebsites.net/api/quotes/random
         # res = self.http_client.get("/quotes/random")
@@ -23,7 +23,7 @@ class Misc(commands.Cog):
         await ctx.channel.send(quote)
         self.logger.info(f"Random quote was sent to {ctx.author} in {ctx.channel}.")
 
-    @commands.command()
+    @commands.hybrid_command(name="github", description="Sends the GitHub link for meowBot")
     async def github(self, ctx):
         await ctx.channel.send(
             "Here's what I'm built off of. "
@@ -32,7 +32,7 @@ class Misc(commands.Cog):
         )
         self.logger.info(f"Github link was sent to {ctx.author} in {ctx.channel}.")
 
-    @commands.command()
+    @commands.hybrid_command(name="dadprogjoke", description="Sends a dad-styled programming joke")
     async def dadprogjoke(self, ctx):
         quote = random.choice(list(open(self.jokes_path)))
         quoteQ = quote[1 : quote.find("A")]
@@ -48,7 +48,7 @@ class Misc(commands.Cog):
         await ctx.channel.send(content=None, embed=embed)
         self.logger.info(f"Dad-styled programming joke was sent to {ctx.author} in {ctx.channel}.")
 
-    @commands.command()
+    @commands.hybrid_command(name="profile", description="Sends a detailed profile of a user")
     async def profile(self, ctx, *, user: discord.Member = None):
         user = user or ctx.author
         date = str(user.created_at)[:10]

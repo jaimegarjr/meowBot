@@ -10,7 +10,7 @@ class Music(commands.Cog):
         self.logger = setup_logger(name="cog.music", level=logging.INFO)
         self.check_leave.start()
 
-    @commands.hybrid_command(name="join", description="Joins a voice channel.")
+    @commands.hybrid_command(name="join", description="Joins a voice channel")
     async def join(self, ctx):
         try:
             channel = ctx.message.author.voice.channel
@@ -30,7 +30,7 @@ class Music(commands.Cog):
         await ctx.send(f"Joined {channel}! ")
         self.logger.info(f"Bot joined {channel}.")
 
-    @commands.command()
+    @commands.hybrid_command(name="leave", description="Leaves a voice channel")
     async def leave(self, ctx):
         try:
             await ctx.voice_client.disconnect()
@@ -47,27 +47,27 @@ class Music(commands.Cog):
                 await x.disconnect()
                 self.logger.info(f"meowBot left {x.channel}.")
 
-    @commands.command()
+    @commands.hybrid_command(name="pause", description="Pauses the current song")
     async def pause(self, ctx):
         if ctx.voice_client.is_playing():
             ctx.voice_client.pause()
             await ctx.send("Song has been paused!")
             self.logger.info("Song has been paused.")
 
-    @commands.command()
+    @commands.hybrid_command(name="resume", description="Resumes the current song")
     async def resume(self, ctx):
         if ctx.voice_client.is_paused():
             ctx.voice_client.resume()
             await ctx.send("Song has resumed playing!")
             self.logger.info("Song has resumed playing.")
 
-    @commands.command()
+    @commands.hybrid_command(name="stop", description="Stops the current song")
     async def stop(self, ctx):
         ctx.voice_client.stop()
         await ctx.send("Song has stopped playing!")
         self.logger.info("Song has stopped playing.")
 
-    @commands.command()
+    @commands.hybrid_command(name="play", description="Plays a song from youtube given a URL")
     async def play(self, ctx, *, url):
         channel = ctx.message.author.voice.channel
 
@@ -77,7 +77,7 @@ class Music(commands.Cog):
         elif ctx.voice_client.is_playing():
             await ctx.send("Bot already playing! -.- New song commencing now.")
             ctx.voice_client.stop()
-            self.logger.info("Bot was already playing a song. Stopping to play new song.")
+            self.logger.info("Bot was already playing a song. Stopping to play new song")
 
         async with ctx.typing():
             player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)

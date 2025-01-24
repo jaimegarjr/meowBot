@@ -9,7 +9,9 @@ class Creation(commands.Cog):
         self.bot = bot
         self.logger = setup_logger(name="cog.creation", level=logging.INFO)
 
-    @commands.group(invoke_without_command=True)
+    @commands.hybrid_group(
+        name="create", description="Creates a channel", invoke_without_command=True
+    )
     @commands.has_permissions(manage_channels=True)
     async def create(self, ctx, *, channel_name: str):
         channel = await ctx.guild.create_text_channel(channel_name)
@@ -57,6 +59,7 @@ class Creation(commands.Cog):
         await ctx.send("Private voice channel {} was created!".format(channel_name))
         self.logger.info(f"Private voice channel {channel_name} was created.")
 
+    # INFO: not eligible for hybrid commands
     @commands.command()
     @commands.has_permissions(manage_channels=True)
     async def delete(self, ctx, *, channel_name: str):

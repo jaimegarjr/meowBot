@@ -45,6 +45,7 @@ class MeowBot:
                 status=discord.Status.online, activity=discord.Game("meow :3 | m.help")
             )
             try:
+                self.logger.info("Syncing commands...")
                 synced = await self.bot.tree.sync()
                 self.logger.info(f"Synced {len(synced)} commands.")
             except Exception as e:
