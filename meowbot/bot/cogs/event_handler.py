@@ -8,10 +8,10 @@ from meowbot.utils import logging, setup_logger
 load_dotenv()
 
 
-class Events(commands.Cog):
+class EventHandler(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.logger = setup_logger(name="cog.events", level=logging.INFO)
+        self.logger = setup_logger(name="cog.event.handler", level=logging.INFO)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -96,4 +96,4 @@ class Events(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(Events(bot))
+    await bot.add_cog(EventHandler(bot))

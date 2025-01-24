@@ -4,10 +4,10 @@ from discord.ext import commands
 from meowbot.utils import logging, setup_logger
 
 
-class Creation(commands.Cog):
+class Channels(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.logger = setup_logger(name="cog.creation", level=logging.INFO)
+        self.logger = setup_logger(name="cog.channels", level=logging.INFO)
 
     @commands.hybrid_group(
         name="create", description="Creates a channel", invoke_without_command=True
@@ -70,4 +70,4 @@ class Creation(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(Creation(bot))
+    await bot.add_cog(Channels(bot))

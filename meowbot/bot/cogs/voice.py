@@ -4,10 +4,10 @@ from meowbot.application.models.ytdl_source import YTDLSource
 from meowbot.utils.logger import logging, setup_logger
 
 
-class Music(commands.Cog):
+class Voice(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.logger = setup_logger(name="cog.music", level=logging.INFO)
+        self.logger = setup_logger(name="cog.voice", level=logging.INFO)
         self.check_leave.start()
 
     @commands.hybrid_command(name="join", description="Joins a voice channel")
@@ -98,4 +98,4 @@ class Music(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(Music(bot))
+    await bot.add_cog(Voice(bot))

@@ -3,10 +3,10 @@ from discord.ext import commands
 from meowbot.utils import logging, setup_logger
 
 
-class Errors(commands.Cog):
+class CommandHandler(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.logger = setup_logger(name="cog.errors", level=logging.INFO)
+        self.logger = setup_logger(name="cog.command.handler", level=logging.INFO)
         self.commands_tally = {}
 
     @commands.Cog.listener()
@@ -30,4 +30,4 @@ class Errors(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(Errors(bot))
+    await bot.add_cog(CommandHandler(bot))
