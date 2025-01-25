@@ -2,7 +2,11 @@
 FROM python:3.10-slim
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg && apt-get clean
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    build-essential \
+    libffi-dev \
+    && apt-get clean
 
 # Set the working directory in the container
 WORKDIR /app

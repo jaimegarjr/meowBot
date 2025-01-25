@@ -4,4 +4,4 @@
 poetry export --without-hashes -f requirements.txt -o requirements.txt
 
 # Build the Docker image
-docker build -t meow-bot .
+docker build -t gcr.io/meowbot-448505/meow-bot:latest .
