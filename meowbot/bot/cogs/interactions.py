@@ -116,20 +116,6 @@ class Interactions(commands.Cog):
         await ctx.channel.send(content=None, embed=embed)
         self.logger.info(f"Dad-styled programming joke was sent to {ctx.author} in {ctx.channel}.")
 
-    @commands.is_owner()
-    @commands.hybrid_command(name="changeprefix", description="Changes the prefix for meowBot")
-    async def changeprefix(self, ctx, prefix):
-        with open("prefixes.json", "r") as f:
-            prefixes = json.load(f)
-
-        prefixes[str(ctx.guild.id)] = prefix
-
-        with open("prefixes.json", "w") as f:
-            json.dump(prefixes, f, indent=4)
-
-        await ctx.send(f"Prefix changed to '{prefix}'. Enjoy!")
-        self.logger.info(f"Prefix changed to '{prefix}' for guild {ctx.guild}.")
-
 
 async def setup(bot):
     await bot.add_cog(Interactions(bot))

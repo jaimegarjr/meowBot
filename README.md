@@ -15,13 +15,7 @@ To install and actually run meowBot on your local machine, perform the following
 ```
 BOT_TOKEN = "your_bot_token"
 CLIENT_ID = "your_client_id"
-```
-You may also need to write a `prefixes.json` file that contains a guild ID to prefix mapping. 
-```
-{
-    "guild_id": "prefix"
-}
-```
+
 5. To run the bot, execute ```poetry run python -m meowbot.bot.meowbot``` in your terminal.
 
 

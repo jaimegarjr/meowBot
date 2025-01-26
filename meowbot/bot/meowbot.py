@@ -16,7 +16,7 @@ class MeowBot:
         self.logger = setup_logger(name="meowbot", level=logging.INFO)
         self.bot = commands.Bot(
             intents=self.intents,
-            command_prefix=self.get_prefix,
+            command_prefix="m.",
             help_command=None,
             description=self.description,
         )
@@ -31,12 +31,6 @@ class MeowBot:
             I was created by JJgar2725 (otherwise known as PROFLIT).
             Enjoy my services!
         """
-
-    def get_prefix(self, client, message):
-        with open("prefixes.json", "r") as f:
-            prefixes = json.load(f)
-
-        return prefixes.get(str(message.guild.id), "m.")
 
     def setup_events(self):
         @self.bot.event
