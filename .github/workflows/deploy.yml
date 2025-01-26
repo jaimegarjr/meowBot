@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Log in to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t gcr.io/meowbot-448505/meow-bot:latest .
+          docker push gcr.io/meowbot-448505/meow-bot:latest
+
+      - name: Deploy to VM
+        run: |
+          gcloud compute ssh --zone "us-central1-c" "meowbot-instance-vm" --project "meowbot-448505"
+          gcloud compute ssh "meowbot-instance-vm" \
+            --zone "us-central1-c" \
+            --project "meowbot-448505" \
+            --command "docker pull gcr.io/meowbot-448505/meow-bot:latest && docker stop meowbot || true && docker rm meowbot || true && docker run -d --name meowbot --log-driver=gcplogs gcr.io/meowbot-448505/meow-bot:latest"
