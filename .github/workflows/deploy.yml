@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies and export requirements.txt
         run: |
-          poetry install --no-dev --no-interaction --no-root
+          poetry install
           poetry export --without-hashes -f requirements.txt -o requirements.txt
 
       - name: Log in to Google Cloud
