@@ -27,14 +27,11 @@ RUN poetry --version
 # Copy pyproject.toml and poetry.lock first (for caching layers)
 COPY pyproject.toml poetry.lock ./
 
-# Export dependencies to requirements.txt
-RUN poetry export --without-hashes -f requirements.txt -o requirements.txt
-
 # Copy the rest of the application code into the container
 COPY . .
 
-# Install dependencies from the exported requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies using Poetry
+RUN poetry install --no-dev --no-interaction --no-root
 
 # Command to start the bot
 CMD ["python", "-m", "meowbot.bot.meowbot"]

@@ -12,6 +12,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Set up Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "export PATH=\$HOME/.local/bin:\$PATH" >> $GITHUB_ENV
+
+      - name: Install dependencies and export requirements.txt
+        run: |
+          poetry install --no-dev --no-interaction --no-root
+          poetry export --without-hashes -f requirements.txt -o requirements.txt
+
       - name: Log in to Google Cloud
         uses: google-github-actions/auth@v1
         with:
