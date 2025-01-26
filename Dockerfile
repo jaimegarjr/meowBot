@@ -12,11 +12,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set the working directory in the container
 WORKDIR /app
 
-# Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
-
-# Add Poetry to PATH
-ENV PATH="/root/.local/bin:$PATH"
+# Install Poetry (explicitly using pip for the latest version)
+RUN pip install --upgrade pip \
+    && pip install poetry
 
 # Verify Poetry installation
 RUN poetry --version
