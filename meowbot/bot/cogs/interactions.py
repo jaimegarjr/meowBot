@@ -1,5 +1,4 @@
 import os
-import random
 import discord
 from discord.ext import commands
 from meowbot.application import HttpClient
@@ -14,7 +13,9 @@ class Interactions(commands.Cog):
             base_url="https://programming-quotes-api.azurewebsites.net/api", timeout=10
         )
         self.dad_joke_client = HttpClient(
-            base_url="https://icanhazdadjoke.com", headers={"Accept": "application/json"}, timeout=10
+            base_url="https://icanhazdadjoke.com",
+            headers={"Accept": "application/json"},
+            timeout=10,
         )
 
     @commands.hybrid_command(name="intro", description="Greets the user")
