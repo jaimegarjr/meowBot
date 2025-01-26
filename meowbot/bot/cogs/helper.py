@@ -8,7 +8,7 @@ class Helper(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.logger = setup_logger(name="cog.general", level=logging.INFO)
-        self.logo_url = "https://github.com/JJgar2725/meowBot/blob/master/Files/logo.jpg?raw=true"
+        self.logo_url = "https://github.com/jaimegarjr/meowBot/blob/main/meowbot/bot/images/logo.jpg?raw=true"
         load_dotenv()
 
     @commands.hybrid_group(

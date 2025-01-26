@@ -3,12 +3,14 @@ import discord
 from discord.ext import commands
 from meowbot.application import HttpClient
 from meowbot.utils import logging, setup_logger
+from urllib.parse import urlencode
 
 
 class Interactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.logger = setup_logger(name="cog.interaction", level=logging.INFO)
+        self.logo_url = "https://github.com/jaimegarjr/meowBot/blob/main/meowbot/bot/images/logo.jpg?raw=true"
         self.prog_quote_client = HttpClient(
             base_url="https://programming-quotes-api.azurewebsites.net/api", timeout=10
         )
@@ -37,23 +39,43 @@ class Interactions(commands.Cog):
     )
     async def invite(self, ctx):
         client_id = os.environ.get("CLIENT_ID")
-        permissions = discord.Permissions.none()
-        permissions.manage_roles = True
-        permissions.manage_channels = True
-        permissions.view_channel = True
-        permissions.send_messages = True
-        permissions.manage_messages = True
-        permissions.embed_links = True
-        permissions.attach_files = True
-        permissions.read_message_history = True
-        permissions.use_external_emojis = True
-        permissions.add_reactions = True
-        permissions.connect = True
-        permissions.speak = True
-        permissions.ban_members = True
-        permissions.kick_members = True
-        link = discord.utils.oauth_url(client_id, permissions=permissions, redirect_uri=None)
-        await ctx.send(f"<{link}>")
+        if not client_id:
+            self.logger.error("CLIENT_ID environment variable is missing.")
+            return
+
+        permissions = discord.Permissions(
+            manage_roles=True,
+            manage_channels=True,
+            view_channel=True,
+            send_messages=True,
+            manage_messages=True,
+            embed_links=True,
+            attach_files=True,
+            read_message_history=True,
+            use_external_emojis=True,
+            add_reactions=True,
+            connect=True,
+            speak=True,
+            ban_members=True,
+            kick_members=True
+        )
+
+        params = {
+            "client_id": client_id,
+            "permissions": permissions.value,
+            "scope": "bot applications.commands"
+        }
+
+        invite_link = f"https://discord.com/oauth2/authorize?{urlencode(params)}"
+
+        embed = discord.Embed(
+            title="Invite meowBot :3",
+            description=f"Click [here]({invite_link}) to invite me to another server!",
+            color=discord.Color.light_gray()
+        )
+        embed.set_thumbnail(url=self.logo_url)
+
+        await ctx.send(embed=embed)
         self.logger.info(f"User {ctx.author} requested invite link.")
 
     @commands.hybrid_command(name="profile", description="Sends a detailed profile of a user")
