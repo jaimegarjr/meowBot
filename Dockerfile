@@ -13,13 +13,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Install Poetry
-RUN curl -sSL https://install.python-poetry.org | python3 - && poetry self update
-
-# Verify Poetry installation
-RUN poetry --version
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Add Poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
+
+# Verify Poetry installation
+RUN poetry --version
 
 # Copy pyproject.toml and poetry.lock first (for caching layers)
 COPY pyproject.toml poetry.lock ./
