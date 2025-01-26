@@ -1,12 +1,10 @@
-import logging
 import os
-import json
 import asyncio
 
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-from meowbot.utils import setup_logger
+from meowbot.utils import setup_logger, logging
 
 
 class MeowBot:
@@ -28,7 +26,7 @@ class MeowBot:
     def description(self):
         return """
             Hi! I'm meowBot.
-            I was created by JJgar2725 (otherwise known as PROFLIT).
+            I was created by jaimegarjr.
             Enjoy my services!
         """
 
@@ -69,9 +67,28 @@ class MeowBot:
     async def load_extensions(self):
         cogs_path = "meowbot/bot/cogs"
         cogs = [f[:-3] for f in os.listdir(cogs_path) if f.endswith(".py") and f != "__init__.py"]
+        failed_extensions = []
+        loaded_extensions = []
+
         for ext in cogs:
-            await self.bot.load_extension(f"meowbot.bot.cogs.{ext}")
-        self.logger.info("Cogs loaded!")
+            try:
+                await self.bot.load_extension(f"meowbot.bot.cogs.{ext}")
+                loaded_extensions.append(ext)
+            except Exception as e:
+                failed_extensions.append((ext, str(e)))
+                self.logger.error(f"Failed to load extension {ext}: {str(e)}")
+                continue
+
+        total = len(cogs)
+        success = len(loaded_extensions)
+        failed = len(failed_extensions)
+
+        if failed_extensions:
+            self.logger.warning(f"Loaded {success}/{total} cogs. {failed} cogs failed to load.")
+            for ext, error in failed_extensions:
+                self.logger.debug(f"Extension {ext} failed with: {error}")
+        else:
+            self.logger.info(f"Successfully loaded cogs {loaded_extensions}.")
 
     def run(self):
         self.logger.info("Starting meowBot...")

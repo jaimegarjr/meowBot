@@ -1,6 +1,4 @@
 import os
-import json
-import random
 import discord
 from discord.ext import commands
 from meowbot.application import HttpClient
@@ -11,11 +9,14 @@ class Interactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.logger = setup_logger(name="cog.interaction", level=logging.INFO)
-        self.http_client = HttpClient(
+        self.prog_quote_client = HttpClient(
             base_url="https://programming-quotes-api.azurewebsites.net/api", timeout=10
         )
-        self.quotes_path = "meowbot/bot/files/quotes.txt"
-        self.jokes_path = "meowbot/bot/files/jokes.txt"
+        self.dad_joke_client = HttpClient(
+            base_url="https://icanhazdadjoke.com",
+            headers={"Accept": "application/json"},
+            timeout=10,
+        )
 
     @commands.hybrid_command(name="intro", description="Greets the user")
     async def intro(self, ctx):
@@ -94,25 +95,22 @@ class Interactions(commands.Cog):
 
     @commands.hybrid_command(name="quote", description="Sends a random programming quote")
     async def quote(self, ctx):
-        # https://programming-quotes-api.azurewebsites.net/api/quotes/random
-        # res = self.http_client.get("/quotes/random")
-        quote = random.choice(list(open(self.quotes_path)))
+        res = await self.prog_quote_client.get("/quotes/random")
+        quote = res.get("text") + " - " + res.get("author")
         await ctx.channel.send(quote)
         self.logger.info(f"Random quote was sent to {ctx.author} in {ctx.channel}.")
 
-    @commands.hybrid_command(name="dadprogjoke", description="Sends a dad-styled programming joke")
+    @commands.hybrid_command(name="dadprogjoke", description="Sends a random dad joke")
     async def dadprogjoke(self, ctx):
-        quote = random.choice(list(open(self.jokes_path)))
-        quoteQ = quote[1 : quote.find("A")]
-        quoteA = quote[quote.find("A") - 1 : -2]
+        res = await self.dad_joke_client.get("/")
+        quote = res.get("joke")
 
         embed = discord.Embed(
-            title="**Dad-Styled Programming Joke**",
-            description="**Chosen at random!**",
+            title="**Random Dad Joke**",
+            description="**Fetched from icanhazdadjoke.com!**",
             color=discord.Colour.light_grey(),
         )
-        embed.add_field(name="```Question```", value=quoteQ, inline=False)
-        embed.add_field(name="```Answer```", value=quoteA, inline=False)
+        embed.add_field(name="```Joke```", value=f"{quote}", inline=False)
         await ctx.channel.send(content=None, embed=embed)
         self.logger.info(f"Dad-styled programming joke was sent to {ctx.author} in {ctx.channel}.")
 
