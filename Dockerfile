@@ -12,11 +12,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set the working directory in the container
 WORKDIR /app
 
-# Install Poetry (explicitly installing version 1.1 or later)
-RUN curl -sSL https://install.python-poetry.org | python3 - \
-    && export PATH="$HOME/.local/bin:$PATH"
+# Install Poetry
+RUN curl -sSL https://install.python-poetry.org | python3 -
 
-# Verify Poetry installation (to ensure we have the correct version)
+# Add Poetry to PATH
+ENV PATH="/root/.local/bin:$PATH"
+
+# Print the PATH environment variable
+RUN echo $PATH
+
+# Verify Poetry installation
 RUN poetry --version
 
 # Copy pyproject.toml and poetry.lock first (for caching layers)
