@@ -22,7 +22,6 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          poetry export --without-hashes -f requirements.txt -o requirements.txt
           docker build -t gcr.io/meowbot-448505/meow-bot:latest .
           docker push gcr.io/meowbot-448505/meow-bot:latest
 
