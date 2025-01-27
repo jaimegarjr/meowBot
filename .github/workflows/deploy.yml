@@ -38,4 +38,5 @@ jobs:
       - name: Deploy to VM
         run: |
           gcloud compute instances update-container meowbot-instance-vm \
-                --container-image gcr.io/meowbot-448505/meow-bot:latest
+                --container-image gcr.io/meowbot-448505/meow-bot:latest \
+                --zone us-central1-c
