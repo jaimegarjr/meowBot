@@ -37,7 +37,6 @@ jobs:
 
       - name: Deploy to VM
         run: |
-          gcloud compute ssh --zone "us-central1-c" "meowbot-instance-vm" --project "meowbot-448505"
           gcloud compute ssh "meowbot-instance-vm" \
             --zone "us-central1-c" \
             --project "meowbot-448505" \
