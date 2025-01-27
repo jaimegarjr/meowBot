@@ -37,14 +37,9 @@ jobs:
 
       - name: Deploy to VM
         run: |
+          gcloud compute ssh --zone "us-central1-c" "meowbot-instance-vm" --project "meowbot-448505"
           gcloud compute ssh "meowbot-instance-vm" \
             --zone "us-central1-c" \
             --project "meowbot-448505" \
-            --command "
-              gcloud auth activate-service-account --key-file=${{ secrets.GCP_CREDENTIALS }} &&
-              gcloud auth configure-docker &&
-              docker pull gcr.io/meowbot-448505/meow-bot:latest &&
-              docker stop meowbot || true &&
-              docker rm meowbot || true &&
-              docker run -d --name meowbot --log-driver=gcplogs gcr.io/meowbot-448505/meow-bot:latest"
-
+            --command "gcloud compute instances update-container meowbot-instance-vm \
+                --container-image gcr.io/meowbot-448505/meow-bot:latest"
