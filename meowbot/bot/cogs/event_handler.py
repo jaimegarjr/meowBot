@@ -21,7 +21,7 @@ class EventHandler(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
-        self.event_handler_service.serve_on_guild_join_event(guild)
+        await self.event_handler_service.serve_on_guild_join_event(guild)
         self.logger.info(f"Joined server {guild.name}.")
 
     @commands.Cog.listener()
