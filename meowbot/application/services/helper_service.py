@@ -1,12 +1,14 @@
 import discord
-from dotenv import load_dotenv
 from meowbot.utils import logging, setup_logger
+
 
 class HelperService:
     def __init__(self):
         self.logger = setup_logger(name="service.helper", level=logging.INFO)
-        self.logo_url = "https://github.com/jaimegarjr/meowBot/blob/main/meowbot/bot/images/logo.jpg?raw=true"
-    
+        self.logo_url = (
+            "https://github.com/jaimegarjr/meowBot/blob/main/meowbot/bot/images/logo.jpg?raw=true"
+        )
+
     def serve_help_command_embed(self):
         embed = discord.Embed(
             title="**meowBot >.< General Commands**",
@@ -33,7 +35,7 @@ class HelperService:
         )
         self.logger.info("Help command embed served.")
         return embed
-    
+
     def serve_music_command_embed(self):
         embed = discord.Embed(
             title="**meowBot >.< Music Commands**",
@@ -74,7 +76,7 @@ class HelperService:
         )
         self.logger.info("Music subcommand embed served.")
         return embed
-    
+
     def serve_channels_command_embed(self):
         embed = discord.Embed(
             title="**meowBot >.< Channel Commands**",
@@ -111,7 +113,7 @@ class HelperService:
         )
         self.logger.info("Channels subcommand embed served.")
         return embed
-    
+
     def serve_misc_command_embed(self):
         embed = discord.Embed(
             title="**meowBot >.< Misc Commands**",

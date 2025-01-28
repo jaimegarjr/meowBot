@@ -1,6 +1,4 @@
-import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 from meowbot.utils import logging, setup_logger
 from meowbot.application.services.helper_service import HelperService
 
