@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 from meowbot.application.models.ytdl_source import YTDLSource
 from meowbot.utils.logger import logging, setup_logger
 from meowbot.application.models.music_queue import MusicQueue
+from itertools import islice
 
 
 class Voice(commands.Cog):
@@ -14,38 +15,42 @@ class Voice(commands.Cog):
 
     @commands.hybrid_command(name="join", description="Joins a voice channel")
     async def join(self, ctx):
-        try:
-            if ctx.message.author.voice is None:
-                await ctx.send("You are not in a voice channel!")
-                self.logger.error("User is not in a voice channel.")
-                return
-            channel = ctx.message.author.voice.channel
-            if ctx.voice_client is not None:
-                await ctx.voice_client.move_to(channel)
-                self.logger.info(f"Bot moved to {channel}.")
+        if not self.is_user_in_voice_channel(ctx):
+            await self.send_message(ctx, "You are not in a voice channel!")
+            return
+        
+        channel = ctx.message.author.voice.channel
+        voice_client = ctx.voice_client
 
-            else:
-                self.check_leave.restart()
-                await channel.connect()
-                self.logger.info(f"Bot connected to {channel}.")
-
-        except AttributeError:
-            await ctx.send("Join a voice channel first! -.-")
-            self.logger.error("User did not join a voice channel before attempting to join.")
-
-        await ctx.send(f"Joined {channel}! ")
-        self.logger.info(f"Bot joined {channel}.")
+        if voice_client:
+            await voice_client.move_to(channel)
+            await self.send_message(ctx, f"Bot moved to {channel}.")
+        else:
+            self.check_leave.restart()
+            await channel.connect()
+            await self.send_message(ctx, f"Joined {channel}! ")
+        
+    
+    def is_user_in_voice_channel(self, ctx):
+        return ctx.message.author.voice is not None
+    
+    def is_bot_in_voice_channel(self, ctx):
+        return ctx.voice_client is not None
+    
+    async def send_message(self, ctx, content):
+        await ctx.send(content)
+        self.logger.info(content)
 
     @commands.hybrid_command(name="leave", description="Leaves a voice channel")
     async def leave(self, ctx):
-        if ctx.voice_client:
-            channel = ctx.voice_client.channel
-            self.music_queue.clear()
-            await ctx.voice_client.disconnect()
-            self.logger.info(f"Bot left {channel}.")
-        else:
-            await ctx.send("I'm not in a voice channel!")
-            self.logger.error("Bot is not in a voice channel.")
+        if not self.is_bot_in_voice_channel(ctx):
+            await self.send_message(ctx, "I'm not in a voice channel!")
+            return
+        
+        channel = ctx.voice_client.channel
+        self.music_queue.clear()
+        await ctx.voice_client.disconnect()
+        await self.send_message(ctx, f"Bot left {channel}.")
 
     @tasks.loop(minutes=8)
     async def check_leave(self):
@@ -75,54 +80,54 @@ class Voice(commands.Cog):
         await ctx.send("Song has stopped playing!")
         self.logger.info("Song has stopped playing.")
 
+    def add_song_to_queue(self, ctx, player, url):
+        position = self.music_queue.add_to_queue(player)
+
+        if position == 1 and not ctx.voice_client.is_playing():
+            self.start_playback(ctx.voice_client, player)
+            embed_title = "**Current Song Playing!**"
+            embed_desc = f"Playing: {player.title}"
+        else:
+            embed_title = "**Song Added to Queue!**"
+            embed_desc = f"Added: {player.title}"
+
+        embed = discord.Embed(title=embed_title, description=embed_desc, color=discord.Colour.teal())
+        embed.add_field(name="```User Input```", value=f"Input: {url}", inline=False)
+        if position > 1:
+            embed.add_field(name="```Position in Queue```", value=f"Position: {position}", inline=True)
+
+        return embed
+
     @commands.hybrid_command(name="play", description="Plays a song from youtube given a URL")
     async def play(self, ctx, *, url):
-        if ctx.message.author.voice is None:
-            await ctx.send("You are not in a voice channel!")
-            self.logger.error("User is not in a voice channel.")
+        if not self.is_user_in_voice_channel(ctx):
+            await self.send_message(ctx, "You are not in a voice channel!")
             return
 
         channel = ctx.message.author.voice.channel
 
-        if not ctx.voice_client:
+        if not self.is_bot_in_voice_channel(ctx):
             await channel.connect()
 
         async with ctx.typing():
             try:
                 player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
                 if not player:
-                    await ctx.send("Failed to retrieve audio source.")
-                    self.logger.error(f"Failed to retrieve audio source for {url}.")
+                    self.send_message(ctx, "Failed to retrieve audio source.")
                     return
             except Exception as e:
                 self.logger.error(f"Error when trying to play {url}: {e}")
                 return
-
-        position = self.music_queue.add_to_queue(player)
-        if position == 1 and not ctx.voice_client.is_playing():
-            self.start_playback(ctx.voice_client, player)
-        else:
-            self.logger.info(f"Added {player.title} to queue at position {position}.")
-
-        embed = discord.Embed(
-            title="**Current Song Playing!**",
-            description=f"Playing: {player.title}",
-            color=discord.Colour.teal(),
-        )
-        embed.add_field(name="```User Input```", value=f"Input: {url}", inline=False)
+        
+        embed = self.add_song_to_queue(ctx, player, url)
         await ctx.channel.send(embed=embed)
-        self.logger.info(f"Playing {player.title} in {channel}.")
 
     def start_playback(self, voice_client, player):
         if not player or not isinstance(player, discord.AudioSource):
             self.logger.error("Invalid audio source.")
             return
 
-        self.logger.info(f"Type of player: {type(player)}")
-
         def after_playback(error):
-            self.logger.info(f"After playback triggered. Error: {error} (Type: {type(error)})")
-
             if error:
                 self.logger.error(f"Error while playing: {error}")
             else:
@@ -134,37 +139,36 @@ class Voice(commands.Cog):
         self.logger.info(f"Now playing: {player.title}")
 
     def play_next(self, voice_client):
-        if not self.music_queue.is_empty():
-            next_song = self.music_queue.remove_from_queue()
-            if next_song:
-                self.start_playback(voice_client, next_song)
-                self.logger.info(f"Now playing: {next_song.title}")
-            else:
-                self.logger.error("Failed to retrieve next song.")
-        else:
+        next_song = self.music_queue.remove_from_queue()
+
+        if not next_song:
             self.logger.info("Queue is empty.")
             if voice_client.is_playing():
                 voice_client.stop()
                 self.logger.info("Stopped playing.")
             self.check_leave.restart()
+            return
+
+        self.start_playback(voice_client, next_song)
+        self.logger.info(f"Now playing: {next_song.title}")
 
     @commands.hybrid_command(name="queue", description="Displays the current queue")
     async def queue(self, ctx):
-        queue = self.music_queue.queue
-        if not queue:
-            await ctx.send("Queue is empty!")
+        if self.music_queue.is_empty():
+            await self.send_message(ctx, "Queue is empty!")
             return
 
-        embed = discord.Embed(
-            title="**Current Queue**",
-            description="List of songs in queue",
-            color=discord.Colour.teal(),
-        )
-        for i, song in enumerate(queue):
-            embed.add_field(name=f"Song {i+1}", value=song.title, inline=False)
-        await ctx.send(embed=embed)
-        self.logger.info("Queue displayed.")
+        embed = discord.Embed(title="**Current Queue**", description="List of songs in queue:", color=discord.Colour.teal())
+        length = len(self.music_queue.queue)
 
+        for i, song in enumerate(islice(self.music_queue.queue, 10)):
+            embed.add_field(name=f"Song {i+1}: ", value=song.title, inline=True)
+
+        if length > 10:
+            embed.set_footer(text=f"...and {length - 10} more songs.")
+
+        await ctx.send(embed=embed)
+    
     @commands.hybrid_command(name="clear", description="Clears the current queue")
     async def clear(self, ctx):
         self.music_queue.clear()
@@ -177,6 +181,10 @@ class Voice(commands.Cog):
             ctx.voice_client.stop()
             await ctx.send("Song has been skipped!")
             self.logger.info("Song has been skipped.")
+    
+    def cog_unload(self):
+        self.check_leave.cancel()
+        self.logger.info("Voice cog unloaded.")
 
 
 async def setup(bot):
