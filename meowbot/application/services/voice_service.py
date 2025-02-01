@@ -5,23 +5,24 @@ from meowbot.utils.logger import logging, setup_logger
 from meowbot.application.models.music_queue import MusicQueue
 from itertools import islice
 
-class VoiceService():
+
+class VoiceService:
     def __init__(self, bot):
         self.bot = bot
         self.logger = setup_logger(name="service.voice", level=logging.INFO)
         self.check_leave.start()
         self.music_queue = MusicQueue()
-    
+
     def is_user_in_voice_channel(self, ctx):
         return ctx.message.author.voice is not None
-    
+
     def is_bot_in_voice_channel(self, ctx):
         return ctx.voice_client is not None
-    
+
     async def send_message(self, ctx, content):
         await ctx.send(content)
         self.logger.info(content)
-    
+
     @tasks.loop(minutes=8)
     async def check_leave(self):
         voice_lists = self.bot.voice_clients
@@ -34,7 +35,7 @@ class VoiceService():
         if not self.is_user_in_voice_channel(ctx):
             await self.send_message(ctx, "You are not in a voice channel!")
             return
-        
+
         channel = ctx.message.author.voice.channel
         voice_client = ctx.voice_client
 
@@ -45,42 +46,46 @@ class VoiceService():
             self.check_leave.restart()
             await channel.connect()
             await self.send_message(ctx, f"Joined {channel}! ")
-    
+
     async def leave_voice_channel(self, ctx):
         if not self.is_bot_in_voice_channel(ctx):
             await self.send_message(ctx, "I'm not in a voice channel!")
             return
-        
+
         channel = ctx.voice_client.channel
         self.music_queue.clear()
         await ctx.voice_client.disconnect()
         await self.send_message(ctx, f"Bot left {channel}.")
-    
+
     async def pause_song(self, ctx):
         if ctx.voice_client.is_playing():
             ctx.voice_client.pause()
             await self.send_message(ctx, "Song has been paused!")
-    
+
     async def resume_song(self, ctx):
         if ctx.voice_client.is_paused():
             ctx.voice_client.resume()
             await self.send_message(ctx, "Song has resumed playing!")
-    
+
     async def stop_song(self, ctx):
         ctx.voice_client.stop()
         await self.send_message(ctx, "Song has stopped playing!")
-    
+
     async def skip_song(self, ctx):
         if ctx.voice_client.is_playing():
             ctx.voice_client.stop()
             await self.send_message(ctx, "Song has been skipped!")
-    
+
     async def get_queue(self, ctx):
         if self.music_queue.is_empty():
             await self.send_message(ctx, "Queue is empty!")
             return
 
-        embed = discord.Embed(title="**Current Queue**", description="List of songs in queue:", color=discord.Colour.teal())
+        embed = discord.Embed(
+            title="**Current Queue**",
+            description="List of songs in queue:",
+            color=discord.Colour.teal(),
+        )
         length = len(self.music_queue.queue)
 
         for i, song in enumerate(islice(self.music_queue.queue, 10)):
@@ -90,11 +95,11 @@ class VoiceService():
             embed.set_footer(text=f"...and {length - 10} more songs.")
 
         await ctx.send(embed=embed)
-    
+
     async def clear_queue(self, ctx):
         self.music_queue.clear()
         await self.send_message(ctx, "Queue has been cleared!")
-    
+
     async def play_song(self, ctx, url):
         if not self.is_user_in_voice_channel(ctx):
             await self.send_message(ctx, "You are not in a voice channel!")
@@ -114,10 +119,10 @@ class VoiceService():
             except Exception as e:
                 self.logger.error(f"Error when trying to play {url}: {e}")
                 return
-        
+
         embed = self.add_song_to_queue(ctx, player, url)
         await ctx.channel.send(embed=embed)
-    
+
     def add_song_to_queue(self, ctx, player, url):
         position = self.music_queue.add_to_queue(player)
 
@@ -129,10 +134,14 @@ class VoiceService():
             embed_title = "**Song Added to Queue!**"
             embed_desc = f"Added: {player.title}"
 
-        embed = discord.Embed(title=embed_title, description=embed_desc, color=discord.Colour.teal())
+        embed = discord.Embed(
+            title=embed_title, description=embed_desc, color=discord.Colour.teal()
+        )
         embed.add_field(name="```User Input```", value=f"Input: {url}", inline=False)
         if position > 1:
-            embed.add_field(name="```Position in Queue```", value=f"Position: {position}", inline=True)
+            embed.add_field(
+                name="```Position in Queue```", value=f"Position: {position}", inline=True
+            )
 
         return embed
 
@@ -147,14 +156,11 @@ class VoiceService():
             else:
                 self.logger.info(f"Finished playing: {player.title}")
             self.play_next(voice_client)
-        
-        voice_client.play(
-            player,
-            after=after_playback
-        )
+
+        voice_client.play(player, after=after_playback)
         voice_client.source.volume = 0.10
         self.logger.info(f"Now playing: {player.title}")
-    
+
     def play_next(self, voice_client):
         next_song = self.music_queue.remove_from_queue()
 

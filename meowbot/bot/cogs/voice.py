@@ -12,7 +12,7 @@ class Voice(commands.Cog):
     @commands.hybrid_command(name="join", description="Joins a voice channel")
     async def join(self, ctx):
         await self.voice_service.join_voice_channel(ctx)
-    
+
     @commands.hybrid_command(name="leave", description="Leaves a voice channel")
     async def leave(self, ctx):
         await self.voice_service.leave_voice_channel(ctx)
@@ -36,15 +36,15 @@ class Voice(commands.Cog):
     @commands.hybrid_command(name="queue", description="Displays the current queue")
     async def queue(self, ctx):
         await self.voice_service.get_queue(ctx)
-    
+
     @commands.hybrid_command(name="clear", description="Clears the current queue")
     async def clear(self, ctx):
         await self.voice_service.clear_queue(ctx)
-    
+
     @commands.hybrid_command(name="skip", description="Skips the current song")
     async def skip(self, ctx):
         await self.voice_service.skip_song(ctx)
-    
+
     def cog_unload(self):
         self.logger.info("Voice cog unloaded.")
 
