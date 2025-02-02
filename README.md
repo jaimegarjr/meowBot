@@ -15,7 +15,7 @@ To install and actually run meowBot on your local machine, perform the following
 ```
 BOT_TOKEN = "your_bot_token"
 CLIENT_ID = "your_client_id"
-
+```
 5. To run the bot, execute ```poetry run python -m meowbot.bot.meowbot``` in your terminal.
 
 
