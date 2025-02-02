@@ -28,13 +28,6 @@ class Helper(commands.Cog):
         self.logger.info(f"User {user} requested music help.")
 
     @help.command()
-    async def channels(self, ctx):
-        user = ctx.message.author
-        embed = self.helper_service.serve_channels_command_embed()
-        await user.send(embed=embed)
-        self.logger.info(f"User {user} requested channel help.")
-
-    @help.command()
     async def misc(self, ctx):
         user = ctx.message.author
         embed = self.helper_service.serve_misc_command_embed()

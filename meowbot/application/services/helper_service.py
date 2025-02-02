@@ -17,7 +17,7 @@ class HelperService:
         )
         embed.set_thumbnail(url=self.logo_url)
         embed.add_field(
-            name="```m.help (none, music, misc, channels)```",
+            name="```m.help (none, music, misc)```",
             value="Lists commands pertaining to a particular topic.",
             inline=False,
         )
@@ -55,7 +55,7 @@ class HelperService:
             inline=False,
         )
         embed.add_field(
-            name="```m.play (url) | m.play (search term)```",
+            name="```m.play (url)```",
             value="Plays a song from youtube given by the user.",
             inline=False,
         )
@@ -72,6 +72,21 @@ class HelperService:
         embed.add_field(
             name="```m.stop```",
             value="Completely stops any audio from playing on meowBot.",
+            inline=False,
+        )
+        embed.add_field(
+            name="```m.queue```",
+            value="Prints the current queue of songs.",
+            inline=False,
+        )
+        embed.add_field(
+            name="```m.skip```",
+            value="Skips the current song playing.",
+            inline=False,
+        )
+        embed.add_field(
+            name="```m.clear```",
+            value="Clears the current queue of songs.",
             inline=False,
         )
         self.logger.info("Music subcommand embed served.")
@@ -132,12 +147,12 @@ class HelperService:
             inline=False,
         )
         embed.add_field(
-            name="```m.dadprogjoke```",
-            value="Provides the user with a funny dad programming joke, if you're into that stuff.",
+            name="```m.dadjoke```",
+            value="Provides the user with a funny dad joke, if you're into that stuff.",
             inline=False,
         )
         embed.add_field(
-            name="```m.profile (other users)```",
+            name="```m.profile (user tag)```",
             value="Sends the user a detailed tag of their profile on Discord.",
             inline=False,
         )
