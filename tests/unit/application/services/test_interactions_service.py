@@ -48,14 +48,14 @@ def test_serve_invite_command(mock_env):
     """Test the serve_invite_command method."""
     interactions = interactions_service.InteractionsService()
     embed = interactions.serve_invite_command()
-    link = "https://discord.com/oauth2/authorize?client_id=fake_id&" \
+    link = (
+        "https://discord.com/oauth2/authorize?client_id=fake_id&"
         "permissions=271969366&scope=bot+applications.commands"
+    )
 
     assert embed is not None
     assert embed.title == "Invite meowBot :3"
-    assert (
-        embed.description == f"Click [here]({link}) to invite me to another server!"
-    )
+    assert embed.description == f"Click [here]({link}) to invite me to another server!"
     assert embed.color == discord.Colour.light_gray()
     assert embed.thumbnail.url == interactions.logo_url
     assert len(embed.fields) == 0

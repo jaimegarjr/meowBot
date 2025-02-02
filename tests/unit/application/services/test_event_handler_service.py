@@ -1,7 +1,7 @@
-import discord
 import pytest
-from unittest.mock import patch, Mock, AsyncMock
+from unittest.mock import Mock, AsyncMock
 from meowbot.application.services.event_handler_service import EventHandlerService
+
 
 def test_event_handler_service_initialization():
     """Test the initialization of EventHandlerService."""
@@ -11,6 +11,7 @@ def test_event_handler_service_initialization():
     assert event_handler.logger is not None
     assert event_handler.logger.name == "service.event.handler"
     assert event_handler.logger.level == 20
+
 
 @pytest.mark.asyncio
 async def test_serve_on_guild_join_embed():
