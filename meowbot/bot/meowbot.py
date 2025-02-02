@@ -72,6 +72,8 @@ class MeowBot:
 
         for ext in cogs:
             try:
+                if ext == "channels":
+                    continue
                 await self.bot.load_extension(f"meowbot.bot.cogs.{ext}")
                 loaded_extensions.append(ext)
             except Exception as e:
