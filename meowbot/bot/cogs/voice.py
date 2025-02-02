@@ -97,7 +97,7 @@ class Voice(commands.Cog):
             except Exception as e:
                 self.logger.error(f"Error when trying to play {url}: {e}")
                 return
-        
+
         position = self.music_queue.add_to_queue(player)
         if position == 1 and not ctx.voice_client.is_playing():
             self.start_playback(ctx.voice_client, player)
@@ -117,7 +117,7 @@ class Voice(commands.Cog):
         if not player or not isinstance(player, discord.AudioSource):
             self.logger.error("Invalid audio source.")
             return
-        
+
         self.logger.info(f"Type of player: {type(player)}")
 
         def after_playback(error):
@@ -128,14 +128,11 @@ class Voice(commands.Cog):
             else:
                 self.logger.info(f"Finished playing: {player.title}")
             self.play_next(voice_client)
-        
-        voice_client.play(
-            player,
-            after=after_playback
-        )
+
+        voice_client.play(player, after=after_playback)
         voice_client.source.volume = 0.10
         self.logger.info(f"Now playing: {player.title}")
-    
+
     def play_next(self, voice_client):
         if not self.music_queue.is_empty():
             next_song = self.music_queue.remove_from_queue()
@@ -167,13 +164,13 @@ class Voice(commands.Cog):
             embed.add_field(name=f"Song {i+1}", value=song.title, inline=False)
         await ctx.send(embed=embed)
         self.logger.info("Queue displayed.")
-    
+
     @commands.hybrid_command(name="clear", description="Clears the current queue")
     async def clear(self, ctx):
         self.music_queue.clear()
         await ctx.send("Queue has been cleared!")
         self.logger.info("Queue has been cleared.")
-    
+
     @commands.hybrid_command(name="skip", description="Skips the current song")
     async def skip(self, ctx):
         if ctx.voice_client.is_playing():
