@@ -35,7 +35,7 @@ def test_serve_music_command_embed():
     assert embed.description == "**Some useful commands to access meowBot's music functionality:**"
     assert embed.color == discord.Colour.red()
     assert embed.thumbnail.url == helper.logo_url
-    assert len(embed.fields) == 6
+    assert len(embed.fields) == 9
 
 
 def test_serve_misc_command_embed():
