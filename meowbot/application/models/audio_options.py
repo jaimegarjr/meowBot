@@ -16,10 +16,11 @@ ytdl_opts = {
     "overwrites": True,
     "cachedir": False,
     "external_downloader": "aria2c",
-    "external_downloader_args": ["-x", "16", "-k", "1M"]
+    "external_downloader_args": ["-x", "16", "-k", "1M"],
 }
 
 ffmpeg_options = {
-    "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -probesize 32M -analyzeduration 0",
-    "options": "-vn -loglevel error -bufsize 64k"
+    "before_options": "-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 \
+      -probesize 32M -analyzeduration 0",
+    "options": "-vn -loglevel error -bufsize 64k",
 }
