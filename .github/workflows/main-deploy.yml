@@ -34,9 +34,11 @@ jobs:
         run: |
           docker build -t gcr.io/meowbot-448505/meow-bot:latest .
           docker push gcr.io/meowbot-448505/meow-bot:latest
+          IMAGE_DIGEST=$(gcloud container images describe gcr.io/meowbot-448505/meow-bot:latest --format='get(image_summary.digest)')
+          echo "IMAGE_DIGEST=$IMAGE_DIGEST" >> $GITHUB_ENV
 
       - name: Deploy to VM
         run: |
           gcloud compute instances update-container meowbot-instance-vm \
-                --container-image gcr.io/meowbot-448505/meow-bot:latest \
+                --container-image gcr.io/meowbot-448505/meow-bot@$IMAGE_DIGEST \
                 --zone us-central1-c
