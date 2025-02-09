@@ -1,14 +1,26 @@
 import discord
+import importlib
 from discord.ext import commands
 from meowbot.utils import logging, setup_logger
-from meowbot.application.services.interactions_service import InteractionsService
+from meowbot.application.services import interactions_service
 
 
 class Interactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.interactions_service = InteractionsService()
         self.logger = setup_logger(name="cog.interactions", level=logging.INFO)
+        self._init_service()
+
+    def _init_service(self):
+        importlib.reload(interactions_service)
+        self.interactions_service = interactions_service.InteractionsService()
+
+    def cog_reload(self):
+        self._init_service()
+        self.logger.info("Interactions service reloaded.")
+
+    def cog_unload(self):
+        self.logger.info("Interactions cog unloaded.")
 
     @commands.hybrid_command(name="intro", description="Greets the user")
     async def intro(self, ctx):

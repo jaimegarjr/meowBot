@@ -49,13 +49,13 @@ async def test_meowbot_cogs_loading(bot_instance, mock_cogs):
 @pytest.mark.asyncio
 async def test_meowbot_run(bot_instance, mock_env):
     """Test the bot's run method."""
-    with patch("asyncio.run") as mock_asyncio_run:
-        bot_instance.bot.run = MagicMock()
+    bot_instance.bot.run = MagicMock()
+    bot_instance.setup = AsyncMock()
 
-        bot_instance.run()
+    bot_instance.run()
 
-        bot_instance.bot.run.assert_called_once_with("fake_token")
-        mock_asyncio_run.assert_called_once()
+    assert bot_instance.bot.setup_hook == bot_instance.setup
+    bot_instance.bot.run.assert_called_once_with("fake_token")
 
 
 @pytest.mark.asyncio

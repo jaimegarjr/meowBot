@@ -1,13 +1,25 @@
+import importlib
 from discord.ext import commands
-from meowbot.utils.logger import logging, setup_logger
-from meowbot.application.services.voice_service import VoiceService
+from meowbot.utils import logging, setup_logger
+from meowbot.application.services import voice_service
 
 
 class Voice(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.logger = setup_logger(name="cog.voice", level=logging.INFO)
-        self.voice_service = VoiceService(bot)
+        self._init_service()
+
+    def _init_service(self):
+        importlib.reload(voice_service)
+        self.voice_service = voice_service.VoiceService(self.bot)
+
+    def cog_reload(self):
+        self._init_service()
+        self.logger.info("Voice service reloaded.")
+
+    def cog_unload(self):
+        self.logger.info("Voice cog unloaded.")
 
     @commands.hybrid_command(name="join", description="Joins a voice channel")
     async def join(self, ctx):
@@ -44,9 +56,6 @@ class Voice(commands.Cog):
     @commands.hybrid_command(name="skip", description="Skips the current song")
     async def skip(self, ctx):
         await self.voice_service.skip_song(ctx)
-
-    def cog_unload(self):
-        self.logger.info("Voice cog unloaded.")
 
 
 async def setup(bot):
