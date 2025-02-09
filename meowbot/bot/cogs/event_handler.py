@@ -1,13 +1,25 @@
+import importlib
 from discord.ext import commands
 from meowbot.utils import logging, setup_logger
-from meowbot.application.services.event_handler_service import EventHandlerService
+from meowbot.application.services import event_handler_service
 
 
 class EventHandler(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.event_handler_service = EventHandlerService()
         self.logger = setup_logger(name="cog.event.handler", level=logging.INFO)
+        self._init_service()
+
+    def _init_service(self):
+        importlib.reload(event_handler_service)
+        self.event_handler_service = event_handler_service.EventHandlerService()
+
+    def cog_reload(self):
+        self._init_service()
+        self.logger.info("Event handler service reloaded.")
+
+    def cog_unload(self):
+        self.logger.info("Event handler cog unloaded.")
 
     @commands.Cog.listener()
     async def on_member_join(self, member):

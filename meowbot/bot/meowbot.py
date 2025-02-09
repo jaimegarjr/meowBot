@@ -1,5 +1,4 @@
 import os
-import asyncio
 
 import discord
 from discord.ext import commands
@@ -9,6 +8,10 @@ from meowbot.utils import setup_logger, logging
 
 class MeowBot:
     def __init__(self):
+        load_dotenv()
+        self.bot_token = os.environ.get("BOT_TOKEN")
+        self.cogs_path = "meowbot.bot.cogs"
+
         self.intents = discord.Intents.default()
         self.intents.message_content = True
         self.logger = setup_logger(name="meowbot", level=logging.INFO)
@@ -20,7 +23,7 @@ class MeowBot:
         )
 
         self.setup_events()
-        self.setup_commands()
+        self.setup_dev_commands()
 
     @property
     def description(self):
@@ -29,6 +32,14 @@ class MeowBot:
             I was created by jaimegarjr.
             Enjoy my services!
         """
+
+    async def setup(self):
+        self.logger.info("Setting up meowBot...")
+        await self.load_extensions()
+
+    def run(self):
+        self.bot.setup_hook = self.setup
+        self.bot.run(self.bot_token)
 
     def setup_events(self):
         @self.bot.event
@@ -44,29 +55,31 @@ class MeowBot:
                 self.logger.error(f"Error syncing commands: {e}")
             self.logger.info("meowBot is purring! :3")
 
-    def setup_commands(self):
+    def setup_dev_commands(self):
         @self.bot.command()
         @commands.is_owner()
         async def load(ctx, extension):
-            self.bot.load_extension(f"cogs.{extension}")
+            await self.bot.load_extension(f"{self.cogs_path}.{extension}")
             await ctx.send(f"Cog {extension}.py was loaded!", delete_after=3)
 
         @self.bot.command()
         @commands.is_owner()
         async def reload(ctx, extension):
-            self.bot.unload_extension(f"cogs.{extension}")
-            self.bot.load_extension(f"cogs.{extension}")
+            await self.bot.unload_extension(f"{self.cogs_path}.{extension}")
+            await self.bot.load_extension(f"{self.cogs_path}.{extension}")
             await ctx.send(f"Cog {extension}.py was reloaded!", delete_after=3)
 
         @self.bot.command()
         @commands.is_owner()
         async def unload(ctx, extension):
-            self.bot.unload_extension(f"cogs.{extension}")
+            await self.bot.unload_extension(f"{self.cogs_path}.{extension}")
             await ctx.send(f"Cog {extension}.py was unloaded!", delete_after=3)
 
     async def load_extensions(self):
-        cogs_path = "meowbot/bot/cogs"
-        cogs = [f[:-3] for f in os.listdir(cogs_path) if f.endswith(".py") and f != "__init__.py"]
+        os_cogs_path = self.cogs_path.replace(".", "/")
+        cogs = [
+            f[:-3] for f in os.listdir(os_cogs_path) if f.endswith(".py") and f != "__init__.py"
+        ]
         failed_extensions = []
         loaded_extensions = []
 
@@ -74,7 +87,7 @@ class MeowBot:
             try:
                 if ext == "channels":
                     continue
-                await self.bot.load_extension(f"meowbot.bot.cogs.{ext}")
+                await self.bot.load_extension(f"{self.cogs_path}.{ext}")
                 loaded_extensions.append(ext)
             except Exception as e:
                 failed_extensions.append((ext, str(e)))
@@ -91,12 +104,6 @@ class MeowBot:
                 self.logger.debug(f"Extension {ext} failed with: {error}")
         else:
             self.logger.info(f"Successfully loaded cogs {loaded_extensions}.")
-
-    def run(self):
-        self.logger.info("Starting meowBot...")
-        load_dotenv()
-        asyncio.run(self.load_extensions())
-        self.bot.run(os.environ.get("BOT_TOKEN"))
 
 
 if __name__ == "__main__":
